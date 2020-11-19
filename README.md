@@ -14,12 +14,7 @@ a. Class names must be unique within a model (AIXM, FIXM, ...). There can be a U
      
 b. Class names must not end with "Shape" if there is another class in the same model having the same class name without the "Shape" part at the end. 
 
-c. Models must contain only directed associations because RDF graphs are directed. 
-Optionally, beside using only directed connectors in the UML model, the direction of a connection between two classes can be provided in the properties of a connector.
-More precisely, if the source and target of a connector is set correctly, the connector can be additionally described with
-	connector/properties/direction="Source -&gt; Destination"
-If the source and target of a connector are the wrong way round, the connector  must be additionally described with
-	connector/properties/direction="Destination -&gt; Source"     
+c. Models must contain only directed associations because RDF graphs are directed.     
       
 d. Role names (at the target) of associations with the same source class must be unique within the source class. 
       
