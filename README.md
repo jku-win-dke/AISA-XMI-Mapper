@@ -1,6 +1,6 @@
 # AISA-XMI-Mapper
 
-1. Introduction
+##1. Introduction
 
 The prototype maps selected content of UML class diagrams to RDF Schema (RDFS). 
 The RDFS defines the vocabulary (classes and properties) of the domain the UML 
@@ -10,7 +10,7 @@ FIXM, ...) which adhere to a specific modelling style. The models provided as
 XMI files to the mapper for transformation to RDFS should therefore fulfill 
 certain semantic and syntactic requirements.
 
-1.1. Semantic Requirements
+###1.1. Semantic Requirements
 
 Requirement a is validated by the mapper and, if violated, throws an error. 
 Requirements b-f are assumed to be UML model requirements and not validated
@@ -47,20 +47,18 @@ by the mapper.
 		stereotypes in AIXM and FIXM. The use of these stereotypes in UML class 
 		diagrams to-be mapped should be according to their use in AIXM or FIXM.
       
-1.2. Syntactic Requirements
+###1.2. Syntactic Requirements
 
   a. Models must be exported to a single XMI (version 2.1) file by the 
       Enterprise Architect (version 14.1).
       
---------------------------------------------------------------------------------
-      
-2. Input
+##2. Input
 
 The input for the mapper is provided in the input folder within the folder of the 
 mapper. The input consists of a configuration file and a arbitrary number of XMI 
 files. 
 
-2.1. Configuration File
+###2.1. Configuration File
 
 The configuration file lists the models to-be mapped, i.e. the name of a model, 
 the location/name of its XMI file, and the classes to-be mapped. 
@@ -94,15 +92,13 @@ the location/name of its XMI file, and the classes to-be mapped.
 		By default, the configuration file contains all classes from AIXM and 
 		FIXM selected from the comprehensive example.
 
-2.2. Models
+###2.2. Models
 
 For each model listed in the configuration file a XMI file conforming the 
 semantic and syntactic requirements (1.1 and 1.2) must be provided at the 
 referenced location.
 
---------------------------------------------------------------------------------
-
-3. Mapping
+##3. Mapping
 
 The selected subset of the models is mapped to RDFS and SHACL. The mapper is 
 realized as a set of XQuery modules which can be executed using a XQuery processor 
@@ -114,22 +110,18 @@ Before actually starting the mapping, the mapper extracts and stores the subset 
 the models in an additional XMI file. The new file is located in the output folder 
 with the name "subset.xmi".
 
-3.1 RDFS
+###3.1 RDFS
 
 To be done.
 
-3.2 SHACL
+###3.2 SHACL
 
 To be done.
 
---------------------------------------------------------------------------------
-
-4. Output
+##4. Output
 
 The output of the mapper is provided in the output folder within the folder of 
 the mapper. The output consists of the subset (XMI) file, RDFS (XML) file and 
 SHACL (XML) file. 
-
---------------------------------------------------------------------------------
 
 For feedback or issues contact: sebastian.gruber@jku.at 
