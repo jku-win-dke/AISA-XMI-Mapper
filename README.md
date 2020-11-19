@@ -113,7 +113,17 @@ Using OWL we can infer that a RDF property within a certain RDFS class has a cer
 				a aixm:CodeYesNoType ;
 			] ; ...	.
 			
-Connector between UML classes may be mapped bi-directional or uni-directional. Since aeronautical UML models have been 
+Connectors between UML classes may be mapped bi-directional or uni-directional. Aeronautical UML models have been designed with the aim of mapping to XML in a hierarchical style. We follow this approach for mapping connectors and also traverse association classes in one direction (see details later). 
+Connectors (except generalizations and dependencies) are mapped to RDF properties similar to attributes. The role name (at the target end) is used as property name. 
+
+	Example AIXM RoutePortion startsAt
+		aixm:start a rdf:Property .
+		
+If there is an association class, an connector is mapped to two RDF properties. The first property represents the connection from the source class to the association class, while the second property represents the connection from the association class to the target class.
+
+	Example AIXM Airspace hasGeometry
+		aixm:airspaceGeometryComponent a rdf:Property .
+		aixm:airspaceVolume a rdf:Property .
 
 ### 3.2 SHACL
 
