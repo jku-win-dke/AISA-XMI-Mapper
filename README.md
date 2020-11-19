@@ -60,7 +60,36 @@ Before actually starting the mapping, the mapper extracts and stores the subset 
 
 ### 3.1 RDFS
 
-To be done.
+UML classes are mapped to RDFS classes except classes containing "BaseType" in the name (we want to already resolve AIXM base types in the actually used datatype). In addition, an RDFS label and RDFS comment are added. If a generalization to a class exists, an RDFS subClassOf property is added (again, except generalizations to classes containing "BaseType" in the name).
+               
+     Example AIXM TerminalSegmentPoint
+          aixm:TerminalSegmentPoint 
+	          a rdfs:Class ;
+	          rdfs:label „TerminalSegmentPoint“ ;
+	          rdfs:comment „…“ ;
+	          rdfs:subClassOf aixm:SegmentPoint .
+          
+Attributes of UML classes are mapped to RDF properties except attributes from UML classes with stereotype <<CodeList>> or <<enumeration>>. These stereotypes provide a list of codes to be used as value for attributes and require special consideration for mapping. We cannot use domain and range for RDF properties since we assume global names in order to improve SPARQL query writing by shorter names (instead we use OWL, see details later). 
+
+     Example AIXM RouteSegment length
+          aixm:length a rdf:Property .
+
+One and the same property may be used by multiple classes but with a different range. Therefore, we use OWL. But properties of <<CodeList>>, <<enumeration>> or <<DataType>> are not mapped using OWL.
+
+     Example TerminalSegmentPoint
+          aixm:TerminalSegmentPoint
+	          rdfs:subClassOf [
+		          rdf:type owl:Restriction ;
+		          owl:onProperty aixm:leadRadial ;
+		          owl:allValuesFrom aixm:ValBearingType ;
+	          ] ;
+	          rdfs:subClassOf [
+		          rdf:type owl:Restriction ;
+		          owl:onProperty aixm:leadDME ;
+		          owl:allValuesFrom aixm:ValDistanceType ;
+	          ] ; 	…
+          .
+
 
 ### 3.2 SHACL
 
