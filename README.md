@@ -76,7 +76,7 @@ Attributes of UML classes are mapped to RDF properties except attributes from UM
 
 One and the same property may be used by multiple classes but with a different range. Therefore, we use OWL. But properties of <<CodeList>>, <<enumeration>> or <<DataType>> are not mapped using OWL.
 
-     Example TerminalSegmentPoint
+     Example AIXM TerminalSegmentPoint
           aixm:TerminalSegmentPoint
 	          rdfs:subClassOf [
 		          rdf:type owl:Restriction ;
@@ -87,9 +87,33 @@ One and the same property may be used by multiple classes but with a different r
 		          rdf:type owl:Restriction ;
 		          owl:onProperty aixm:leadDME ;
 		          owl:allValuesFrom aixm:ValDistanceType ;
-	          ] ; 	…
-          .
+	          ] ; ... .
+	  
+Using OWL we can infer that a RDF property within a certain RDFS class has a certain type and, thus, the correct SHACL shape can target that node.
 
+	Example OWL Entailment
+		Basis: OWL construct
+		aixm:TerminalSegmentPoint
+			rdfs:subClassOf [
+				rdf:type owl:Restriction ;
+				owl:onProperty aixm:indicatorFACF ;
+				owl:allValuesFrom aixm:CodeYesNoType ;
+			] ; ...
+		Basis: RDFS data
+		ex:TSP1
+			a aixm:TerminalSegmentPoint
+			aixm:indicatorFACF [
+				rdf:value "YES" ;
+			] ; ...	.
+		Infers: Entailment
+		ex:TSP1
+			a aixm:TerminalSegmentPoint
+			aixm:indicatorFACF [
+				rdf:value "YES" ;
+				a aixm:CodeYesNoType ;
+			] ; ...	.
+			
+Connector between UML classes may be mapped bi-directional or uni-directional. Since aeronautical UML models have been 
 
 ### 3.2 SHACL
 
