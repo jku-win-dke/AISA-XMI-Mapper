@@ -9,4 +9,4 @@ declare variable $config:=fn:doc("input/configuration.xml")/configuration;
 
 file:write("output/subset.xmi", xmiExtractor:extractSubsetOfModels($config)),
 file:write("output/rdfs.xml", xmi2rdfs:map("output/subset.xmi"))
-(:file:write("output/shacl.xmi", xmi2shacl:map("output/subset.xml")):)
+(:file:write("output/shacl.xml", xmi2shacl:map("output/subset.xmi")),:)

@@ -21,40 +21,87 @@ declare function xmi2shacl:map(
       for $model in fn:doc($fileName)/models/model
         let $namespace:=xmiUtilities:getNamespace($model/@name/string())        
         return (
+          (: UML classes :)
           for $element in $model/elements/element
+            where fn:contains($element/@name/string(), "BaseType")=false()
             let $name:=$element/@name/string()
             return 
               <sh:NodeShape rdf:about="{$namespace}{$name}Shape">
                 <sh:targetClass rdf:resource="{$namespace}{$name}" />
+                <sh:closed rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</sh:closed>
+                <sh:ignoredProperties rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#type" />
                 {
-                  (:attributes:)
+                  (: attributes of UML classes except <<CodeList>>, <<enumeration>>, <<DataType>> :)
                   for $attribute in $element/attributes/attribute
-                    let $attributeName:=$attribute/@name/string()
-                    where $attributeName!="minInclusive"
-                    where $attributeName!="maxInclusive"
-                    where $attributeName!="minExclusive"
-                    where $attributeName!="maxExclusive"
-                    where $attributeName!="pattern"
-                    let $attributeType:=$attribute/properties/@type/string()
-                    let $minCount:=$attribute/bounds/@lower/string()
-                    let $maxCount:=$attribute/bounds/@upper/string()
+                    where ((
+                      fn:exists($element/properties/@stereotype)
+                      and $element/properties[@stereotype!="CodeList"]
+                      and $element/properties[@stereotype!="enumeration"]
+                      and $element/properties[@stereotype!="DataType"]
+                    ) or fn:exists($element/properties/@stereotype)=false())
                     return
-                      if($element/properties[@stereotype!="CodeList" and @stereotype!="enumeration"]
-                        or fn:exists($element/properties/@stereotype)=false()) then
-                        <sh:property rdf:parseType="Resource">
-                          <sh:path rdf:resource="{$namespace}{$attributeName}" />
-                          <sh:class rdf:resource="{$namespace}{$attributeType}" />
-                          {
-                            if(fn:exists($minCount) and $minCount!="*") then
-                              <sh:minCount rdf:datatype="http://www.w3.org/2001/XMLSchema#int">{$minCount}</sh:minCount>
-                          }
-                          {
-                            if(fn:exists($maxCount) and $maxCount!="*") then
-                              <sh:maxCount rdf:datatype="http://www.w3.org/2001/XMLSchema#int">{$maxCount}</sh:maxCount> 
-                          }
-                        </sh:property>
-                      else 
-                        <sh:in>{$attributeName}</sh:in>
+                      <sh:property rdf:parseType="Resource">
+                        <sh:path rdf:resource="{$namespace}{$attribute/@name/string()}" />
+                        <sh:class rdf:resource="{$namespace}{$attribute/properties/@type/string()}" />
+                        {
+                          let $minCount:=$attribute/bounds/@lower/string()
+                          return if(fn:exists($minCount) and $minCount!="*") then
+                            <sh:minCount rdf:datatype="http://www.w3.org/2001/XMLSchema#int">{$minCount}</sh:minCount>
+                        }
+                        {
+                          let $maxCount:=$attribute/bounds/@upper/string()
+                          return if(fn:exists($maxCount) and $maxCount!="*") then
+                            <sh:maxCount rdf:datatype="http://www.w3.org/2001/XMLSchema#int">{$maxCount}</sh:maxCount> 
+                        }
+                      </sh:property>
+                }
+                {
+                  (: attributes of UML classes with stereotype <<enumeration>> :)
+                  if($element/properties[@stereotype="enumeration"]) then
+                    <sh:property rdf:parseType="Resource">
+                      <sh:path rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#value" />
+                      {
+                        for $enumeration in $element/attributes/attribute/@name/string()
+                        return <sh:in>{$enumeration}</sh:in> 
+                      }
+                      <sh:minCount rdf:datatype="http://www.w3.org/2001/XMLSchema#int">1</sh:minCount>
+                      <sh:maxCount rdf:datatype="http://www.w3.org/2001/XMLSchema#int">1</sh:maxCount>
+                    </sh:property>
+                }
+                {
+                  (: attributes of UML classes with stereotype <<DataType>> :)
+                  if($element/properties[@stereotype="DataType"]) then (
+                    <sh:property rdf:parseType="Resource">
+                      <sh:path rdf:resource="{$namespace}nilReason" />
+                      <sh:in>inapplicable</sh:in>
+                      <sh:in>missing</sh:in>
+                      <sh:in>template</sh:in>
+                      <sh:in>unknown</sh:in>
+                      <sh:in>withheld</sh:in>
+                      <sh:in>other</sh:in>
+                      <sh:minCount rdf:datatype="http://www.w3.org/2001/XMLSchema#int">0</sh:minCount>
+                      <sh:maxCount rdf:datatype="http://www.w3.org/2001/XMLSchema#int">1</sh:maxCount>
+                    </sh:property>, 
+                    <sh:property rdf:parseType="Resource">
+                      <sh:path rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#value" />
+                      {
+                        for $codelist in $element/attributes/attribute/@name/string()
+                        return <sh:in>{$codelist}</sh:in>  
+                      }
+                      <sh:minCount rdf:datatype="http://www.w3.org/2001/XMLSchema#int">0</sh:minCount>
+                      <sh:maxCount rdf:datatype="http://www.w3.org/2001/XMLSchema#int">1</sh:maxCount>
+                    </sh:property>,
+                    <sh:xone rdf:parseType="Resource">
+                      <sh:property rdf:parseType="Resource">
+                        <sh:path rdf:resource="{$namespace}nilReason" />
+                        <sh:minCount rdf:datatype="http://www.w3.org/2001/XMLSchema#int">1</sh:minCount>
+                      </sh:property>
+                      <sh:property rdf:parseType="Resource">
+                        <sh:path rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#value" />
+                        <sh:minCount rdf:datatype="http://www.w3.org/2001/XMLSchema#int">1</sh:minCount>
+                      </sh:property>
+                    </sh:xone>
+                  )
                 }
                 {
                   (: connections :)
