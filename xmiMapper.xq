@@ -7,6 +7,7 @@ declare namespace xmi2shacl="http://www.aisa-project.eu/xquery/xmi2shacl";
 
 declare variable $config:=fn:doc("input/configuration.xml")/configuration;
 
-file:write("output/subset.xmi", xmiExtractor:extractSubsetOfModels($config)),
-file:write("output/rdfs.xml", xmi2rdfs:map("output/subset.xmi"))
-(:file:write("output/shacl.xml", xmi2shacl:map("output/subset.xmi")),:)
+(:file:write("output/subset.xml", xmiExtractor:extractSubsetOfModels($config)),:)
+(:file:write("output/rdfs.xml", xmi2rdfs:map("output/subset.xml")):)
+file:write("output/shacl.xml", xmi2shacl:map("output/subset.xml")),
+xmi2shacl:map("output/subset.xml")
