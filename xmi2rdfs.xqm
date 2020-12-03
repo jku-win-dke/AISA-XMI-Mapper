@@ -74,7 +74,7 @@ declare function xmi2rdfs:map(
                   return <rdfs:subClassOf>
                     <owl:Restriction>
                     {
-                      if($connector/properties[@ea_type="Association" and @subtype="Class"]) then
+                      if(fn:exists($connector/extendedProperties/@associationclass)) then
                         let $associationClass:=$model/elements/element[@xmi:idref=$connector/extendedProperties/@associationclass]
                         return (
                           <owl:onProperty rdf:resource="{$namespace}{xmiUtilities:getRoleName($associationClass/@name/string())}"/>,
@@ -108,7 +108,8 @@ declare function xmi2rdfs:map(
                   </rdfs:subClassOf> 
               }
               {
-                (: adding OWL for connectors of an UML association class :)
+                (: adding OWL for connectors of an UML class :)
+                (:   for association classes :)
                 for $connector in $model/connectors/connector
                   where $connector/extendedProperties[@associationclass=$element/@xmi:idref]
                   return <rdfs:subClassOf>

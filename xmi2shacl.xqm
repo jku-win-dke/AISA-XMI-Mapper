@@ -21,17 +21,23 @@ declare function xmi2shacl:map(
       for $model in fn:doc($fileName)/models/model
         let $namespace:=xmiUtilities:getNamespace($model/@name/string())        
         return (
-          (: UML classes :)
+          (: mapping of UML classes to SHACL shapes :)
           for $element in $model/elements/element
-            where fn:contains($element/@name/string(), "BaseType")=false()
-            let $name:=$element/@name/string()
             return 
-              <sh:NodeShape rdf:about="{$namespace}{$name}Shape">
-                <sh:targetClass rdf:resource="{$namespace}{$name}" />
+              <sh:NodeShape rdf:about="{$namespace}{$element/@name/string()}Shape">
+                {
+                  if(( 
+                    fn:exists($element/properties/@stereotype)
+                    and $element/properties[@stereotype!="CodeList"]
+                    and $element/properties[@stereotype!="enumeration"]
+                    ) or fn:exists($element/properties/@stereotype)=false()) then
+                    <sh:targetClass rdf:resource="{$namespace}{$element/@name/string()}" />
+                } 
                 <sh:closed rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</sh:closed>
                 <sh:ignoredProperties rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#type" />
                 {
-                  (: attributes of UML classes except <<CodeList>>, <<enumeration>>, <<DataType>> :)
+                  (: mapping of attributes of UML classes to property shapes :) 
+                  (:   except classes with stereotype <<CodeList>>, <<enumeration>>, <<DataType>> :)
                   for $attribute in $element/attributes/attribute
                     where ((
                       fn:exists($element/properties/@stereotype)
@@ -39,63 +45,80 @@ declare function xmi2shacl:map(
                       and $element/properties[@stereotype!="enumeration"]
                       and $element/properties[@stereotype!="DataType"]
                     ) or fn:exists($element/properties/@stereotype)=false())
+                    let $attributeClass:=$model/elements/element[@name=$attribute/properties/@type]
                     return
-                      <sh:property rdf:parseType="Resource">
-                        <sh:path rdf:resource="{$namespace}{$attribute/@name/string()}" />
-                        <sh:class rdf:resource="{$namespace}{$attribute/properties/@type/string()}" />
-                        {
-                          let $minCount:=$attribute/bounds/@lower/string()
-                          return if(fn:exists($minCount) and $minCount!="*") then
-                            <sh:minCount rdf:datatype="http://www.w3.org/2001/XMLSchema#int">{$minCount}</sh:minCount>
-                        }
-                        {
-                          let $maxCount:=$attribute/bounds/@upper/string()
-                          return if(fn:exists($maxCount) and $maxCount!="*") then
-                            <sh:maxCount rdf:datatype="http://www.w3.org/2001/XMLSchema#int">{$maxCount}</sh:maxCount> 
-                        }
-                      </sh:property>
+                      if(
+                        ( fn:exists($attributeClass/properties/@stereotype)
+                          and $attributeClass/properties[@stereotype!="CodeList"]
+                          and $attributeClass/properties[@stereotype!="enumeration"]
+                        ) or fn:exists($attributeClass/properties/@stereotype)=false()) then
+                        <sh:property rdf:parseType="Resource">
+                          <sh:path rdf:resource="{$namespace}{$attribute/@name/string()}" />
+                          <sh:class rdf:resource="{$namespace}{$attribute/properties/@type/string()}" />
+                          {
+                            let $minCount:=$attribute/bounds/@lower/string()
+                            return if(fn:exists($minCount) and $minCount!="*") then
+                              <sh:minCount rdf:datatype="http://www.w3.org/2001/XMLSchema#int">{$minCount}</sh:minCount>
+                          }
+                          {
+                            let $maxCount:=$attribute/bounds/@upper/string()
+                            return if(fn:exists($maxCount) and $maxCount!="*") then
+                              <sh:maxCount rdf:datatype="http://www.w3.org/2001/XMLSchema#int">{$maxCount}</sh:maxCount> 
+                          }
+                        </sh:property>
+                      else
+                        <sh:and>{$attributeClass/@name/string()}</sh:and>
                 }
                 {
-                  (: attributes of UML classes with stereotype <<enumeration>> :)
-                  if($element/properties[@stereotype="enumeration"]) then
+                  (: mapping of attributes of UML classes to property shapes :)
+                  (:   classes with stereotype <<enumeration>>, <<CodeList>> :)
+                  if($element/properties[@stereotype="enumeration" or @stereotype="CodeList"]) then
                     <sh:property rdf:parseType="Resource">
                       <sh:path rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#value" />
                       {
-                        for $enumeration in $element/attributes/attribute/@name/string()
-                        return <sh:in>{$enumeration}</sh:in> 
+                        for $attribute in $element/attributes/attribute
+                          return <sh:in>{$attribute/@name/string()}</sh:in>
                       }
-                      <sh:minCount rdf:datatype="http://www.w3.org/2001/XMLSchema#int">1</sh:minCount>
+                      <sh:minCount rdf:datatype="http://www.w3.org/2001/XMLSchema#int">0</sh:minCount>
                       <sh:maxCount rdf:datatype="http://www.w3.org/2001/XMLSchema#int">1</sh:maxCount>
                     </sh:property>
                 }
                 {
-                  (: attributes of UML classes with stereotype <<DataType>> :)
+                  (: mapping of attributes of UML classes to property shapes :)
+                  (:   classes with stereotype <<DataType>> :)
                   if($element/properties[@stereotype="DataType"]) then (
-                    <sh:property rdf:parseType="Resource">
-                      <sh:path rdf:resource="{$namespace}nilReason" />
-                      <sh:in>inapplicable</sh:in>
-                      <sh:in>missing</sh:in>
-                      <sh:in>template</sh:in>
-                      <sh:in>unknown</sh:in>
-                      <sh:in>withheld</sh:in>
-                      <sh:in>other</sh:in>
+                    for $attribute in $element/attributes/attribute
+                    return <sh:property rdf:parseType="Resource">
+                      <sh:path rdf:resource="{$namespace}{$attribute/@name/string()}" />
+                      {
+                        let $attributeClass:=$model/elements/element[@name=$attribute/properties/@type]
+                        for $attribute in $attributeClass/attributes/attribute
+                          return <sh:in>{$attribute/@name/string()}</sh:in>
+                      }
                       <sh:minCount rdf:datatype="http://www.w3.org/2001/XMLSchema#int">0</sh:minCount>
                       <sh:maxCount rdf:datatype="http://www.w3.org/2001/XMLSchema#int">1</sh:maxCount>
                     </sh:property>, 
                     <sh:property rdf:parseType="Resource">
                       <sh:path rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#value" />
-                      {
-                        for $codelist in $element/attributes/attribute/@name/string()
-                        return <sh:in>{$codelist}</sh:in>  
+                      {              
+                        for $generalization in $element/links/Generalization
+                          where $generalization[@start=$element/@xmi:idref]
+                          let $superClass:=$model/elements/element[@xmi:idref=$generalization/@end]
+                          where fn:exists($superClass)
+                          for $attribute in $superClass/attributes/attribute
+                            return <sh:in>{$attribute/@name/string()}</sh:in>
                       }
                       <sh:minCount rdf:datatype="http://www.w3.org/2001/XMLSchema#int">0</sh:minCount>
                       <sh:maxCount rdf:datatype="http://www.w3.org/2001/XMLSchema#int">1</sh:maxCount>
                     </sh:property>,
                     <sh:xone rdf:parseType="Resource">
-                      <sh:property rdf:parseType="Resource">
-                        <sh:path rdf:resource="{$namespace}nilReason" />
-                        <sh:minCount rdf:datatype="http://www.w3.org/2001/XMLSchema#int">1</sh:minCount>
-                      </sh:property>
+                      {
+                        for $attribute in $element/attributes/attribute
+                          return <sh:property>
+                            <sh:path rdf:resource="{$namespace}{$attribute/@name/string()}" />
+                            <sh:minCount rdf:datatype="http://www.w3.org/2001/XMLSchema#int">1</sh:minCount>
+                          </sh:property>
+                      }
                       <sh:property rdf:parseType="Resource">
                         <sh:path rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#value" />
                         <sh:minCount rdf:datatype="http://www.w3.org/2001/XMLSchema#int">1</sh:minCount>
@@ -104,79 +127,93 @@ declare function xmi2shacl:map(
                   )
                 }
                 {
-                  (: connections :)
+                  (: mapping of local connectors to property shapes :)
+                  (:   except for connectors with the UML class as association class  :)
                   for $connector in $model/connectors/connector
-                    where ($connector/source[@xmi:idref=$element/@xmi:idref]
-                      and $connector/properties[@direction="Source -&gt; Destination"])
-                      or ($connector/target[@xmi:idref=$element/@xmi:idref] 
-                      and $connector/properties[@direction="Destination -&gt; Source"])
-                    let $rangeClassName:=
-                      if($connector/properties[@ea_type="Association" and @subtype="Class"]) then
+                    where (
+                      (
+                        $connector/source[@xmi:idref=$element/@xmi:idref]
+                        and $connector/properties[@direction="Source -&gt; Destination"])
+                      )
+                      or 
+                      (
+                        $connector/target[@xmi:idref=$element/@xmi:idref] 
+                        and $connector/properties[@direction="Destination -&gt; Source"]
+                      )
+                    let $targetName:=
+                      if(fn:exists($connector/extendedProperties/@associationclass)) then
                         $model/elements/element[@xmi:idref=$connector/extendedProperties/@associationclass]/@name/string()
                       else
                         if($connector/properties[@direction="Source -&gt; Destination"]) then
                           $connector/target/model/@name/string()
                         else
                           $connector/source/model/@name/string()
-                    let $roleName:=
-                      if($connector/properties[@ea_type="Association" and @subtype="Class"]) then
-                        xmiUtilities:getRoleName($rangeClassName)
+                    let $pathName:=
+                      if(fn:exists($connector/extendedProperties/@associationclass)) then
+                        xmiUtilities:getRoleName($targetName)
                       else
                         if($connector/properties[@direction="Source -&gt; Destination"]) then
                           if(fn:exists($connector/target/role/@name)) then
                             $connector/target/role/@name
                           else
-                            xmiUtilities:getRoleName($rangeClassName)
+                            xmiUtilities:getRoleName($targetName)
                         else
                           if(fn:exists($connector/source/role/@name)) then
                             $connector/source/role/@name
                           else
-                            xmiUtilities:getRoleName($rangeClassName)
-                    let $multiplicity:=
-                      if($connector/properties[@direction="Source -&gt; Destination"]) then
-                        $connector/target/type/@multiplicity
+                            xmiUtilities:getRoleName($targetName)
+                    let $cardinality:=
+                      if(fn:exists($connector/extendedProperties/@associationclass)) then
+                        if($connector/properties[@direction="Source -&gt; Destination"]) then
+                          $connector/target/type/@multiplicity
+                        else
+                          $connector/source/type/@multiplicity
                       else
-                        $connector/source/type/@multiplicity
+                        if($connector/properties[@direction="Source -&gt; Destination"]) then
+                          $connector/target/type/@multiplicity
+                        else
+                          $connector/source/type/@multiplicity
                     return <sh:property rdf:parseType="Resource">
-                      <sh:path rdf:resource="{$namespace}{$roleName}" />
-                      <sh:class rdf:resource="{$namespace}{$rangeClassName}" />
+                      <sh:path rdf:resource="{$namespace}{$pathName}" />
+                      <sh:class rdf:resource="{$namespace}{$targetName}" />
                       {
-                        let $minCount:=fn:substring($multiplicity, 1, 1)
+                        let $minCount:=fn:substring($cardinality, 1, 1)
                         return if(fn:exists($minCount) and $minCount!="*") then
                           <sh:minCount rdf:datatype="http://www.w3.org/2001/XMLSchema#int">{$minCount}</sh:minCount>
                       }
                       {
-                        let $maxCount:=fn:substring($multiplicity, fn:string-length($multiplicity), 1)
+                        let $maxCount:=fn:substring($cardinality, fn:string-length($cardinality), 1)
                         return if(fn:exists($maxCount) and $maxCount!="*") then
                           <sh:maxCount rdf:datatype="http://www.w3.org/2001/XMLSchema#int">{$maxCount}</sh:maxCount> 
                       }
                     </sh:property>
                 }
                 {
-                  (: connections of association classes :)
+                  (: mapping of local connectors to property shapes :)
+                  (:   for connectors with the UML class as association class  :)
                   for $connector in $model/connectors/connector
                     where $element[@xmi:idref=$connector/extendedProperties/@associationclass]
-                    let $rangeClassName:=
+                    let $targetName:=
                       if($connector/properties[@direction="Source -&gt; Destination"]) then
                         $connector/target/model/@name/string()
                       else
                         $connector/source/model/@name/string()
-                    let $roleName:=xmiUtilities:getRoleName($rangeClassName)
-                    let $multiplicity:=
+                    let $pathName:=xmiUtilities:getRoleName($targetName)
+                    let $cardinality:=
                       if($connector/properties[@direction="Source -&gt; Destination"]) then
                         $connector/target/type/@multiplicity
                       else
                         $connector/source/type/@multiplicity
                     return <sh:property rdf:parseType="Resource">
-                      <sh:path rdf:resource="{$namespace}{$roleName}" />
-                      <sh:class rdf:resource="{$namespace}{$rangeClassName}" />
+                      <sh:path rdf:resource="{$namespace}{$pathName}" />
+                      <sh:class rdf:resource="{$namespace}{$targetName}" />
                       {
-                        let $minCount:=fn:substring($multiplicity, 1, 1)
+                        let $minCount:=fn:substring($cardinality, 1, 1)
                         return if(fn:exists($minCount) and $minCount!="*") then
                           <sh:minCount rdf:datatype="http://www.w3.org/2001/XMLSchema#int">{$minCount}</sh:minCount>
                       }
                       {
-                        let $maxCount:=fn:substring($multiplicity, fn:string-length($multiplicity), 1)
+                        let $maxCount:=fn:substring($cardinality, fn:string-length($cardinality), 1)
                         return if(fn:exists($maxCount) and $maxCount!="*") then
                           <sh:maxCount rdf:datatype="http://www.w3.org/2001/XMLSchema#int">{$maxCount}</sh:maxCount> 
                       }
