@@ -6,7 +6,7 @@
 #   https://github.com/aixm/donlon/blob/master/digitalNOTAM/DN_AD.CLS_except_special_flights.xml (accessed 30-Nov-2020)
 
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-@prefix aixm: <http://www.aixm.aero/schema/5.1.1> .
+@prefix aixm: <http://www.aixm.aero/schema/5.1.1#> .
 @prefix gml: <http://www.opengis.net/gml/3.2#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix event: <http://www.aixm.aero/schema/5.1/event#>.
@@ -34,14 +34,14 @@ s1:AHP_EADH
   aixm:designatorIATA [ aixm:nilReason "unknown"];
   aixm:certifiedICAO [ aixm:nilReason "unknown"];
   aixm:controlType [rdf:value "CIVIL"];
-  aixm:fieldElevation [aixm:uom "M"; rdf:value 18];
-  aixm:fieldElevationAccuracy [aixm:uom "M"; rdf:value 0.5];
+  aixm:fieldElevation [aixm:uom "M"; rdf:value "18"];
+  aixm:fieldElevationAccuracy [aixm:uom "M"; rdf:value "0.5"];
   aixm:magneticVariation [rdf:value -3.0];
-  aixm:magneticVariationAccuracy [rdf:value 1];
-  aixm:dateMagneticVariation [rdf:value 1990];
+  aixm:magneticVariationAccuracy [rdf:value 1.0];
+  aixm:dateMagneticVariation [rdf:value "1990"];
   aixm:magneticVariationChange [rdf:value 0.03];
   aixm:referenceTemperature [aixm:uom "C"; rdf:value 21.0];
-  aixm:transitionAltitude [aixm:uom "FT"; rdf:value 3500];
+  aixm:transitionAltitude [aixm:uom "FT"; rdf:value "3500"];
   aixm:certificationDate [ aixm:nilReason "unknown"];
   aixm:certificationExpiryDate [aixm:nilReason "unknown"];
   aixm:servedCity s1:ID_110;
@@ -53,12 +53,12 @@ s1:AHP_EADH
   
 s1:vtnull0
   a gml:TimePeriod;
-  gml:beginPosition [rdf:value "2009-01-01T00:00:00Z"];
+  gml:beginPosition [rdf:value "2009-01-01T00:00:00Z"^^xsd:dateTime];
   gml:endPosition [gml:indeterminatePosition "unknown"]. 
 
 s1:ltnull0
   a gml:TimePeriod;
-  gml:beginPosition [rdf:value "2009-01-01T00:00:00Z"];
+  gml:beginPosition [rdf:value "2009-01-01T00:00:00Z"^^xsd:dateTime];
   gml:endPosition [gml:indeterminatePosition "unknown"]. 
   
 s1:ID_110
@@ -69,6 +69,8 @@ s1:A-a72cfd3a
   a aixm:AirportHeliportResponsibilityOrganisation;
   aixm:role [rdf:value "OPERATE"];
   aixm:theOrganisationAuthority <uuid:74efb6ba-a52a-46c0-a16b-03860d356882>.
+  
+<uuid:74efb6ba-a52a-46c0-a16b-03860d356882> a aixm:OrganisationAuthority .
   
 s1:elpoint1EADH #srsName nicht gemapped, wollte jetzt nicht nachschauen, was es damit auf sich hat
   a aixm:ElevatedPoint;
@@ -196,7 +198,7 @@ s2:ID_ACT_16
   
 s2:ID_ACT_17
   a aixm:FlightCharacteristic;
-  aixm:origin [rdf:value "HOME_BASE"].
+  aixm:origin [rdf:value "HOME_BASED"].
 
 s2:ID_ACT_18
   a aixm:ConditionCombination;
@@ -214,7 +216,7 @@ s2:ID_ACT_20
   
 s2:ID_ACT_21
   a aixm:FlightCharacteristic;
-  aixm:status [rdf:value "OTHER:MEDEVAC"].
+  aixm:status [rdf:value "OTHER"].
   
 #link from Tempdelta timeslice to event (no idea what xsi:nil=true means here, not translated)  
 s2:ID_ACT_211 
