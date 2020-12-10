@@ -2,9 +2,23 @@
 
 Target model: AIXM 5.1.1 (http://www.aixm.aero/page/aixm-511-specification)
 
-## Basics
+## 1. Basics
 
-## Mapping of stereotype: feature
+### 1.1 Mapping of attributes
+
+TBD.
+
+### 1.2 Mapping of connectors
+
+TBD.
+
+### 1.3 Mapping of connectors with association classes
+
+TBD.
+
+## 2. Mapping of stereotypes
+
+### 2.1 Feature
 
 Features are mapped to SHACL shapes and RDFS classes with a single property named "timeSlice".
 Timeslices of features are mapped to SHACL shapes and RDFS classes. A timeslice keeps meta information (from aixm:AIXMTimeSlice) and a feature's attributes and relationships valid for a certain time period. 
@@ -30,30 +44,30 @@ Example AirportHeliport
 		
 TBD.
 
-## Mapping of stereotype: object
+### 2.2 Object
 
 TBD.
 
-## Mapping of stereotype: choice
+### 2.3 Choice
 
 TBD.
 
-## Mapping of stereotype: CodeList
+### 2.4 CodeList
 
 TBD.
 
-## Mapping of stereotype: DataType
+### 2.5 DataType
 
 TBD.
 
-## Mapping of stereotype: XSDsimpleType
+### 2.6 XSDsimpleType
 
 No mapping.
 
-## Mapping of stereotype: XSDcomplexType
+### 2.7 XSDcomplexType
 
 No mapping.
 
-## Mapping of stereotype: none
+### 2.8 No stereotype
 
 TBD.
