@@ -1,61 +1,61 @@
-  <sh:NodeShape rdf:about="{$aixm_5-1-1:gml}DirectPositionType">
-    <sh:property rdf:parseType="Resource">
-      <sh:path rdf:resource="{$aixm_5-1-1:rdf}value" />
-      <sh:datatype rdf:resource="{$aixm_5-1-1:xsd}double" />
-    </sh:property>
-  </sh:NodeShape>
-  
-          if($element/@name/string()="GM_Arc") then (
-          <rdfs:subClassOf rdf:resource="{aixm_5-1-1:gml}ArcString" />,
-          <sh:and rdf:parseType="Collection">
-            <sh:NodeShape rdf:about="{$aixm_5-1-1:gml}ArcString" />
-          </sh:and>,
-          <sh:property rdf:parseType="Resource">
-            <sh:path rdf:resource="{$aixm_5-1-1:gml}pos" />
-            <sh:node rdf:resource="{$aixm_5-1-1:gml}DirectPositionType" /> 
-          </sh:property>,
-          <sh:property rdf:parseType="Resource">
-            <sh:path rdf:resource="{$aixm_5-1-1:gml}pointProperty" />
-            <sh:node rdf:resource="{$aixm_5-1-1:gml}DirectPositionType" /> 
-          </sh:property>,
-          <sh:property rdf:parseType="Resource">
-            <sh:path rdf:resource="{$aixm_5-1-1:gml}posList" />
-            <sh:node rdf:resource="{$aixm_5-1-1:gml}DirectPositionType" /> 
-          </sh:property>,
-          <sh:xone rdf:parseType="">
-          </sh:xone>
-        )
-          
-        else if($element/@name/string()="GM_ArcString") then
-          ()
-        else if($element/@name/string()="GM_Circle") then
-          ()
-        else if($element/@name/string()="GM_Curve") then
-          ()
-        else if($element/@name/string()="GM_CurveSegment") then
-          ()
-        else if($element/@name/string()="GM_Geodesic") then
-          ()
-        else if($element/@name/string()="GM_GeodesicString") then
-          ()
-        else if($element/@name/string()="GM_LineString") then
-          ()
-        else if($element/@name/string()="GM_MultiCurve") then
-          ()
-        else if($element/@name/string()="GM_MultiPoint") then
-          ()
-        else if($element/@name/string()="GM_MultiSurface") then
-          ()
-        else if($element/@name/string()="GM_Point") then
-          <sh:property rdf:parseType="Resource">
-            <sh:path rdf:resource="{$aixm_5-1-1:gml}pos" />
-            <sh:node rdf:resource="{$aixm_5-1-1:gml}DirectPositionType" /> 
-          </sh:property>
-        else if($element/@name/string()="GM_Polygon") then
-          ()
-        else if($element/@name/string()="GM_Surface") then
-          ()
-        else if($element/@name/string()="GM_SurfacePatch") then
-          ()
-      }
-    </sh:NodeShape>
+@prefix aixm:  <http://www.aixm.aero/schema/5.1.1#> .
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix sh:    <http://www.w3.org/ns/shacl#> .
+@prefix gml:   <http://www.opengis.net/gml/3.2#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+
+gml:Arc
+	a sh:NodeShape, rdfs:Class.
+	
+gml:ArcString
+	a sh:NodeShape, rdfs:Class.
+	
+gml:Circle
+	a sh:NodeShape, rdfs:Class.
+	
+gml:CurveSegment
+	a sh:NodeShape, rdfs:Class.
+	
+gml:Geodesic
+	a sh:NodeShape, rdfs:Class.
+	
+gml:GeodesicString
+	a sh:NodeShape, rdfs:Class.
+	
+gml:LineString
+	a sh:NodeShape, rdfs:Class.
+	
+gml:MultiCurve
+	a sh:NodeShape, rdfs:Class.
+	
+gml:MultiPoint
+	a sh:NodeShape, rdfs:Class.
+
+gml:MultiSurface
+	a sh:NodeShape, rdfs:Class.
+	
+gml:Point
+	a sh:NodeShape, rdfs:Class;
+	sh:property [
+		sh:path gml:pos;
+		sh:node gml:DirectPositionType;
+	] .
+	
+gml:Polygon
+	a sh:NodeShape, rdfs:Class.
+	
+gml:Surface
+	a sh:NodeShape, rdfs:Class.
+	
+gml:SurfacePatch
+	a sh:NodeShape, rdfs:Class.
+	
+#-------------------------------------------------------------------------------
+
+gml:DirectPositionType
+	a sh:NodeShape;
+	sh:property [
+		sh:path rdf:value;
+		#sh:datatype xsd:double;
+	] .
