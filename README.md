@@ -82,3 +82,6 @@ The resulting RDFS/SHACL is returned to the mapper.
 ## 4. RDFS/SHACL
 
 After the RDFS/SHACL mapped by a plugin is returned to the mapper, it is written to an RDF/XML file with the name of the model appended by "\_subset" in the output folder.
+
+
+In order to run the mapper, the main module "mapper.xq" must be executed using an XQuery processor, e.g. BaseX.
