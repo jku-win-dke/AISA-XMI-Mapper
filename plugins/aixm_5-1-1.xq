@@ -24,9 +24,8 @@ declare function aixm_5-1-1:map(
     xmlns:gml="http://www.opengis.net/gml/3.2#"
     xmlns:aixm="http://www.aixm.aero/schema/5.1.1#">
     {
-      if(fn:exists($modelSubset/elements/element/properties
-        [@stereotype="feature"])) then
-        aixm_5-1-1:getBasisElements()
+      if(fn:exists($modelSubset/elements/element/properties[@stereotype="feature"])) then
+        aixm_5-1-1:getGMLBasisElementsForAIXMFeatures()
     }
     {
       for $element in $modelSubset/elements/element
@@ -91,12 +90,23 @@ declare function aixm_5-1-1:mapObject(
     <rdf:type rdf:resource="{$aixm_5-1-1:rdfs}Class" />
     {
       for $superElement in aixm_5-1-1:getSuperElements($element, $modelSubset, ())
-      return <rdfs:subClassOf rdf:resource="{$aixm_5-1-1:namespace}{$superElement/@name/string()}" />
+      return 
+        if(fn:starts-with($superElement/@name/string(), "GM_")) then
+          let $name:=fn:replace($superElement/@name/string(), "GM_", "")
+          return <rdfs:subClassOf rdf:resource="{$aixm_5-1-1:gml}{$name}" />
+        else
+          <rdfs:subClassOf rdf:resource="{$aixm_5-1-1:namespace}{$superElement/@name/string()}" />
     }
     {
       for $superElement in aixm_5-1-1:getSuperElements($element, $modelSubset, ())
-      return <sh:and rdf:parseType="Collection"> 
-        <sh:NodeShape rdf:about="{$aixm_5-1-1:namespace}{$superElement/@name/string()}" />
+      return <sh:and rdf:parseType="Collection">
+        {
+          if(fn:starts-with($superElement/@name/string(), "GM_")) then
+            let $name:=fn:replace($superElement/@name/string(), "GM_", "")
+            return <sh:NodeShape rdf:about="{$aixm_5-1-1:gml}{$name}" />
+          else
+            <sh:NodeShape rdf:about="{$aixm_5-1-1:namespace}{$superElement/@name/string()}" />
+        } 
       </sh:and>
     }
     {
@@ -270,76 +280,15 @@ declare function aixm_5-1-1:mapPlain(
   $element as element(),
   $modelSubset as element()
 ) {
-  if(fn:contains($element/@name/string(), "GM_")) then
-    <sh:NodeShape rdf:about="{$aixm_5-1-1:gml}{$element/@name/string()}">
+  if(fn:starts-with($element/@name/string(), "GM_")) then
+    let $name:=fn:replace($element/@name/string(), "GM_", "")
+    return <sh:NodeShape rdf:about="{$aixm_5-1-1:gml}{$name}">
       <rdf:type rdf:resource="{$aixm_5-1-1:rdfs}Class" />
-      {
-        
-        if($element/@name/string()="GM_Arc") then (
-          <rdfs:subClassOf rdf:resource="{aixm_5-1-1:gml}ArcString" />,
-          <sh:and rdf:parseType="Collection">
-            <sh:NodeShape rdf:about="{$aixm_5-1-1:gml}ArcString" />
-          </sh:and>,
-          <sh:property rdf:parseType="Resource">
-            <sh:path rdf:resource="{$aixm_5-1-1:gml}pos" />
-            <sh:node rdf:resource="{$aixm_5-1-1:gml}DirectPositionType" /> 
-          </sh:property>,
-          <sh:property rdf:parseType="Resource">
-            <sh:path rdf:resource="{$aixm_5-1-1:gml}pointProperty" />
-            <sh:node rdf:resource="{$aixm_5-1-1:gml}DirectPositionType" /> 
-          </sh:property>,
-          <sh:property rdf:parseType="Resource">
-            <sh:path rdf:resource="{$aixm_5-1-1:gml}posList" />
-            <sh:node rdf:resource="{$aixm_5-1-1:gml}DirectPositionType" /> 
-          </sh:property>,
-          <sh:xone rdf:parseType="">
-          </sh:xone>
-        )
-          
-        else if($element/@name/string()="GM_ArcString") then
-          ()
-        else if($element/@name/string()="GM_Circle") then
-          ()
-        else if($element/@name/string()="GM_Curve") then
-          ()
-        else if($element/@name/string()="GM_CurveSegment") then
-          ()
-        else if($element/@name/string()="GM_Geodesic") then
-          ()
-        else if($element/@name/string()="GM_GeodesicString") then
-          ()
-        else if($element/@name/string()="GM_LineString") then
-          ()
-        else if($element/@name/string()="GM_MultiCurve") then
-          ()
-        else if($element/@name/string()="GM_MultiPoint") then
-          ()
-        else if($element/@name/string()="GM_MultiSurface") then
-          ()
-        else if($element/@name/string()="GM_Point") then
-          <sh:property rdf:parseType="Resource">
-            <sh:path rdf:resource="{$aixm_5-1-1:gml}pos" />
-            <sh:node rdf:resource="{$aixm_5-1-1:gml}DirectPositionType" /> 
-          </sh:property>
-        else if($element/@name/string()="GM_Polygon") then
-          ()
-        else if($element/@name/string()="GM_Surface") then
-          ()
-        else if($element/@name/string()="GM_SurfacePatch") then
-          ()
-      }
     </sh:NodeShape>
-  else 
-    ()
-};
-
-declare function aixm_5-1-1:getGMLElements(){
-  <sh:NodeShape rdf:about="{$aixm_5-1-1:gml}DirectPositionType">
-    <sh:property rdf:parseType="Resource">
-      <sh:path rdf:resource="{$aixm_5-1-1:rdf}value" />
-      <sh:datatype rdf:resource="{$aixm_5-1-1:xsd}double" />
-    </sh:property>
-  </sh:NodeShape>
+  else
+    <sh:NodeShape rdf:about="{$aixm_5-1-1:namespace}{$element/@name/string()}">
+      <rdf:type rdf:resource="{$aixm_5-1-1:rdfs}Class" />
+    </sh:NodeShape>
 };
 
 declare function aixm_5-1-1:getSuperElements(
@@ -477,7 +426,7 @@ declare function aixm_5-1-1:mapIndirectConnectors(
     </sh:property>
 };
 
-declare function aixm_5-1-1:getBasisElements(){
+declare function aixm_5-1-1:getGMLBasisElementsForAIXMFeatures(){
   
   <sh:NodeShape rdf:about="{$aixm_5-1-1:namespace}AIXMFeature" />,
   

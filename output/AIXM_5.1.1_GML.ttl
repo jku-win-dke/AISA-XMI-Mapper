@@ -1,0 +1,61 @@
+  <sh:NodeShape rdf:about="{$aixm_5-1-1:gml}DirectPositionType">
+    <sh:property rdf:parseType="Resource">
+      <sh:path rdf:resource="{$aixm_5-1-1:rdf}value" />
+      <sh:datatype rdf:resource="{$aixm_5-1-1:xsd}double" />
+    </sh:property>
+  </sh:NodeShape>
+  
+          if($element/@name/string()="GM_Arc") then (
+          <rdfs:subClassOf rdf:resource="{aixm_5-1-1:gml}ArcString" />,
+          <sh:and rdf:parseType="Collection">
+            <sh:NodeShape rdf:about="{$aixm_5-1-1:gml}ArcString" />
+          </sh:and>,
+          <sh:property rdf:parseType="Resource">
+            <sh:path rdf:resource="{$aixm_5-1-1:gml}pos" />
+            <sh:node rdf:resource="{$aixm_5-1-1:gml}DirectPositionType" /> 
+          </sh:property>,
+          <sh:property rdf:parseType="Resource">
+            <sh:path rdf:resource="{$aixm_5-1-1:gml}pointProperty" />
+            <sh:node rdf:resource="{$aixm_5-1-1:gml}DirectPositionType" /> 
+          </sh:property>,
+          <sh:property rdf:parseType="Resource">
+            <sh:path rdf:resource="{$aixm_5-1-1:gml}posList" />
+            <sh:node rdf:resource="{$aixm_5-1-1:gml}DirectPositionType" /> 
+          </sh:property>,
+          <sh:xone rdf:parseType="">
+          </sh:xone>
+        )
+          
+        else if($element/@name/string()="GM_ArcString") then
+          ()
+        else if($element/@name/string()="GM_Circle") then
+          ()
+        else if($element/@name/string()="GM_Curve") then
+          ()
+        else if($element/@name/string()="GM_CurveSegment") then
+          ()
+        else if($element/@name/string()="GM_Geodesic") then
+          ()
+        else if($element/@name/string()="GM_GeodesicString") then
+          ()
+        else if($element/@name/string()="GM_LineString") then
+          ()
+        else if($element/@name/string()="GM_MultiCurve") then
+          ()
+        else if($element/@name/string()="GM_MultiPoint") then
+          ()
+        else if($element/@name/string()="GM_MultiSurface") then
+          ()
+        else if($element/@name/string()="GM_Point") then
+          <sh:property rdf:parseType="Resource">
+            <sh:path rdf:resource="{$aixm_5-1-1:gml}pos" />
+            <sh:node rdf:resource="{$aixm_5-1-1:gml}DirectPositionType" /> 
+          </sh:property>
+        else if($element/@name/string()="GM_Polygon") then
+          ()
+        else if($element/@name/string()="GM_Surface") then
+          ()
+        else if($element/@name/string()="GM_SurfacePatch") then
+          ()
+      }
+    </sh:NodeShape>

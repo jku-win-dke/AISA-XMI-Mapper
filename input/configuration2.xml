@@ -16,6 +16,7 @@
 					<class>ConditionCombination</class>
 					<class>SignificantPoint</class>
 					<class>DesignatedPoint</class>
+					<class>TerminalSegmentPoint</class>
 				</classes>
 			</model>
 		</models>
