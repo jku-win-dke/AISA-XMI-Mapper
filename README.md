@@ -4,7 +4,7 @@ For feedback or issues contact: sebastian.gruber@jku.at
 
 ## 1. Introduction
 
-The prototype maps selected content of UML class diagrams to RDF Schema (RDFS). The RDFS defines the vocabulary (classes and properties) of the domain the UML  class diagram describes. The UML class diagrams must be available as XMI file(s). The mapper is created with the aim of mapping aeronautical UML models (AIXM, FIXM, ...) which adhere to a specific modelling style. The models provided as XMI files to the mapper for transformation to RDFS should therefore fulfill certain semantic and syntactic requirements.
+The AISA-XMI-Mapper maps selected content of UML class diagrams to a combination of RDF Schema (RDFS) and Shape Constraint Language (SHACL). The RDFS defines the vocabulary of the domain (classes and class hierarchies) which is described by the UML class diagrams. The SHACL defines structural constraints of the domain or, in other words, the schema.  The mapper is created with the aim of mapping aeronautical UML models (AIXM, FIXM, ...) which adhere to a specific modelling style. Therefore, models provided to the mapper must fulfill certain semantic and syntactic requirements.
 
 ### 1.1. Semantic Requirements
 
