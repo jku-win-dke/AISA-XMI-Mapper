@@ -67,7 +67,7 @@ The subset of a model is returned to the mapper.
 
 ## 3.2. Plugins
 
-After the subset of a model is returned to the mapper, the mapper delegates the mapping process to the corresponding plugin. A plugin has the task to map given data to RDFS/SHACL according to the semantics of the plugin's UML diagrams. For example, stereotypes or attributes may have different meanings in different models. By default, the following plugins are available:
+After the subset of a model is returned to the mapper, the mapper delegates the mapping process to the corresponding plugin. A plugin is an XQuery module with the task to map given data to RDFS/SHACL according to the semantics of the plugin's UML diagrams. For example, stereotypes or attributes may have different meanings in different models. By default, the following plugins are available:
 
 1. AIXM 5.1.1
 2. FIXM 3.0.1 SESAR
@@ -75,9 +75,9 @@ After the subset of a model is returned to the mapper, the mapper delegates the 
 
 Currently only the plugin "aixm_5-1-1" for AIXM 5.1.1 is realized. In future releases plugins for FIXM 3.0.1 SESAR and for plain UML class diagrams are planned.
 
-The mapper can simply be extended by adding new plugins as XQuery modules to the plugin folder and by adding them to the plugin-choice in the main module "mapper.xq". A new plugin may be useful, if a model to-be mapped uses stereotypes differently than AIXM 5.1.1, FIXM 3.0.1 or plain UML. In addition, a new plugin may also be useful, if an existing plugin needs to be adapated, e.g. different namespace or new meaning of a stereotype. It is recommended to also provide a documentation for each plugin in the plugin folder following the guidelines.
+The mapper can simply be extended by adding new plugins as XQuery modules to the plugin folder and by adding them to the plugin-choice in the main module "mapper.xq" (variable $mappedModel). A new plugin may be useful, if a model to-be mapped uses stereotypes differently than AIXM 5.1.1, FIXM 3.0.1 or plain UML. In addition, a new plugin may also be useful, if an existing plugin needs to be adapated, e.g. different namespace or new meaning of a stereotype. It is recommended to also provide a documentation for each plugin in the plugin folder following the guidelines.
 
-The resulting RDFS/SHACL is returned to the mapper
+The resulting RDFS/SHACL is returned to the mapper.
 
 ## 4. RDFS/SHACL
 
