@@ -22,15 +22,11 @@ Requirement 1 is validated by the mapper and if violated, throws an error. Requi
 
 ### 1.3 Architecture
 
-The architecture of the mapper is shown in the figure below. In the configuration file the models and their selected subset of UML classes are specified. The selected subset of UML classes is extracted by the extractor-module. The extracted subset is mapped by the corresponding plugin to RDFS/SHACL. This architecture is now explained in more detail.
+The architecture of the mapper is shown in the figure below. In the configuration file the models and their selected subset of UML classes are specified. The selected subset of UML classes is extracted by the extractor-module. The extracted subset is mapped by the corresponding plugin to RDFS/SHACL and provided by the mapper in the output-folder as RDF/XML file. This architecture is now explained in more detail.
 
 ![Architecture](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/img/architecture.JPG)
-      
-## 2. Input
 
-The input for the mapper should be provided in the input folder of the mapper. The input consists of a configuration file and an arbitrary number of XMI files. 
-
-### 2.1. Configuration File
+## 2. Configuration File
 
 The configuration file lists the models to-be mapped, i.e. the type of a model, the location/name of its XMI file, and the classes to-be mapped. The example below shows that the the classes "AirportHeliport" and "City" of the model at "input/AIXM_5.1.1.xmi" should be mapped by the plugin with the name "aixm_5-1-1".
 
@@ -47,34 +43,38 @@ The configuration file lists the models to-be mapped, i.e. the type of a model, 
 		</selection>
 	</configuration>
 
-a. The name of a model can be a arbitrary choosen but should be meaningful because it is used to provide an individual namespace for each model. 
-The identifier (URI) of an element is composed of a namespace and its local name. The namespace is the combination of the AISA URI and the model name, e.g. http://www.aisa-project.eu/AIXM/ for AIXM. The local name is the element name from the XMI file, e.g. TerminalSegmentPoint. The composition of namespace and local name results in URI of the element, e.g. http://www.aisa-project.eu/AIXM/TerminalSegmentPoint for TerminalSegmentPoint.
-For SHACL, we use the same URI and append "Shape" to the local name, e.g. http://www.aisa-project.eu/AIXM/TerminalSegmentPointShape for TerminalSegmentPoint.
+1. The type of a model determines the plugin used for mapping. If no plugin is specified or a plugin with the provided name does not exist, the plugin for plain UML class diagrams is used. 
+2. The location/name of a model's XMI file can be an absolute reference to an XMI file anywhere in the system. It is, however, recommended that the XMI file is in the input folder of the mapper's folder such that the reference is just "input/<fileName>.xmi".
+3. The selected classes are a subset of a model. By default, the configuration file contains all classes from AIXM and FIXM selected from the comprehensive example.
 
-  
-b. The location/name of a model's XMI file can be an absolute reference to an XMI file anywhere in the system. It is, however, recommended that the XMI file is in the input folder of the mapper's folder such that the reference is just "input/<fileName.xmi>".
-  
-c. The classes to-be mapped are a subset of the whole model. By default, the configuration file contains all classes from AIXM and FIXM selected from the comprehensive example. Based on the class selection the following elements are mapped: 
-c1. The selected classes.
-c2. Connections only between c1 (except dependencies).
-c3. Association classes only between c2.
-c4. Super classes of c1 and c3 (and their super classes and so forth).
-c5. Attribute classes of c1, c3, c4 (and their super classes and their attribute classes and so forth)
+Additional configuration files can be added without changing existing ones. However, the mapper can only consider one configuration file. Make sure that the reference to the to-be used configuration file is correctly set in the main module "mapper.xq" (variable $config). 
 
-### 2.2. Models
+## 3. Extractor
 
-For each model listed in the configuration file a XMI file conforming the semantic and syntactic requirements (1.1 and 1.2) must be provided at the referenced location.
+The mapper passes the model and selected classes to the extractor-module to extract the to-be mapped subset. The extractor-module selects the follwing data as a subset:
 
-## 3. Mapping
+1. The selected classes
+2. Connections only between 1. (except dependencies)
+3. Association classes only between 2.
+4. Super classes of 1. and 3. (as well as their super classes and so forth)
+5. Attribute classes of 1., 3. and 4. (as well as their super classes and their attribute classes and so forth)
 
-The selected subset of the models is mapped to RDFS and SHACL. The mapper is realized as a set of XQuery modules which can be executed using a XQuery processor complying to the XQuery W3C standard, e.g. BaseX. In order to execute the mapper with a given configuration, the "xmiMapper.xq" file needs to be executed. Optionally, the reference to the configuration file can be changed in line 8.
+The subset of a model is returned to the mapper.
 
-Before actually starting the mapping, the mapper extracts and stores the subset of the models in an additional XMI file. The new file is located in the output folder with the name "subset.xmi".
+## 4. Plugins
 
-### 3.1 RDFS
+After the subset of a model is returned to the mapper, the mapper delegates the mapping process to the corresponding plugin. A plugin has the task to map given data to RDFS/SHACL according to the semantics of the plugin's UML diagrams. For example, stereotypes or attributes may have different meanings in different models. By default, the following plugins are available:
 
-### 3.2 SHACL
+1. AIXM 5.1.1
+2. FIXM 3.0.1 SESAR
+3. Plain (no consideration of stereotypes)
 
-## 4. Output
+Currently only the plugin "aixm_5-1-1" for AIXM 5.1.1 is realized. In future releases plugins for FIXM 3.0.1 SESAR and for plain UML class diagrams are planned.
 
-The output of the mapper is provided in the output folder within the folder of the mapper. The output consists of the subset (XMI) file, RDFS (XML) file and SHACL (XML) file. 
+The mapper can simply be extended by adding new plugins as XQuery modules to the plugin folder and by adding them to the plugin-choice in the main module "mapper.xq". A new plugin may be useful, if a model to-be mapped uses stereotypes differently than AIXM 5.1.1, FIXM 3.0.1 or plain UML. In addition, a new plugin may also be useful, if an existing plugin needs to be adapated, e.g. different namespace or new meaning of a stereotype. It is recommended to also provide a documentation for each plugin in the plugin folder following the guidelines.
+
+The resulting RDFS/SHACL is returned to the mapper
+
+## 5. RDFS/SHACL
+
+After the RDFS/SHACL mapped by a plugin is returned to the mapper, it is written to a file in the output folder.
