@@ -18,7 +18,13 @@ Requirement 1 is validated by the mapper and if violated, throws an error. Requi
       
 ### 1.2. Syntactic Requirements
 
-a. Models must be exported to a single XMI (version 2.1) file by the Enterprise Architect (version 14.1).
+1. Models to-be mapped must be exported to a single XMI file (version 2.1) by the Enterprise Architect (version 14.1).
+
+### 1.3 Architecture
+
+The architecture of the mapper is shown in the figure below. In the configuration file the models and their selected subset of UML classes are specified. The selected subset of UML classes is extracted by the extractor-module. The extracted subset is mapped by the corresponding plugin to RDFS/SHACL. This architecture is now explained in more detail.
+
+![Architecture](https://raw.githubusercontent.com/bastlyo/AISA-XMI-Mapper/main/img/architecture.JPG?token=AGLEPSB3V6CLD6YZ6LQMW6C72HLAI)
       
 ## 2. Input
 
