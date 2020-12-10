@@ -24,15 +24,28 @@ Requirement 1 is validated by the mapper and if violated, throws an error. Requi
 
 The architecture of the mapper is shown in the figure below. In the configuration file the models and their selected subset of UML classes are specified. The selected subset of UML classes is extracted by the extractor-module. The extracted subset is mapped by the corresponding plugin to RDFS/SHACL. This architecture is now explained in more detail.
 
-![Architecture](https://raw.githubusercontent.com/bastlyo/AISA-XMI-Mapper/main/img/architecture.JPG?token=AGLEPSB3V6CLD6YZ6LQMW6C72HLAI)
+![Architecture](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/img/architecture.JPG)
       
 ## 2. Input
 
-The input for the mapper is provided in the input folder within the folder of the mapper. The input consists of a configuration file and a arbitrary number of XMI files. 
+The input for the mapper should be provided in the input folder of the mapper. The input consists of a configuration file and an arbitrary number of XMI files. 
 
 ### 2.1. Configuration File
 
-The configuration file lists the models to-be mapped, i.e. the name of a model, the location/name of its XMI file, and the classes to-be mapped. 
+The configuration file lists the models to-be mapped, i.e. the type of a model, the location/name of its XMI file, and the classes to-be mapped. The example below shows that the the classes "AirportHeliport" and "City" of the model at "input/AIXM_5.1.1.xmi" should be mapped by the plugin with the name "aixm_5-1-1".
+
+	<configuration>
+		<selection>
+			<models>
+				<model type="aixm_5-1-1" location="input/AIXM_5.1.1.xmi">
+					<classes>
+						<class>AirportHeliport</class>
+						<class>City</class>
+					</classes>
+				</model>
+			</models>
+		</selection>
+	</configuration>
 
 a. The name of a model can be a arbitrary choosen but should be meaningful because it is used to provide an individual namespace for each model. 
 The identifier (URI) of an element is composed of a namespace and its local name. The namespace is the combination of the AISA URI and the model name, e.g. http://www.aisa-project.eu/AIXM/ for AIXM. The local name is the element name from the XMI file, e.g. TerminalSegmentPoint. The composition of namespace and local name results in URI of the element, e.g. http://www.aisa-project.eu/AIXM/TerminalSegmentPoint for TerminalSegmentPoint.
@@ -60,81 +73,7 @@ Before actually starting the mapping, the mapper extracts and stores the subset 
 
 ### 3.1 RDFS
 
-UML classes are mapped to RDFS classes except classes containing "BaseType" in the name (we want to already resolve AIXM base types in the actually used datatype). In addition, an RDFS label and RDFS comment are added. If a generalization to a class exists, an RDFS subClassOf property is added (again, except generalizations to classes containing "BaseType" in the name).
-               
-Example AIXM TerminalSegmentPoint
-          
-	  aixm:TerminalSegmentPoint 
-	          a rdfs:Class ;
-	          rdfs:label „TerminalSegmentPoint“ ;
-	          rdfs:comment „…“ ;
-	          rdfs:subClassOf aixm:SegmentPoint .
-          
-Attributes of UML classes are mapped to RDF properties except attributes from UML classes with stereotype "CodeList" or "enumeration". These stereotypes provide a list of codes to be used as value for attributes and require special consideration for mapping. We cannot use domain and range for RDF properties since we assume global names in order to improve SPARQL query writing by shorter names (instead we use OWL, see details later). 
-
-Example AIXM RouteSegment length
-          aixm:length a rdf:Property .
-
-One and the same property may be used by multiple classes but with a different range. Therefore, we use OWL. But properties of "CodeList", "enumeration" or "DataType" are not mapped using OWL.
-
-Example AIXM TerminalSegmentPoint
-          
-	  aixm:TerminalSegmentPoint
-	          rdfs:subClassOf [
-		          rdf:type owl:Restriction ;
-		          owl:onProperty aixm:leadRadial ;
-		          owl:allValuesFrom aixm:ValBearingType ;
-	          ] ;
-	          rdfs:subClassOf [
-		          rdf:type owl:Restriction ;
-		          owl:onProperty aixm:leadDME ;
-		          owl:allValuesFrom aixm:ValDistanceType ;
-	          ] ; ... .
-	  
-Using OWL we can infer that a RDF property within a certain RDFS class has a certain type and, thus, the correct SHACL shape can target that node.
-
-Example OWL Entailment
-	
-	Basis: OWL construct
-	aixm:TerminalSegmentPoint
-		rdfs:subClassOf [
-			rdf:type owl:Restriction ;
-			owl:onProperty aixm:indicatorFACF ;
-			owl:allValuesFrom aixm:CodeYesNoType ;
-		] ; ...
-		
-	Basis: RDFS data
-	ex:TSP1
-		a aixm:TerminalSegmentPoint
-		aixm:indicatorFACF [
-			rdf:value "YES" ;
-		] ; ...	.
-		
-	Infers: Entailment
-	ex:TSP1
-		a aixm:TerminalSegmentPoint
-		aixm:indicatorFACF [
-			rdf:value "YES" ;
-			a aixm:CodeYesNoType ;
-		] ; ...	.
-			
-Connectors between UML classes may be mapped bi-directional or uni-directional. Aeronautical UML models have been designed with the aim of mapping to XML in a hierarchical style. We follow this approach for mapping connectors and also traverse association classes in one direction (see details later). 
-Connectors (except generalizations and dependencies) are mapped to RDF properties similar to attributes. The role name (at the target end) is used as property name. 
-
-Example AIXM RoutePortion startsAt
-	
-	aixm:start a rdf:Property .
-		
-If there is an association class, an connector is mapped to two RDF properties. The first property represents the connection from the source class to the association class, while the second property represents the connection from the association class to the target class.
-
-Example AIXM Airspace hasGeometry
-	
-	aixm:airspaceGeometryComponent a rdf:Property .
-	aixm:airspaceVolume a rdf:Property .
-
 ### 3.2 SHACL
-
-To be done.
 
 ## 4. Output
 
