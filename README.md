@@ -49,7 +49,11 @@ The configuration file lists the models to-be mapped, i.e. the type of a model, 
 
 Additional configuration files can be added without changing existing ones. However, the mapper can only consider one configuration file. Make sure that the reference to the to-be used configuration file is correctly set in the main module "mapper.xq" (variable $config). 
 
-## 3. Extractor
+## 3. Mapper
+
+The main module of the mapper delegates the processing to the extractor module and to plugins.
+
+### 3.1. Extractor
 
 The mapper passes the model and selected classes to the extractor-module to extract the to-be mapped subset. The extractor-module selects the follwing data as a subset:
 
@@ -61,7 +65,7 @@ The mapper passes the model and selected classes to the extractor-module to extr
 
 The subset of a model is returned to the mapper.
 
-## 4. Plugins
+## 3.2. Plugins
 
 After the subset of a model is returned to the mapper, the mapper delegates the mapping process to the corresponding plugin. A plugin has the task to map given data to RDFS/SHACL according to the semantics of the plugin's UML diagrams. For example, stereotypes or attributes may have different meanings in different models. By default, the following plugins are available:
 
@@ -75,6 +79,6 @@ The mapper can simply be extended by adding new plugins as XQuery modules to the
 
 The resulting RDFS/SHACL is returned to the mapper
 
-## 5. RDFS/SHACL
+## 4. RDFS/SHACL
 
-After the RDFS/SHACL mapped by a plugin is returned to the mapper, it is written to a file in the output folder.
+After the RDFS/SHACL mapped by a plugin is returned to the mapper, it is written to an RDF/XML file with the name of the model appended by "\_subset" in the output folder.
