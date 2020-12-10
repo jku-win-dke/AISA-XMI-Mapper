@@ -1,4 +1,8 @@
-### 3.1 RDFS
+# Plugin aixm_5-1-1
+
+Target model: AIXM 5.1.1 (http://www.aixm.aero/page/aixm-511-specification)
+
+
 
 UML classes are mapped to RDFS classes except classes containing "BaseType" in the name (we want to already resolve AIXM base types in the actually used datatype). In addition, an RDFS label and RDFS comment are added. If a generalization to a class exists, an RDFS subClassOf property is added (again, except generalizations to classes containing "BaseType" in the name).
                
