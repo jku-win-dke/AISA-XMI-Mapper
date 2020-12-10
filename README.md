@@ -4,23 +4,17 @@ For feedback or issues contact: sebastian.gruber@jku.at
 
 ## 1. Introduction
 
-The prototype maps selected content of UML class diagrams to RDF Schema (RDFS). The RDFS defines the vocabulary (classes and properties) of the domain the UML  class diagram describes. The UML class diagrams must be available as XMI file(s). The mapper is created with the aim of mapping aeronautical UML models (AIXM, FIXM, ...) which adhere to a specific modelling style. The models provided as XMI files to the mapper for transformation to RDFS should therefore fulfill certain semantic and syntactic requirements.
+The AISA-XMI-Mapper maps selected content of UML class diagrams to a combination of RDF Schema (RDFS) and Shape Constraint Language (SHACL). The RDFS defines the vocabulary of the domain (classes and class hierarchies) which is described by the UML class diagrams. The SHACL defines structural constraints of the domain or, in other words, the schema. The mapper is created with the aim of mapping aeronautical UML models (AIXM, FIXM, ...) which adhere to a specific modelling style. Therefore, models provided to the mapper must fulfill certain semantic and syntactic requirements.
 
 ### 1.1. Semantic Requirements
 
-Requirement a is validated by the mapper and, if violated, throws an error. Requirements b-f are assumed to be UML model requirements and not validated by the mapper.
+Requirement 1 is validated by the mapper and if violated, throws an error. Requirements 2-6 are assumed to be UML model requirements and not validated by the mapper.
 
-a. Class names must be unique within a model (AIXM, FIXM, ...). There can be a UML class called "Route" in AIXM and FIXM but there must not be two different UML classes called "Route" in one model (even if they are in different packages).
-     
-b. Class names must not end with "Shape" if there is another class in the same model having the same class name without the "Shape" part at the end. 
-
-c. Models must contain only directed associations because RDF graphs are directed.     
-      
-d. Role names (at the target) of associations with the same source class must be unique within the source class. 
-      
-e. Role names must exist, if there is more than one association between a source and a target class. If there is only one association and no role name provided, the name of the target class is used as role name.
-      
-f. Classes with of "CodeList", "enumeration", "DataType" and "XSDsimpleType" are treated individually based on the use of these stereotypes in AIXM and FIXM. The use of these stereotypes in UML class diagrams to-be mapped should be according to their use in AIXM or FIXM.
+1. Class names must be unique within a model (AIXM, FIXM, ...). There can be a UML class called "Route" in AIXM and FIXM but there must not be two different UML classes called "Route" in one model (even if they are in different packages).
+2. Models must contain only directed associations because RDF is based on directed graphs.          
+3. Role names (at the target) of associations with the same source class must be unique within the source class.      
+4. Role names must exist, if there is more than one association between a source and a target class. If there is only one association and no role name provided, the role name is constructed using the name of the target class.
+5. Classes with stereotypes are treated individually based on their use in AIXM and FIXM.
       
 ### 1.2. Syntactic Requirements
 
