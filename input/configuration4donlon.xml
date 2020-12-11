@@ -5,6 +5,7 @@
 				<classes>
 					<class>AirportHeliport</class>
 					<class>City</class>
+					<class>AirportHeliportResponsibilityOrganisation</class>
 					<class>OrganisationAuthority</class>
 					<class>ElevatedPoint</class>
 					<class>AirportHeliportAvailability</class>
