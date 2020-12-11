@@ -10,7 +10,7 @@ import module "http://www.aisa-project.eu/xquery/plain" at "plugins/plain.xq";
 import module "http://www.aisa-project.eu/xquery/aixm_5-1-1" at "plugins/aixm_5-1-1.xq";
 import module "http://www.aisa-project.eu/xquery/fixm_3-0-1_sesar" at "plugins/fixm_3-0-1_sesar.xq";
 
-declare variable $config:=fn:doc("input/configuration2.xml")/configuration;
+declare variable $config:=fn:doc("input/configuration4donlon.xml")/configuration;
 
 for $model in $config/selection/models/model
 let $modelSubset:=extractor:getModelSubset($model)

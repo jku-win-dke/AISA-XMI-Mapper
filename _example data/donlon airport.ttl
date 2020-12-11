@@ -25,11 +25,11 @@ s1:AHP_EADH
   a aixm:AirportHeliportTimeSlice;
   gml:validTime s1:vtnull0;
   aixm:interpretation [rdf:value "BASELINE"];
-  aixm:sequenceNumber [rdf:value 1];
+  aixm:sequenceNumber [rdf:value 1 ];
   aixm:correctionNumber [rdf:value 0];
   aixm:featureLifetime s1:ltnull0;
   aixm:designator [rdf:value "EADH"];
-  aixm:name [rdf:value "DONLON/DOWNTOWN HELIPORT"];
+  aixm:name [rdf:value "DONLON/DOWNTOWN HELIPORT" ];
   aixm:locationIndicatorICAO [rdf:value "EADH"];
   aixm:designatorIATA [ aixm:nilReason "unknown"];
   aixm:certifiedICAO [ aixm:nilReason "unknown"];
@@ -72,7 +72,7 @@ s1:A-a72cfd3a
   
 <uuid:74efb6ba-a52a-46c0-a16b-03860d356882> a aixm:OrganisationAuthority .
   
-s1:elpoint1EADH #srsName nicht gemapped, wollte jetzt nicht nachschauen, was es damit auf sich hat
+s1:elpoint1EADH
   a aixm:ElevatedPoint;
   gml:pos [rdf:value "52.288888888888884 -32.035"].
   

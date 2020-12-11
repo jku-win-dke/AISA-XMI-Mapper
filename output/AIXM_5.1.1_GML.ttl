@@ -1,4 +1,3 @@
-@prefix aixm:  <http://www.aixm.aero/schema/5.1.1#> .
 @prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix sh:    <http://www.w3.org/ns/shacl#> .
 @prefix gml:   <http://www.opengis.net/gml/3.2#> .
@@ -6,7 +5,53 @@
 @prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
 
 gml:Arc
-	a sh:NodeShape, rdfs:Class.
+	a sh:NodeShape, rdfs:Class ;
+	rdfs:subClassOf gml:ArcString ;
+	sh:and ( gml:ArcString gml:SRSReferenceGroup ) ;
+	sh:property [
+		sh:path gml:pos ;
+		sh:node gml:DirectPositionType ;
+	] ;
+	sh:property [
+		sh:path gml:pointProperty ;
+		sh:node gml:PointPropertyType ;
+	] ;
+	sh:property [
+		sh:path gml:posList ;
+		sh:node gml:DirectPositionListType ;
+	] ;
+	sh:property [
+		sh:path gml:numArc ;
+		sh:datatype xsd:integer ;
+		sh:minCount 1 ;
+		sh:maxCount 1 ;
+	] ;
+	sh:xone (
+		[
+			sh:xone (
+				[
+					sh:property [
+						sh:path gml:pos ;
+						sh:minCount 3 ;
+						sh:maxCount 3 ;
+					] ;
+				]
+				[
+					sh:property [
+						sh:path gml:pointProperty ;
+						sh:minCount 3 ;
+						sh:maxCount 3 ;
+					] ;
+				]
+			)
+		]
+		[
+			sh:property [
+				sh:path gml:posList ;
+				sh:minCount 1;
+			] ;
+		]
+	) .
 	
 gml:ArcString
 	a sh:NodeShape, rdfs:Class.
@@ -36,10 +81,13 @@ gml:MultiSurface
 	a sh:NodeShape, rdfs:Class.
 	
 gml:Point
-	a sh:NodeShape, rdfs:Class;
+	a sh:NodeShape, rdfs:Class ;
+	sh:and ( gml:SRSReferenceGroup ) ;
 	sh:property [
-		sh:path gml:pos;
-		sh:node gml:DirectPositionType;
+		sh:path gml:pos ;
+		sh:node gml:DirectPositionType ;
+		sh:minCount 0 ;
+		sh:maxCount 1 ;
 	] .
 	
 gml:Polygon
@@ -53,9 +101,62 @@ gml:SurfacePatch
 	
 #-------------------------------------------------------------------------------
 
-gml:DirectPositionType
-	a sh:NodeShape;
-	sh:property [
-		sh:path rdf:value;
-		#sh:datatype xsd:double;
+gml:SRSReferenceGroup
+	a sh:NodeShape ;
+	sh:property [	
+		sh:path gml:axisLabels ;
+		sh:datatype xsd:string ;
+		sh:minCount 0 ;
+		sh:maxCount 1 ;
+	] ;
+	sh:property [	
+		sh:path gml:srsDimension ;
+		sh:datatype xsd:positiveInteger ;
+		sh:minCount 0 ;
+		sh:maxCount 1 ;
+	] ;
+	sh:property [	
+		sh:path gml:srsName ;
+		sh:datatype xsd:anyURI ;
+		sh:minCount 0 ;
+		sh:maxCount 1 ;
+	] ;
+	sh:property [	
+		sh:path gml:uomLabels ;
+		sh:datatype xsd:string ;
+		sh:minCount 0 ;
+		sh:maxCount 1 ;
 	] .
+
+gml:DirectPositionType
+	a sh:NodeShape ;
+	sh:property [
+		sh:path rdf:value ;
+		sh:datatype xsd:string ;
+		sh:minCount 1 ;
+		sh:maxCount 1 ;
+	] .
+	
+gml:PointPropertyType 
+	a sh:NodeShape ;
+	sh:and ( gml:AssociationAttributeGroup gml:OwnershipAttributeGroup ) ;
+	sh:property [
+		sh:path rdf:value ;
+		sh:class gml:Point ;
+		sh:minCount 0 ;
+	] .
+	
+gml:DirectPositionListType
+	a sh:NodeShape ;
+	sh:property [
+		sh:path rdf:value ;
+		sh:datatype xsd:string ;
+		sh:minCount 0 ;
+		sh:maxCount 1 ;
+	] ;
+	sh:property [
+		sh:path gml:count ;
+		sh:datatype xsd:positiveInteger ;
+		sh:minCount 0 ;
+		sh:maxCount 1 ;
+	] ;

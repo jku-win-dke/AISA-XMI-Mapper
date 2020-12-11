@@ -1,6 +1,5 @@
 module namespace aixm_5-1-1="http://www.aisa-project.eu/xquery/aixm_5-1-1";
 
-declare namespace plain="http://www.aisa-project.eu/xquery/plain";
 declare namespace gml="http://www.opengis.net/gml/3.2#";
 declare namespace rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#";
 declare namespace rdfs="http://www.w3.org/2000/01/rdf-schema#";
@@ -215,7 +214,7 @@ declare function aixm_5-1-1:mapDataType(
           else if($attribute/@name/string()="maxExclusive") then
             <sh:maxExclusive rdf:datatype="{$aixm_5-1-1:xsd}integer">{$attribute/initial/@body/string()}</sh:maxExclusive>
           else if($attribute/@name/string()="pattern") then
-            <sh:pattern />
+            <sh:pattern rdf:datatype="{$aixm_5-1-1:xsd}string">{$attribute/initial/@body/string()}</sh:pattern>
       }
       {
         for $superElement in aixm_5-1-1:getSuperElements($element, $modelSubset, "XSDsimpleType")
@@ -462,10 +461,14 @@ declare function aixm_5-1-1:getGMLBasisElementsForAIXMFeatures(){
     <sh:property rdf:parseType="Resource">
       <sh:path rdf:resource="{$aixm_5-1-1:gml}beginPosition" />
       <sh:node rdf:resource="{$aixm_5-1-1:gml}TimePrimitive" />
+      <sh:minCount rdf:datatype="{$aixm_5-1-1:xsd}integer">1</sh:minCount>
+      <sh:maxCount rdf:datatype="{$aixm_5-1-1:xsd}integer">1</sh:maxCount>
     </sh:property>
     <sh:property rdf:parseType="Resource">
       <sh:path rdf:resource="{$aixm_5-1-1:gml}endPosition" />
       <sh:node rdf:resource="{$aixm_5-1-1:gml}TimePrimitive" />
+      <sh:minCount rdf:datatype="{$aixm_5-1-1:xsd}integer">1</sh:minCount>
+      <sh:maxCount rdf:datatype="{$aixm_5-1-1:xsd}integer">1</sh:maxCount>
     </sh:property>
   </sh:NodeShape>,
   
@@ -473,10 +476,12 @@ declare function aixm_5-1-1:getGMLBasisElementsForAIXMFeatures(){
     <sh:property rdf:parseType="Resource">
       <sh:path rdf:resource="{$aixm_5-1-1:rdf}value" />
       <sh:datatype rdf:resource="{$aixm_5-1-1:xsd}dateTime" />
+      <sh:maxCount rdf:datatype="{$aixm_5-1-1:xsd}integer">1</sh:maxCount>
     </sh:property>
     <sh:property rdf:parseType="Resource">
       <sh:path rdf:resource="{$aixm_5-1-1:gml}indeterminatePosition" />
       <sh:datatype rdf:resource="{$aixm_5-1-1:xsd}string" />
+      <sh:maxCount rdf:datatype="{$aixm_5-1-1:xsd}integer">1</sh:maxCount>
     </sh:property>
     <sh:xone rdf:parseType="Collection">
       <rdf:Description>
@@ -506,6 +511,8 @@ declare function aixm_5-1-1:getGMLBasisElementsForAIXMFeatures(){
           </rdf:rest>
         </rdf:rest>
       </sh:in>
+      <sh:minCount rdf:datatype="{$aixm_5-1-1:xsd}integer">1</sh:minCount>
+      <sh:maxCount rdf:datatype="{$aixm_5-1-1:xsd}integer">1</sh:maxCount>
     </sh:property>
   </sh:NodeShape>,
   
@@ -513,6 +520,8 @@ declare function aixm_5-1-1:getGMLBasisElementsForAIXMFeatures(){
     <sh:property rdf:parseType="Resource">
       <sh:path rdf:resource="{$aixm_5-1-1:rdf}value" />
       <sh:datatype rdf:resource="{$aixm_5-1-1:xsd}integer" />
+      <sh:minCount rdf:datatype="{$aixm_5-1-1:xsd}integer">1</sh:minCount>
+      <sh:maxCount rdf:datatype="{$aixm_5-1-1:xsd}integer">1</sh:maxCount>
     </sh:property>
   </sh:NodeShape>
 };

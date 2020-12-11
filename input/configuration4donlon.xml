@@ -4,8 +4,8 @@
 			<model type="aixm_5-1-1" location="input/AIXM_5.1.1.xmi">
 				<classes>
 					<class>AirportHeliport</class>
-					<class>OrganisationAuthority</class>
 					<class>City</class>
+					<class>OrganisationAuthority</class>
 					<class>ElevatedPoint</class>
 					<class>AirportHeliportAvailability</class>
 					<class>AirportHeliportUsage</class>
@@ -14,9 +14,6 @@
 					<class>Note</class>
 					<class>LinguisticNote</class>
 					<class>ConditionCombination</class>
-					<class>SignificantPoint</class>
-					<class>DesignatedPoint</class>
-					<class>TerminalSegmentPoint</class>
 				</classes>
 			</model>
 		</models>

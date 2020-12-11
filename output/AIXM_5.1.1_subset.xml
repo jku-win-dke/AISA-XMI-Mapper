@@ -31,20 +31,26 @@
     <sh:property rdf:parseType="Resource">
       <sh:path rdf:resource="http://www.opengis.net/gml/3.2#beginPosition"/>
       <sh:node rdf:resource="http://www.opengis.net/gml/3.2#TimePrimitive"/>
+      <sh:minCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:minCount>
+      <sh:maxCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:maxCount>
     </sh:property>
     <sh:property rdf:parseType="Resource">
       <sh:path rdf:resource="http://www.opengis.net/gml/3.2#endPosition"/>
       <sh:node rdf:resource="http://www.opengis.net/gml/3.2#TimePrimitive"/>
+      <sh:minCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:minCount>
+      <sh:maxCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:maxCount>
     </sh:property>
   </sh:NodeShape>
   <sh:NodeShape rdf:about="http://www.opengis.net/gml/3.2#TimePrimitive">
     <sh:property rdf:parseType="Resource">
       <sh:path rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#value"/>
       <sh:datatype rdf:resource="http://www.w3.org/2001/XMLSchema#dateTime"/>
+      <sh:maxCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:maxCount>
     </sh:property>
     <sh:property rdf:parseType="Resource">
       <sh:path rdf:resource="http://www.opengis.net/gml/3.2#indeterminatePosition"/>
       <sh:datatype rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+      <sh:maxCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:maxCount>
     </sh:property>
     <sh:xone rdf:parseType="Collection">
       <rdf:Description>
@@ -73,18 +79,22 @@
           </rdf:rest>
         </rdf:rest>
       </sh:in>
+      <sh:minCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:minCount>
+      <sh:maxCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:maxCount>
     </sh:property>
   </sh:NodeShape>
   <sh:NodeShape rdf:about="http://www.aixm.aero/schema/5.1.1#NoNumberType">
     <sh:property rdf:parseType="Resource">
       <sh:path rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#value"/>
       <sh:datatype rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+      <sh:minCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:minCount>
+      <sh:maxCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:maxCount>
     </sh:property>
   </sh:NodeShape>
   <sh:NodeShape rdf:about="http://www.aixm.aero/schema/5.1.1#AlphaType">
     <sh:property rdf:parseType="Resource">
       <sh:path rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#value"/>
-      <sh:pattern/>
+      <sh:pattern rdf:datatype="http://www.w3.org/2001/XMLSchema#string">[A-Z]*</sh:pattern>
       <sh:datatype rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
       <sh:maxCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:maxCount>
     </sh:property>
@@ -92,7 +102,7 @@
   <sh:NodeShape rdf:about="http://www.aixm.aero/schema/5.1.1#AlphanumericType">
     <sh:property rdf:parseType="Resource">
       <sh:path rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#value"/>
-      <sh:pattern/>
+      <sh:pattern rdf:datatype="http://www.w3.org/2001/XMLSchema#string">([A-Z]|\d)*</sh:pattern>
       <sh:datatype rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
       <sh:maxCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:maxCount>
     </sh:property>
@@ -100,7 +110,7 @@
   <sh:NodeShape rdf:about="http://www.aixm.aero/schema/5.1.1#Character1Type">
     <sh:property rdf:parseType="Resource">
       <sh:path rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#value"/>
-      <sh:pattern/>
+      <sh:pattern rdf:datatype="http://www.w3.org/2001/XMLSchema#string">([A-Z]|[0-9])+([ \+\-/]*([A-Z]|[0-9])+)*</sh:pattern>
       <sh:datatype rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
       <sh:maxCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:maxCount>
     </sh:property>
@@ -115,7 +125,7 @@
   <sh:NodeShape rdf:about="http://www.aixm.aero/schema/5.1.1#Character3Type">
     <sh:property rdf:parseType="Resource">
       <sh:path rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#value"/>
-      <sh:pattern/>
+      <sh:pattern rdf:datatype="http://www.w3.org/2001/XMLSchema#string">([A-Z]|[0-9]|[, !&amp;quot;&amp;amp;#$%'\(\)\*\+\-\./:;&amp;lt;=&gt;\?@\[\\\]\^_\|\{\}])*</sh:pattern>
       <sh:datatype rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
       <sh:maxCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:maxCount>
     </sh:property>
@@ -280,51 +290,6 @@
       </rdf:Description>
     </sh:xone>
   </sh:NodeShape>
-  <sh:NodeShape rdf:about="http://www.aixm.aero/schema/5.1.1#CodeATCReportingBaseType">
-    <sh:in rdf:parseType="Resource">
-      <rdf:rest rdf:parseType="Resource">
-        <rdf:first>COMPULSORY</rdf:first>
-        <rdf:rest rdf:parseType="Resource">
-          <rdf:first>ON_REQUEST</rdf:first>
-          <rdf:rest rdf:parseType="Resource">
-            <rdf:first>NO_REPORT</rdf:first>
-            <rdf:rest rdf:parseType="Resource">
-              <rdf:first>OTHER</rdf:first>
-              <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
-            </rdf:rest>
-          </rdf:rest>
-        </rdf:rest>
-      </rdf:rest>
-    </sh:in>
-    <sh:datatype rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-  </sh:NodeShape>
-  <sh:NodeShape rdf:about="http://www.aixm.aero/schema/5.1.1#CodeATCReportingType">
-    <sh:property rdf:parseType="Resource">
-      <sh:path rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#value"/>
-      <sh:node rdf:resource="http://www.aixm.aero/schema/5.1.1#CodeATCReportingBaseType"/>
-      <sh:maxCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:maxCount>
-    </sh:property>
-    <sh:property rdf:parseType="Resource">
-      <sh:path rdf:resource="http://www.aixm.aero/schema/5.1.1#nilReason"/>
-      <sh:node rdf:resource="http://www.aixm.aero/schema/5.1.1#NilReasonEnumeration"/>
-      <sh:minCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</sh:minCount>
-      <sh:maxCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:maxCount>
-    </sh:property>
-    <sh:xone rdf:parseType="Collection">
-      <rdf:Description>
-        <sh:property rdf:parseType="Resource">
-          <sh:path rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#value"/>
-          <sh:minCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:minCount>
-        </sh:property>
-      </rdf:Description>
-      <rdf:Description>
-        <sh:property rdf:parseType="Resource">
-          <sh:path rdf:resource="http://www.aixm.aero/schema/5.1.1#nilReason"/>
-          <sh:minCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:minCount>
-        </sh:property>
-      </rdf:Description>
-    </sh:xone>
-  </sh:NodeShape>
   <sh:NodeShape rdf:about="http://www.aixm.aero/schema/5.1.1#CodeAuthorityRoleBaseType">
     <sh:in rdf:parseType="Resource">
       <rdf:rest rdf:parseType="Resource">
@@ -347,103 +312,6 @@
     <sh:property rdf:parseType="Resource">
       <sh:path rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#value"/>
       <sh:node rdf:resource="http://www.aixm.aero/schema/5.1.1#CodeAuthorityRoleBaseType"/>
-      <sh:maxCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:maxCount>
-    </sh:property>
-    <sh:property rdf:parseType="Resource">
-      <sh:path rdf:resource="http://www.aixm.aero/schema/5.1.1#nilReason"/>
-      <sh:node rdf:resource="http://www.aixm.aero/schema/5.1.1#NilReasonEnumeration"/>
-      <sh:minCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</sh:minCount>
-      <sh:maxCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:maxCount>
-    </sh:property>
-    <sh:xone rdf:parseType="Collection">
-      <rdf:Description>
-        <sh:property rdf:parseType="Resource">
-          <sh:path rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#value"/>
-          <sh:minCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:minCount>
-        </sh:property>
-      </rdf:Description>
-      <rdf:Description>
-        <sh:property rdf:parseType="Resource">
-          <sh:path rdf:resource="http://www.aixm.aero/schema/5.1.1#nilReason"/>
-          <sh:minCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:minCount>
-        </sh:property>
-      </rdf:Description>
-    </sh:xone>
-  </sh:NodeShape>
-  <sh:NodeShape rdf:about="http://www.aixm.aero/schema/5.1.1#CodeDesignatedPointBaseType">
-    <sh:in rdf:parseType="Resource">
-      <rdf:rest rdf:parseType="Resource">
-        <rdf:first>ICAO</rdf:first>
-        <rdf:rest rdf:parseType="Resource">
-          <rdf:first>COORD</rdf:first>
-          <rdf:rest rdf:parseType="Resource">
-            <rdf:first>CNF</rdf:first>
-            <rdf:rest rdf:parseType="Resource">
-              <rdf:first>DESIGNED</rdf:first>
-              <rdf:rest rdf:parseType="Resource">
-                <rdf:first>MTR</rdf:first>
-                <rdf:rest rdf:parseType="Resource">
-                  <rdf:first>TERMINAL</rdf:first>
-                  <rdf:rest rdf:parseType="Resource">
-                    <rdf:first>BRG_DIST</rdf:first>
-                    <rdf:rest rdf:parseType="Resource">
-                      <rdf:first>OTHER</rdf:first>
-                      <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
-                    </rdf:rest>
-                  </rdf:rest>
-                </rdf:rest>
-              </rdf:rest>
-            </rdf:rest>
-          </rdf:rest>
-        </rdf:rest>
-      </rdf:rest>
-    </sh:in>
-    <sh:datatype rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-  </sh:NodeShape>
-  <sh:NodeShape rdf:about="http://www.aixm.aero/schema/5.1.1#CodeDesignatedPointDesignatorBaseType">
-    <sh:and rdf:parseType="Collection">
-      <sh:NodeShape rdf:about="http://www.aixm.aero/schema/5.1.1#AlphanumericType"/>
-    </sh:and>
-    <sh:property rdf:parseType="Resource">
-      <sh:path rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#value"/>
-      <sh:maxLength rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">5</sh:maxLength>
-      <sh:minLength rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:minLength>
-      <sh:maxCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:maxCount>
-    </sh:property>
-  </sh:NodeShape>
-  <sh:NodeShape rdf:about="http://www.aixm.aero/schema/5.1.1#CodeDesignatedPointDesignatorType">
-    <sh:and rdf:parseType="Collection">
-      <sh:NodeShape rdf:about="http://www.aixm.aero/schema/5.1.1#CodeDesignatedPointDesignatorBaseType"/>
-    </sh:and>
-    <sh:property rdf:parseType="Resource">
-      <sh:path rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#value"/>
-      <sh:maxCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:maxCount>
-    </sh:property>
-    <sh:property rdf:parseType="Resource">
-      <sh:path rdf:resource="http://www.aixm.aero/schema/5.1.1#nilReason"/>
-      <sh:node rdf:resource="http://www.aixm.aero/schema/5.1.1#NilReasonEnumeration"/>
-      <sh:minCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</sh:minCount>
-      <sh:maxCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:maxCount>
-    </sh:property>
-    <sh:xone rdf:parseType="Collection">
-      <rdf:Description>
-        <sh:property rdf:parseType="Resource">
-          <sh:path rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#value"/>
-          <sh:minCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:minCount>
-        </sh:property>
-      </rdf:Description>
-      <rdf:Description>
-        <sh:property rdf:parseType="Resource">
-          <sh:path rdf:resource="http://www.aixm.aero/schema/5.1.1#nilReason"/>
-          <sh:minCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:minCount>
-        </sh:property>
-      </rdf:Description>
-    </sh:xone>
-  </sh:NodeShape>
-  <sh:NodeShape rdf:about="http://www.aixm.aero/schema/5.1.1#CodeDesignatedPointType">
-    <sh:property rdf:parseType="Resource">
-      <sh:path rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#value"/>
-      <sh:node rdf:resource="http://www.aixm.aero/schema/5.1.1#CodeDesignatedPointBaseType"/>
       <sh:maxCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:maxCount>
     </sh:property>
     <sh:property rdf:parseType="Resource">
@@ -1190,81 +1058,6 @@
       </rdf:Description>
     </sh:xone>
   </sh:NodeShape>
-  <sh:NodeShape rdf:about="http://www.aixm.aero/schema/5.1.1#CodeProcedureFixRoleBaseType">
-    <sh:in rdf:parseType="Resource">
-      <rdf:rest rdf:parseType="Resource">
-        <rdf:first>FAF</rdf:first>
-        <rdf:rest rdf:parseType="Resource">
-          <rdf:first>FPAP</rdf:first>
-          <rdf:rest rdf:parseType="Resource">
-            <rdf:first>FROP</rdf:first>
-            <rdf:rest rdf:parseType="Resource">
-              <rdf:first>FTP</rdf:first>
-              <rdf:rest rdf:parseType="Resource">
-                <rdf:first>IAF</rdf:first>
-                <rdf:rest rdf:parseType="Resource">
-                  <rdf:first>IF</rdf:first>
-                  <rdf:rest rdf:parseType="Resource">
-                    <rdf:first>IF_IAF</rdf:first>
-                    <rdf:rest rdf:parseType="Resource">
-                      <rdf:first>LTP</rdf:first>
-                      <rdf:rest rdf:parseType="Resource">
-                        <rdf:first>MAHF</rdf:first>
-                        <rdf:rest rdf:parseType="Resource">
-                          <rdf:first>MAPT</rdf:first>
-                          <rdf:rest rdf:parseType="Resource">
-                            <rdf:first>OTHER</rdf:first>
-                            <rdf:rest rdf:parseType="Resource">
-                              <rdf:first>SDF</rdf:first>
-                              <rdf:rest rdf:parseType="Resource">
-                                <rdf:first>TP</rdf:first>
-                                <rdf:rest rdf:parseType="Resource">
-                                  <rdf:first>VDP</rdf:first>
-                                  <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
-                                </rdf:rest>
-                              </rdf:rest>
-                            </rdf:rest>
-                          </rdf:rest>
-                        </rdf:rest>
-                      </rdf:rest>
-                    </rdf:rest>
-                  </rdf:rest>
-                </rdf:rest>
-              </rdf:rest>
-            </rdf:rest>
-          </rdf:rest>
-        </rdf:rest>
-      </rdf:rest>
-    </sh:in>
-    <sh:datatype rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-  </sh:NodeShape>
-  <sh:NodeShape rdf:about="http://www.aixm.aero/schema/5.1.1#CodeProcedureFixRoleType">
-    <sh:property rdf:parseType="Resource">
-      <sh:path rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#value"/>
-      <sh:node rdf:resource="http://www.aixm.aero/schema/5.1.1#CodeProcedureFixRoleBaseType"/>
-      <sh:maxCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:maxCount>
-    </sh:property>
-    <sh:property rdf:parseType="Resource">
-      <sh:path rdf:resource="http://www.aixm.aero/schema/5.1.1#nilReason"/>
-      <sh:node rdf:resource="http://www.aixm.aero/schema/5.1.1#NilReasonEnumeration"/>
-      <sh:minCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</sh:minCount>
-      <sh:maxCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:maxCount>
-    </sh:property>
-    <sh:xone rdf:parseType="Collection">
-      <rdf:Description>
-        <sh:property rdf:parseType="Resource">
-          <sh:path rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#value"/>
-          <sh:minCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:minCount>
-        </sh:property>
-      </rdf:Description>
-      <rdf:Description>
-        <sh:property rdf:parseType="Resource">
-          <sh:path rdf:resource="http://www.aixm.aero/schema/5.1.1#nilReason"/>
-          <sh:minCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:minCount>
-        </sh:property>
-      </rdf:Description>
-    </sh:xone>
-  </sh:NodeShape>
   <sh:NodeShape rdf:about="http://www.aixm.aero/schema/5.1.1#CodeStatusAirportBaseType">
     <sh:in rdf:parseType="Resource">
       <rdf:rest rdf:parseType="Resource">
@@ -1484,7 +1277,7 @@
   <sh:NodeShape rdf:about="http://www.aixm.aero/schema/5.1.1#DateYearBaseType">
     <sh:property rdf:parseType="Resource">
       <sh:path rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#value"/>
-      <sh:pattern/>
+      <sh:pattern rdf:datatype="http://www.w3.org/2001/XMLSchema#string">[1-9][0-9][0-9][0-9]</sh:pattern>
       <sh:datatype rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
       <sh:maxCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:maxCount>
     </sh:property>
@@ -1613,7 +1406,7 @@
       <sh:path rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#value"/>
       <sh:maxLength rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">60</sh:maxLength>
       <sh:minLength rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:minLength>
-      <sh:pattern/>
+      <sh:pattern rdf:datatype="http://www.w3.org/2001/XMLSchema#string">[A-Za-z\-_]*</sh:pattern>
       <sh:datatype rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
       <sh:maxCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:maxCount>
     </sh:property>
@@ -1784,44 +1577,6 @@
       </rdf:Description>
     </sh:xone>
   </sh:NodeShape>
-  <sh:NodeShape rdf:about="http://www.aixm.aero/schema/5.1.1#ValBearingBaseType">
-    <sh:property rdf:parseType="Resource">
-      <sh:path rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#value"/>
-      <sh:maxInclusive rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">360</sh:maxInclusive>
-      <sh:minInclusive rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">000</sh:minInclusive>
-      <sh:datatype rdf:resource="http://www.w3.org/2001/XMLSchema#decimal"/>
-      <sh:maxCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:maxCount>
-    </sh:property>
-  </sh:NodeShape>
-  <sh:NodeShape rdf:about="http://www.aixm.aero/schema/5.1.1#ValBearingType">
-    <sh:and rdf:parseType="Collection">
-      <sh:NodeShape rdf:about="http://www.aixm.aero/schema/5.1.1#ValBearingBaseType"/>
-    </sh:and>
-    <sh:property rdf:parseType="Resource">
-      <sh:path rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#value"/>
-      <sh:maxCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:maxCount>
-    </sh:property>
-    <sh:property rdf:parseType="Resource">
-      <sh:path rdf:resource="http://www.aixm.aero/schema/5.1.1#nilReason"/>
-      <sh:node rdf:resource="http://www.aixm.aero/schema/5.1.1#NilReasonEnumeration"/>
-      <sh:minCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</sh:minCount>
-      <sh:maxCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:maxCount>
-    </sh:property>
-    <sh:xone rdf:parseType="Collection">
-      <rdf:Description>
-        <sh:property rdf:parseType="Resource">
-          <sh:path rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#value"/>
-          <sh:minCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:minCount>
-        </sh:property>
-      </rdf:Description>
-      <rdf:Description>
-        <sh:property rdf:parseType="Resource">
-          <sh:path rdf:resource="http://www.aixm.aero/schema/5.1.1#nilReason"/>
-          <sh:minCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:minCount>
-        </sh:property>
-      </rdf:Description>
-    </sh:xone>
-  </sh:NodeShape>
   <sh:NodeShape rdf:about="http://www.aixm.aero/schema/5.1.1#ValDistanceBaseType">
     <sh:property rdf:parseType="Resource">
       <sh:path rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#value"/>
@@ -1918,7 +1673,7 @@
   <sh:NodeShape rdf:about="http://www.aixm.aero/schema/5.1.1#ValDistanceVerticalBaseType">
     <sh:property rdf:parseType="Resource">
       <sh:path rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#value"/>
-      <sh:pattern/>
+      <sh:pattern rdf:datatype="http://www.w3.org/2001/XMLSchema#string">((\+|\-){0,1}[0-9]{1,8}(\.[0-9]{1,4}){0,1})|UNL|GND|FLOOR|CEILING</sh:pattern>
       <sh:datatype rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
       <sh:maxCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:maxCount>
     </sh:property>
@@ -2527,137 +2282,6 @@
       <sh:minCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</sh:minCount>
       <sh:maxCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:maxCount>
     </sh:property>
-  </sh:NodeShape>
-  <sh:NodeShape rdf:about="http://www.aixm.aero/schema/5.1.1#SegmentPoint">
-    <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
-    <sh:property rdf:parseType="Resource">
-      <sh:path rdf:resource="http://www.aixm.aero/schema/5.1.1#reportingATC"/>
-      <sh:node rdf:resource="http://www.aixm.aero/schema/5.1.1#CodeATCReportingType"/>
-      <sh:minCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</sh:minCount>
-      <sh:maxCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:maxCount>
-    </sh:property>
-    <sh:property rdf:parseType="Resource">
-      <sh:path rdf:resource="http://www.aixm.aero/schema/5.1.1#flyOver"/>
-      <sh:node rdf:resource="http://www.aixm.aero/schema/5.1.1#CodeYesNoType"/>
-      <sh:minCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</sh:minCount>
-      <sh:maxCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:maxCount>
-    </sh:property>
-    <sh:property rdf:parseType="Resource">
-      <sh:path rdf:resource="http://www.aixm.aero/schema/5.1.1#waypoint"/>
-      <sh:node rdf:resource="http://www.aixm.aero/schema/5.1.1#CodeYesNoType"/>
-      <sh:minCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</sh:minCount>
-      <sh:maxCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:maxCount>
-    </sh:property>
-    <sh:property rdf:parseType="Resource">
-      <sh:path rdf:resource="http://www.aixm.aero/schema/5.1.1#radarGuidance"/>
-      <sh:node rdf:resource="http://www.aixm.aero/schema/5.1.1#CodeYesNoType"/>
-      <sh:minCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</sh:minCount>
-      <sh:maxCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:maxCount>
-    </sh:property>
-  </sh:NodeShape>
-  <sh:NodeShape rdf:about="http://www.aixm.aero/schema/5.1.1#TerminalSegmentPoint">
-    <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
-    <rdfs:subClassOf rdf:resource="http://www.aixm.aero/schema/5.1.1#SegmentPoint"/>
-    <sh:and rdf:parseType="Collection">
-      <sh:NodeShape rdf:about="http://www.aixm.aero/schema/5.1.1#SegmentPoint"/>
-    </sh:and>
-    <sh:property rdf:parseType="Resource">
-      <sh:path rdf:resource="http://www.aixm.aero/schema/5.1.1#role"/>
-      <sh:node rdf:resource="http://www.aixm.aero/schema/5.1.1#CodeProcedureFixRoleType"/>
-      <sh:minCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</sh:minCount>
-      <sh:maxCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:maxCount>
-    </sh:property>
-    <sh:property rdf:parseType="Resource">
-      <sh:path rdf:resource="http://www.aixm.aero/schema/5.1.1#leadRadial"/>
-      <sh:node rdf:resource="http://www.aixm.aero/schema/5.1.1#ValBearingType"/>
-      <sh:minCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</sh:minCount>
-      <sh:maxCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:maxCount>
-    </sh:property>
-    <sh:property rdf:parseType="Resource">
-      <sh:path rdf:resource="http://www.aixm.aero/schema/5.1.1#leadDME"/>
-      <sh:node rdf:resource="http://www.aixm.aero/schema/5.1.1#ValDistanceType"/>
-      <sh:minCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</sh:minCount>
-      <sh:maxCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:maxCount>
-    </sh:property>
-    <sh:property rdf:parseType="Resource">
-      <sh:path rdf:resource="http://www.aixm.aero/schema/5.1.1#indicatorFACF"/>
-      <sh:node rdf:resource="http://www.aixm.aero/schema/5.1.1#CodeYesNoType"/>
-      <sh:minCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</sh:minCount>
-      <sh:maxCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:maxCount>
-    </sh:property>
-  </sh:NodeShape>
-  <sh:NodeShape rdf:about="http://www.aixm.aero/schema/5.1.1#DesignatedPoint">
-    <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
-    <sh:and rdf:parseType="Collection">
-      <sh:NodeShape rdf:about="http://www.aixm.aero/schema/5.1.1#AIXMFeature"/>
-    </sh:and>
-    <sh:property rdf:parseType="Resource">
-      <sh:path rdf:resource="http://www.aixm.aero/schema/5.1.1#timeSlice"/>
-      <sh:class rdf:resource="http://www.aixm.aero/schema/5.1.1#DesignatedPointTimeSlice"/>
-    </sh:property>
-  </sh:NodeShape>
-  <sh:NodeShape rdf:about="http://www.aixm.aero/schema/5.1.1#DesignatedPointTimeSlice">
-    <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
-    <sh:and rdf:parseType="Collection">
-      <sh:NodeShape rdf:about="http://www.aixm.aero/schema/5.1.1#AIXMTimeSlice"/>
-    </sh:and>
-    <sh:property rdf:parseType="Resource">
-      <sh:path rdf:resource="http://www.aixm.aero/schema/5.1.1#designator"/>
-      <sh:node rdf:resource="http://www.aixm.aero/schema/5.1.1#CodeDesignatedPointDesignatorType"/>
-      <sh:minCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</sh:minCount>
-      <sh:maxCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:maxCount>
-    </sh:property>
-    <sh:property rdf:parseType="Resource">
-      <sh:path rdf:resource="http://www.aixm.aero/schema/5.1.1#type"/>
-      <sh:node rdf:resource="http://www.aixm.aero/schema/5.1.1#CodeDesignatedPointType"/>
-      <sh:minCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</sh:minCount>
-      <sh:maxCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:maxCount>
-    </sh:property>
-    <sh:property rdf:parseType="Resource">
-      <sh:path rdf:resource="http://www.aixm.aero/schema/5.1.1#name"/>
-      <sh:node rdf:resource="http://www.aixm.aero/schema/5.1.1#TextNameType"/>
-      <sh:minCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</sh:minCount>
-      <sh:maxCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:maxCount>
-    </sh:property>
-    <sh:property rdf:parseType="Resource">
-      <sh:path rdf:resource="http://www.aixm.aero/schema/5.1.1#airportHeliport"/>
-      <sh:class rdf:resource="http://www.aixm.aero/schema/5.1.1#AirportHeliport"/>
-      <sh:minCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</sh:minCount>
-      <sh:maxCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:maxCount>
-    </sh:property>
-    <sh:property rdf:parseType="Resource">
-      <sh:path rdf:resource="http://www.aixm.aero/schema/5.1.1#annotation"/>
-      <sh:class rdf:resource="http://www.aixm.aero/schema/5.1.1#Note"/>
-      <sh:minCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</sh:minCount>
-    </sh:property>
-  </sh:NodeShape>
-  <sh:NodeShape rdf:about="http://www.aixm.aero/schema/5.1.1#SignificantPoint">
-    <sh:property rdf:parseType="Resource">
-      <sh:path rdf:resource="http://www.aixm.aero/schema/5.1.1#airportReferencePoint"/>
-      <sh:class rdf:resource="http://www.aixm.aero/schema/5.1.1#AirportHeliport"/>
-      <sh:minCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</sh:minCount>
-      <sh:maxCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:maxCount>
-    </sh:property>
-    <sh:property rdf:parseType="Resource">
-      <sh:path rdf:resource="http://www.aixm.aero/schema/5.1.1#fixDesignatedPoint"/>
-      <sh:class rdf:resource="http://www.aixm.aero/schema/5.1.1#DesignatedPoint"/>
-      <sh:minCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</sh:minCount>
-      <sh:maxCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:maxCount>
-    </sh:property>
-    <sh:xone rdf:parseType="Collection">
-      <rdf:Description>
-        <sh:property rdf:parseType="Resource">
-          <sh:path rdf:resource="http://www.aixm.aero/schema/5.1.1#airportReferencePoint"/>
-          <sh:minCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:minCount>
-        </sh:property>
-      </rdf:Description>
-      <rdf:Description>
-        <sh:property rdf:parseType="Resource">
-          <sh:path rdf:resource="http://www.aixm.aero/schema/5.1.1#fixDesignatedPoint"/>
-          <sh:minCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:minCount>
-        </sh:property>
-      </rdf:Description>
-    </sh:xone>
   </sh:NodeShape>
   <sh:NodeShape rdf:about="http://www.aixm.aero/schema/5.1.1#LinguisticNote">
     <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
