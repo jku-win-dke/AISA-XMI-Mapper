@@ -4,7 +4,8 @@ Target model: AIXM 5.1.1 (http://www.aixm.aero/page/aixm-511-specification)
 
 ## 1. Configuration File
 
-In the configuration file only UML classes from the AIXM namespace can be selected. If you are not sure, check the AIXM 5.1.1 UML navigator (http://www.aixm.aero/sites/aixm.aero/files/imce/AIXM511HTML/index.html). See the decisions for configuration (../input/configuration4donlon.xml) Donlon airport example (../\_example data/donlon airport.ttl) below.
+In the configuration file only UML classes from the AIXM namespace can be selected. If you are not sure, check the AIXM 5.1.1 UML navigator (http://www.aixm.aero/sites/aixm.aero/files/imce/AIXM511HTML/index.html). 
+See the decisions for the configuration (../input/configuration4donlon.xml) of the Donlon airport example (../\_example data/donlon airport.ttl) below.
 
 	Donlon airport									decisions for configuration file
 	<uuid:dd062d88-3e64-4a5d-bebd-89476db9ebea> a aixm:AirportHeliport; 	-->	<class>AirportHeliport</class>
