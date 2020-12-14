@@ -24,7 +24,7 @@ declare function aixm_5-1-1:map(
     xmlns:aixm="http://www.aixm.aero/schema/5.1.1#">
     {
       if(fn:exists($modelSubset/elements/element/properties[@stereotype="feature"])) then
-        aixm_5-1-1:getGMLBasisElementsForAIXMFeatures()
+        aixm_5-1-1:getGMLBasisElements()
     }
     {
       for $element in $modelSubset/elements/element
@@ -425,7 +425,7 @@ declare function aixm_5-1-1:mapIndirectConnectors(
     </sh:property>
 };
 
-declare function aixm_5-1-1:getGMLBasisElementsForAIXMFeatures(){
+declare function aixm_5-1-1:getGMLBasisElements(){
   
   <sh:NodeShape rdf:about="{$aixm_5-1-1:namespace}AIXMFeature" />,
   
