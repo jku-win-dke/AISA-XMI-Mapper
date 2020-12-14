@@ -146,32 +146,7 @@ If the selected subset of an AIXM model contains a element with stereotype "feat
 
 These basic elements are not part of the AIXM 5.1.1 XMI file and therefore are generated manually. Other GML constructs like gml:pos inherited through gml:Point are also not part of the AIXM 5.1.1 XMI file and not considered. The generated AIXM SHACL shapes could basically be combined with GML SHACL shapes for a complete validation of AIXM.
 
-### 3.1. Feature
-
-For each UML class with stereotype "feature" two SHACL shapes and RDFS classes are generated:
-
-1. A SHACL shape and RDFS class extending the aixm:AIXMFeature shape and with the single property aixm:timeSlice. Example AirportHeliport:
-	
-		aixm:AirportHeliport
-			a rdfs:Class , sh:NodeShape ;
-			sh:and ( aixm:AIXMFeature ) ;
-			sh:property [ 
-				sh:path aixm:timeSlice ;
-				sh:class aixm:AirportHeliportTimeSlice ;
-			] .
-2. A SHACL shape and RDFS class extending the aixm:AIXMTimeSlice shape and with attributes as well as connections of the corresponding feature. The three basic methods below are used for mapping attributes and connections of a feature. The time slice is named like the UML class with the phrase "TimeSlice" added at the end. Example AirportHeliportTimeSlice for AirportHeliport:
-
-		aixm:AirportHeliportTimeSlice
-			a rdfs:Class , sh:NodeShape ;
-			sh:and ( aixm:AIXMTimeSlice ) ;
-			sh:property [
-				sh:path aixm:name ;
-				sh:node aixm:TextNameType ;
-				sh:minCount 0 ;
-				sh:maxCount 1 ;
-			] ...
-
-### 3.2. Basic methods of mapping
+### 2.2. Basic methods of mapping
 
 For mapping of different stereotypes, the following basic methods are used:
 1. Attributes of a UML class are mapped into optional property shapes with the AIXM datatype being a target node. Example attribute name of AirportHeliport:
@@ -207,7 +182,34 @@ For mapping of different stereotypes, the following basic methods are used:
 				sh:path aixm:theOrganisationAuthority
                          ] .
 
-### 3.2 Object
+### 2.3. Stereotypes
+
+#### 2.3.1. Feature
+
+For each UML class with stereotype "feature" two SHACL shapes and RDFS classes are generated:
+
+1. A SHACL shape and RDFS class extending the aixm:AIXMFeature shape and with the single property aixm:timeSlice. Example AirportHeliport:
+	
+		aixm:AirportHeliport
+			a rdfs:Class , sh:NodeShape ;
+			sh:and ( aixm:AIXMFeature ) ;
+			sh:property [ 
+				sh:path aixm:timeSlice ;
+				sh:class aixm:AirportHeliportTimeSlice ;
+			] .
+2. A SHACL shape and RDFS class extending the aixm:AIXMTimeSlice shape and with attributes as well as connections of the corresponding feature. The three basic methods above are used for mapping attributes and connections of a feature. The time slice is named like the UML class with the phrase "TimeSlice" added at the end. Example AirportHeliportTimeSlice for AirportHeliport:
+
+		aixm:AirportHeliportTimeSlice
+			a rdfs:Class , sh:NodeShape ;
+			sh:and ( aixm:AIXMTimeSlice ) ;
+			sh:property [
+				sh:path aixm:name ;
+				sh:node aixm:TextNameType ;
+				sh:minCount 0 ;
+				sh:maxCount 1 ;
+			] ...
+
+#### 2.3.2 Object
 
 TBD.
 
