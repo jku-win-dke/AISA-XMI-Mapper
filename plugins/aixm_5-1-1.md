@@ -42,36 +42,132 @@ See the decisions for the configuration (../input/configuration4donlon.xml) of t
 	s2:ID_ACT_21 a aixm:FlightCharacteristic;				-->	already part of the configuration file
 	s2:ID_ACT_211 a event:AirportHeliportExtension;				-->	no aixm namespace
 
-## 2. Basics
+## 2. Mapping
 
-### 2.1 Mapping of attributes
+### 2.1. GML basic elements for AIXM features
 
-TBD.
+If the selected subset of an AIXM model contains a element with stereotype "feature", the following basic elements are added to the result:
 
-### 2.2 Mapping of connectors
+1. An empty SHACL shape named "aixm:AIXMFeature" which can be extended by general AIXM feature properties.
+		
+		aixm:AIXMFeature a sh:NodeShape .
+2. A SHACL shape named "aixm:AIXMTimeSlice" which keeps general and mandatory attributes of feature time slices, i.e. gml:validTime, aixm:interpretation, aixm:sequenceNumber, aixm:correctionNumber.
+	
+		aixm:AIXMTimeSlice a sh:NodeShape ;
+        		sh:property [ 
+				sh:maxCount 1 ;
+                       		sh:minCount 1 ;
+                       		sh:node	aixm:NoNumberType ;
+                       		sh:path aixm:correctionNumber
+                     	] ;
+        		sh:property [
+				sh:maxCount 1 ;
+                       		sh:minCount 1 ;
+                       		sh:node aixm:NoNumberType ;
+                       		sh:path aixm:sequenceNumber
+                     	] ;
+        		sh:property [ 
+				sh:maxCount 1 ;
+                       		sh:minCount 1 ;
+                       		sh:node aixm:TimeSliceInterpretationType ;
+                       		sh:path aixm:interpretation
+                     	] ;
+        		sh:property [ 
+				sh:class gml:TimePeriod ;
+                       		sh:maxCount 1 ;
+                       		sh:minCount 1 ;
+                       		sh:path gml:validTime
+                     	] .
+3. A SHACL shape named "gml:TimePeriod" (type of gml:validTime) which keeps a gml:beginPosition and a gml:endPosition.
 
-TBD.
+		gml:TimePeriod a rdfs:Class , sh:NodeShape ;
+        		sh:property [ 
+				sh:maxCount 1 ;
+                       		sh:minCount 1 ;
+                       		sh:node gml:TimePrimitive ;
+                       		sh:path gml:endPosition
+                     	] ;
+        		sh:property [ 
+				sh:maxCount 1 ;
+                       		sh:minCount 1 ;
+                       		sh:node gml:TimePrimitive ;
+                       		sh:path gml:beginPosition
+                     	] .
+4. A SHACL shape named "gml:TimePrimitive" (type of gml:beginPosition and gml:endPosition) which can have xsd:dateTime as rdf:value or can be a gml:indeterminatePosition.
 
-### 2.3 Mapping of connectors with association classes
+		gml:TimePrimitive a sh:NodeShape ;
+        		sh:property [ 
+				sh:datatype xsd:string ;
+                       		sh:maxCount 1 ;
+                       		sh:path gml:indeterminatePosition
+                     	] ;
+        		sh:property [ 
+				sh:datatype xsd:dateTime ;
+                       		sh:maxCount 1 ;
+                       		sh:path rdf:value
+                     	] ;
+        		sh:xone ( 
+				[ 
+					sh:property [ 
+						sh:minCount 1 ;
+                                        	sh:path rdf:value
+                                      	]
+				]
+                       		[ 
+					sh:property [ 
+						sh:minCount 1 ;
+                                        	sh:path gml:indeterminatePosition
+                                      	] 
+				]
+                     	) .
+5. A SHACL shape named "aixm:TimeSliceInterpretationType" (type of aixm:interpretation) which can have the rdf:value "BASELINE" or "TEMPDELTA".
 
-TBD.
+		aixm:TimeSliceInterpretationType a sh:NodeShape ;
+        	sh:property [ 
+			sh:in ( "BASELINE" "TEMPDELTA" ) ;
+                	sh:maxCount 1 ;
+                       	sh:minCount 1 ;
+                       	sh:path rdf:value
+              	] .
+6. A SHACL shape named "aixm:NoNumberType" (type of aixm:sequenceNumber and aixm:correctionNumber) which has an xsd:integer as rdf:value.
 
-## 3. Mapping of stereotypes
+		aixm:NoNumberType a sh:NodeShape ;
+        		sh:property [ 
+				sh:datatype xsd:integer ;
+                       		sh:maxCount 1 ;
+                       		sh:minCount 1 ;
+                       		sh:path rdf:value
+                     	] .
 
-### 3.1 Feature
+These basic elements are not part of the AIXM 5.1.1 XMI file and therefore are generated manually. Other GML constructs like gml:pos inherited through gml:Point are also not part of the AIXM 5.1.1 XMI file and not considered. The generated AIXM SHACL shapes could basically be combined with GML SHACL shapes for a complete validation of AIXM.
 
-Features are mapped to SHACL shapes and RDFS classes with a single property named "timeSlice".
+### 3.1 Stereotypes
+
+In AIXM 5.1.1 stereotypes play a major role in semantics which are not covered by the UML class diagrams. Therefore, the mapping must consider the stereotypes.
+
+#### 3.1.1 Feature
+
+For each UML class with stereotype "feature" two SHACL shapes and RDFS classes are generated:
+
+1. A SHACL shape and RDFS class extending the aixm:AIXMFeature shape and with the single property aixm:timeSlice. Example AirportHeliport:
+	
+		aixm:AirportHeliport
+			a sh:NodeShape, rdfs:Class ;
+			sh:and (aixm:AIXMFeature) ;
+			sh:property [ 
+				sh:path aixm:timeSlice ;
+				sh:class aixm:AirportHeliportTimeSlice ;
+			] .
+2. A SHACL shape and RDFS class extending the aixm:AIXMTimeSlice shape and with attributes as well as connections of the feature as properties.
+
+UML classes with stereotype "feature" are mapped into two  SHACL shape extending aixm:AIXMFeature and to an RDFS class. A feature shape has a single property named "aixm:timeSlice" with the time slice keeping attributes and connections of a feature.
+The time slice of a feature is named like the UML class with the phrase "TimeSlice" added at the end, e.g. aixm:AirportHeliportTimeSlice for aixm:AirportHeliport.
+
+
+Features are mapped to SHACL shapes and RDFS classes with a single property named "aixm:timeSlice".
 Timeslices of features are mapped to SHACL shapes and RDFS classes. A timeslice keeps meta information (from aixm:AIXMTimeSlice) and a feature's attributes and relationships valid for a certain time period. 
 
-Example AirportHeliport
-	
-	aixm:AirportHeliport
-		a sh:NodeShape, rdfs:Class ;
-		sh:and (aixm:AIXMFeature) ;
-		sh:property [ 
-			sh:path aixm:timeSlice ;
-			sh:class aixm:AirportHeliportTimeSlice ;
-		] .
+
 	aixm:AirportHeliportTimeSlice
 		a sh:NodeShape, rdfs:Class
 		sh:and (aixm:AIXMTimeSlice) ;
