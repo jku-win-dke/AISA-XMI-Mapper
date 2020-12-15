@@ -209,7 +209,7 @@ For each UML class with stereotype "feature" two SHACL shapes and RDFS classes a
 				sh:maxCount 1 ;
 			] ...
 
-#### 2.3.2 Object
+#### 2.3.2. Object
 
 For each UML class with stereotype "object" a SHACL shape and RDFS class is generated. In addition to the use of the three basic mapping methods, generalizations need to mapped. For each super class, a RDFS subClassOf and SHACL and statement are added. Example AirportHeliportUsage:
 
@@ -224,7 +224,7 @@ For each UML class with stereotype "object" a SHACL shape and RDFS class is gene
 			sh:path aixm:operation
 		] .
 
-### 3.3 Choice
+#### 2.3.3. Choice
 
 For each UML class with stereotype "choice" a SHACL shape is generated. The basic methods 1 and 2 are used for mapping attributes and connections. In addition, a SHACL exactly one (sh:xone) statement is added for each connection property, because the choice represents a link between a class and some other classes. Example SignificantPoint (if only DesignatedPoint and AirportHeliport are selected):
 
@@ -257,28 +257,80 @@ For each UML class with stereotype "choice" a SHACL shape is generated. The basi
 			]
 		) .
 
-### 3.4 CodeList
+#### 2.3.4. CodeList
 
-For each UML class with stereotype "CodeList" a SHACL shape is generated. Its attributes are allowed values and therefore mapped into a SHACL list. If a super class with stereotype "XSDsimpleType" exists, a SHACL datatype statement is added. Example NilReasonEnumeration:
+For each UML class with stereotype "CodeList" a SHACL shape is generated. Its attributes are allowed values and therefore mapped into a SHACL list. If a super class with stereotype "XSDsimpleType" exists, a SHACL datatype statement is added. Example NilReasonEnumeration and UomDistanceVerticalType:
 
 	aixm:NilReasonEnumeration
 		a sh:NodeShape ;
 		sh:datatype xsd:string ;
 		sh:in ( "inapplicable" "missing" "template" "unknown" "withheld" "other" ) .
+	
+	aixm:UomDistanceVerticalType
+		a sh:NodeShape ;
+		sh:datatype  xsd:string ;
+		sh:in ( "FT" "M" "FL" "SM" "OTHER" ) .
 
-### 3.5 DataType
+#### 2.3.5. DataType
 
-TBD.
+For each UML class with stereotype "DataType" a SHACL shape is generated. For each super class with stereotype "DataType", a SHACL and statement is added. In addition, a property shape with SHACL path rdf:value is always added. If an attribute with stereotype "XSDfacet" exists, it is added as constraint for the property shape of rdf:value. If a super class with stereotype "XSDsimpleType" exists, a SHACL datatype constraint is added for the property shape of rdf:value. If a super class with stereotype "CodeList" exists, a SHACL target node statement is added for the property shape of rdf:value. All other attributes (stereotype not "XSDfacet") are added with the basic mapping method number 1. If an attribute from type "NilReasonEnumeration" exists, a SHACL exactly one (sh:xone) statement needs to be added, specifiyng that either a nil reason can occur or all other attributes and rdf:value. Example ValDistanceVerticalType:
 
-### 3.6 XSDsimpleType
+	aixm:ValDistanceVerticalType
+		a sh:NodeShape ;
+		sh:and ( aixm:ValDistanceVerticalBaseType ) ;
+		sh:property [ 
+			sh:maxCount 1 ;
+			sh:minCount 0 ;
+			sh:node aixm:NilReasonEnumeration ;
+			sh:path aixm:nilReason
+		] ;
+		sh:property [ 
+			sh:maxCount 1 ;
+			sh:minCount 0 ;
+			sh:node aixm:UomDistanceVerticalType ;
+			sh:path aixm:uom
+		] ;
+		sh:property [ 
+			sh:maxCount 1 ;
+			sh:path rdf:value
+		] ;
+		sh:xone (
+			[ 
+				sh:property [ 
+					sh:minCount 1 ;
+					sh:path rdf:value
+				] ;
+				sh:property [
+					sh:minCount 0 ;
+					sh:path aixm:uom
+				] 
+			]
+			[ 
+				sh:property [ 
+					sh:minCount 1 ;
+					sh:path aixm:nilReason
+				] 
+			]
+		) .
+	
+	aixm:ValDistanceVerticalBaseType
+		a sh:NodeShape ;
+		sh:property [ 
+			sh:datatype xsd:string ;
+			sh:maxCount 1 ;
+			sh:path rdf:value ;
+			sh:pattern "((\\+|\\-){0,1}[0-9]{1,8}(\\.[0-9]{1,4}){0,1})|UNL|GND|FLOOR|CEILING"
+		] .
+
+#### 2.3.6. XSDsimpleType
 
 No mapping.
 
-### 3.7 XSDcomplexType
+#### 2.3.7. XSDcomplexType
 
 No mapping.
 
-### 3.8 No stereotype
+### 2.3.8. No stereotype
 
 For each UML class with no stereotype a RDFS class and a simple SHACL shape with no content are generated. Typically, only GML based classes have no stereotype. UML classes from GML are classes with names starting with "GM_".  These GML based classes are mapped into the GML namespace.
 
