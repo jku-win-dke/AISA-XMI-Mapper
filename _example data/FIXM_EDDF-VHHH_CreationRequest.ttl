@@ -1,0 +1,263 @@
+# EDDF-VHHH FIXM Creation Request
+#  from https://www.fixm.aero/release.pl?rel=SESAR_Ext-1.0
+#  file EDDF-VHHH_FIXMCreationRequest.xml
+
+@prefix ns2:	<http://www.fixm.aero/base/3.0#> .
+@prefix ns3:	<http://www.fixm.aero/foundation/3.0#> .
+@prefix ns4:	<http://www.fixm.aero/flight/3.0#> .
+@prefix ns5:	<http://www.fixm.aero/ext/sesar/efpl/0.2#> .
+@prefix ns6:	<http://www.opengis.net/gml/3.2#> .
+@prefix ns7:	<http://www.w3.org/1999/xlink#> .
+@prefix ns8:	<http://www.aixm.aero/schema/5.1#> .
+@prefix ns9:	<http://www.isotc211.org/2005/gco#> .
+@prefix ns10:	<http://www.isotc211.org/2005/gmd#> .
+@prefix ns11:	<http://www.isotc211.org/2005/gts#> .
+@prefix ns12:	<http://www.aixm.aero/schema/5.1/extensions/EUR/ADR#> .
+@prefix ns13:	<http://www.eurocontrol.int/cfmu/b2b/ADRMessage#> .
+@prefix ns14:	<eurocontrol/cfmu/b2b/AirspaceServices#> .
+@prefix ns15:	<eurocontrol/cfmu/b2b/FlightfixmServices#> .
+
+#manually added
+@prefix xsd:	<http://www.w3.org/2001/XMLSchema#> .
+@prefix rdf:	<http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix ns16:	<eurocontrol/cfmu/b2b/CommonServices#> .
+@prefix ns17:	<http://www.fixm.aero/ext/sesar/efpl/0.2#> .
+
+@prefix s1:	<https://www.fixm.aero/release.pl?rel=SESAR_Ext-1.0/> .
+
+s1:EDDF-VHHH_FIXMCreationRequest.xml
+	a ns15:EfplCreationRequest ;
+	ns16:endUserId [ rdf:value "CC0000001463" ] ;
+	ns16:sendTime [ rdf:value "2016-04-27 05:21:27"^^xsd:dateTime ] ;
+	ns17:efplFlight [
+		ns5:totalEstimatedElapsedTime "P0Y0M0DT10H15M0S" ;
+		ns4:flightType "SCHEDULED" ;
+		ns4:remarks "TCAS" ;
+		ns4:aircraftDescription [
+			ns4:aircraftAddress [ rdf:value "3C65A1" ] ;
+			ns4:aircraftPerformance [ rdf:value "C" ] ;
+			ns4:aircraftQuantity [ rdf:value 1 ] ;
+			ns4:registration [ rdf:value "DAIMA" ] ;
+			ns4:wakeTurbulence [ rdf:value "J" ] ;
+			ns4:aircraftType [
+				ns4:icaoModelIdentifier [ rdf:value "A388" ] ;
+			] ;
+			ns4:capabilities [
+				ns4:standardCababilities [ rdf:value "STANDARD" ] ;
+				ns4:communication [
+					ns4:otherDataLinkCapabilities [ rdf:value "SVM" ] ;
+					ns4:selectiveCallingCode [ rdf:value "EHJM" ] ;
+					ns4:communicationCode [ rdf:value "E2 E3 H M1 Y" ] ;
+					ns4:dataLinkCode [ rdf:value "J3 J4 J5" ] ;
+				] ;
+				ns4:navigation [
+					ns4:otherNavigationCapabilities [ rdf:value "RNVD1E2A1" ] ;
+					ns4:navigationCode [ rdf:value "A D G I W X" ] ;
+					ns4:performanceBaseCode [ rdf:value "A1 B1 C1 D1 L1 O1 S1 S2" ] ;
+				] ;
+				ns4:surveillance [
+					ns4:surveillanceCode [ rdf:value "B1 D1 L" ] ;
+				] ;
+			] ;
+		] ;
+		ns4:departure [
+			a ns5:EfplFlightDepartureType ;
+			ns5:estimatedOffBlockTime [ rdf:value "2016-04-27T10:00:00.000Z"^^xsd:dateTime ] ;
+			ns5:taxiTime [ rdf:value "P0DT0H16M0S" ] ; 
+			ns4:departureAerodrome [
+				a ns2:IcaoAerodromeReferenceType ;
+				ns2:code [ rdf:value "EDDF" ] ;
+			] ;
+			ns4:takeOffWeight [
+				ns3:uom "KILOGRAMS" ; 
+				rdf:value 458849.0 ;
+			] ;
+		] ;
+		ns4:flightIdentification [
+			ns4:aircraftIdentification [ rdf:value "DLH796" ] ;
+		] ;
+		ns4:operator [
+			ns4:operatorCategory [ rdf:value "AIR_CARRIER" ] ;
+			ns4:operatingOrganization [
+				ns3:organization [
+					ns3:name [ rdf:value "DLH" ] ;
+				] ;
+			] ;
+		] ;
+		ns5:aerodromesOfDestination [
+			ns5:aerodromeOfDestination [
+				a ns2:IcaoAerodromeReferenceType ;
+				ns2:code [ rdf:value "VHHH" ] ;
+			] ;
+			ns5:alternate1 [
+				a ns2:IcaoAerodromeReferenceType ;
+				ns2:code [ rdf:value "ZGGG" ] ;
+			] ;
+		] ;
+		ns5:efplFiledTrajectory [
+			ns4:route [
+				a ns5:EfplRouteType ;
+				ns5:efplFlightRules [ rdf:value "IFR" ] ;
+				ns4:routeText [ rdf:value "N0491F350 SULUS8G SULUS UZ650 ERETO UZ715 KULOK UL984 OKG L984 DOPOV T46 DOKEL N871 POLON Z169 GERVI P851 ABERO/K0887F350 P851 RAVOK Z860 TOBLO/K0880F350 B365 BANIP/K0865F330 B365 OLUPI B923 BEKAS B142 SIVKO/K0898F390 G3 AKB A360 BLH A110 TDK A124 RULAD/K0878S1190 A460 KCA L888 LEBAK/K0882S1250 L888 PEXUN B213 WFX B330 POU R473 SIERA" ] ;
+			] ;
+			ns4:trajectory [
+				ns4:trajectoryPoint [
+					a ns5:EfplTrajectoryPointType ;
+					ns5:elapsedTime [ rdf:value "P0DT0H0M0S" ] ;
+					ns5:trajectoryPointType [ rdf:value 0 ] ;
+					ns4:metData [
+						ns4:temperature [
+							ns3:uom "CELSIUS" ;
+							rdf:value 4.3 ;
+						] ;
+						ns4:windDirection [
+							ns3:uom "DEGREES" ;
+							rdf:value 248.0 ;
+						] ;
+						ns4:windSpeed [
+							ns3:uom "METERS_PER_SECOND" ;
+							rdf:value 10.41 ;
+						] ;
+					] ;
+					ns4:point [
+						a ns5:EfplPoint4DType ;
+						ns3:srsName [ rdf:value "urn:ogc:def:crs:EPSG::4326" ] ;
+						ns3:pos [ rdf:value "50.03330555555556 8.570455555555556" ] ;
+						ns5:flightLevel [
+							ns5:level [ rdf:value 11 ] ;
+							ns5:unit [ rdf:value "S" ] ;
+						] ;
+					] ;
+					ns4:predictedAirspeed [
+						ns2:airspeed [
+							ns3:uom "KILOMETRES_PER_HOUR" ;
+							rdf:value 0.0 ;
+						] ;
+					] ;
+					ns5:aerodromeIdentifier [
+						a ns2:IcaoAerodromeReferenceType ;
+						ns2:code [ rdf:value "EDDF" ] ;
+					] ;
+					ns5:distanceFromTakeOff [
+						ns3:uom "KILOMETERS" ;
+						rdf:value 0.0 ;
+					] ;
+					ns5:efplEstimatedSpeed [
+						ns3:uom "MACH" ;
+						rdf:value 0.0 ;
+					] ;
+					ns5:grossWeight [
+						ns3:uom "KILOGRAMS" ;
+						rdf:value 458849.0 ;
+					] ;
+					ns5:trajectoryPointRole [
+						ns5:bottomOfClimb [ rdf:value xsd:false ] ;
+						ns5:bottomOfDescent [ rdf:value xsd:false ] ;
+						ns5:topOfClimb [ rdf:value xsd:false ] ;
+						ns5:topOfDescent [ rdf:value xsd:false ] ;
+					] ;
+				] ;
+				# and so forth ......
+			] ;
+		] ;
+		ns5:flightPerformanceData [
+			ns5:climbProfile [
+				ns5:elapsedTime [ rdf:value "P0DT0H0M0S" ] ;
+				ns4:point [
+					a ns5:EfplPoint4DType ;
+					ns3:srsName [ rdf:value "urn:ogc:def:crs:EPSG::4326" ] ;
+					ns5:flightLevel [
+						ns5:level [ rdf:value "110" ] ;
+						ns5:unit [ rdf:value "SM" ] ;
+					] ;
+				] ;
+				ns5:distanceFromTakeOff [
+					ns3:uom "KILOMETERS" ; 
+					rdf:value 0.0 ;
+				] ;
+			] ;
+			ns5:climbProfile [
+				ns5:elapsedTime [ rdf:value "P0DT0H1M4S" ] ;
+				ns4:point [
+					a ns5:EfplPoint4DType ;
+					ns3:srsName [ rdf:value "urn:ogc:def:crs:EPSG::4326" ] ;
+					ns5:flightLevel [
+						ns5:level [ rdf:value "505" ] ;
+						ns5:unit [ rdf:value "SM" ] ;
+					] ;
+				] ;
+				ns5:distanceFromTakeOff [
+					ns3:uom "KILOMETERS" ; 
+					rdf:value 5.43 ;
+				] ;
+			] ;
+			# and so forth ......
+			ns5:climbProfile [
+				ns5:elapsedTime [ rdf:value "P0DT0H20M58S" ] ;
+				ns4:point [
+					a ns5:EfplPoint4DType ;
+					ns3:srsName [ rdf:value "urn:ogc:def:crs:EPSG::4326" ] ;
+					ns5:flightLevel [
+						ns5:level [ rdf:value "11278" ] ;
+						ns5:unit [ rdf:value "SM" ] ;
+					] ;
+				] ;
+				ns5:distanceFromTakeOff [
+					ns3:uom "KILOMETERS" ; 
+					rdf:value 253.285 ;
+				] ;
+			] ;
+			ns5:descentProfile [
+				ns5:elapsedTime [ rdf:value "P0DT0H24M48S" ] ;
+				ns4:point [
+					a ns5:EfplPoint4DType ;
+					ns3:srsName [ rdf:value "urn:ogc:def:crs:EPSG::4326" ] ;
+					ns5:flightLevel [
+						ns5:level [ rdf:value "12802" ] ;
+						ns5:unit [ rdf:value "SM" ] ;
+					] ;
+				] ;
+				ns5:distanceFromTakeOff [
+					ns3:uom "KILOMETERS" ; 
+					rdf:value 261.039 ;
+				] ;
+			] ;
+			ns5:descentProfile [
+				ns5:elapsedTime [ rdf:value "P0DT0H24M3S" ] ;
+				ns4:point [
+					a ns5:EfplPoint4DType ;
+					ns3:srsName [ rdf:value "urn:ogc:def:crs:EPSG::4326" ] ;
+					ns5:flightLevel [
+						ns5:level [ rdf:value "12256" ] ;
+						ns5:unit [ rdf:value "SM" ] ;
+					] ;
+				] ;
+				ns5:distanceFromTakeOff [
+					ns3:uom "KILOMETERS" ; 
+					rdf:value 250.151 ;
+				] ;
+			] ;
+			# and so forth ......
+			ns5:descentProfile [
+				ns5:elapsedTime [ rdf:value "P0DT0H0M0S" ] ;
+				ns4:point [
+					a ns5:EfplPoint4DType ;
+					ns3:srsName [ rdf:value "urn:ogc:def:crs:EPSG::4326" ] ;
+					ns5:flightLevel [
+						ns5:level [ rdf:value "8" ] ;
+						ns5:unit [ rdf:value "SM" ] ;
+					] ;
+				] ;
+				ns5:distanceFromTakeOff [
+					ns3:uom "KILOMETERS" ; 
+					rdf:value 0.0 ;
+				] ;
+			] ;
+		] ;
+		ns5:otherInformation [
+			ns5:runwayVisualRange [
+				ns3:uom "KILOMETERS" ;
+				rdf:value 0.075 ;
+			] ;
+		] ;
+	] .

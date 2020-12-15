@@ -9,7 +9,7 @@
 @prefix aixm: <http://www.aixm.aero/schema/5.1.1#> .
 @prefix gml: <http://www.opengis.net/gml/3.2#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
-@prefix event: <http://www.aixm.aero/schema/5.1/event#>.
+@prefix event: <http://www.aixm.aero/schema/5.1/event#> .
 
 @prefix s1: <https://github.com/aixm/donlon/blob/master/EA_AIP_DS_FULL_20170701.xml#>.
 @prefix s2: <https://github.com/aixm/donlon/blob/master/digitalNOTAM/DN_AD.CLS_except_special_flights.xml#>.

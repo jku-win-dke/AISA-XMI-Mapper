@@ -1,0 +1,13 @@
+ <configuration>
+	<selection>
+		<models>
+			<model type="fixm_3-0-1_sesar" location="input/FIXM_3.0.1_SESAR.xmi">
+				<classes>
+					<class>EfplFlight</class>
+					<class>Aircraft</class>
+					<class>AircraftAddress</class>
+				</classes>
+			</model>
+		</models>
+	</selection>
+ </configuration>

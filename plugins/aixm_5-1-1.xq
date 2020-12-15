@@ -29,19 +29,19 @@ declare function aixm_5-1-1:map(
     {
       for $element in $modelSubset/elements/element
       return 
-        if($element/properties/@stereotype="feature") then
+        if($element/properties[@stereotype="feature"]) then
           aixm_5-1-1:mapFeature($element, $modelSubset)
-        else if($element/properties/@stereotype="object") then
+        else if($element/properties[@stereotype="object"]) then
           aixm_5-1-1:mapObject($element, $modelSubset)
-        else if($element/properties/@stereotype="choice") then
+        else if($element/properties[@stereotype="choice"]) then
           aixm_5-1-1:mapChoice($element, $modelSubset)
-        else if($element/properties/@stereotype="CodeList") then
+        else if($element/properties[@stereotype="CodeList"]) then
           aixm_5-1-1:mapCodeList($element, $modelSubset)
-        else if($element/properties/@stereotype="DataType") then
+        else if($element/properties[@stereotype="DataType"]) then
           aixm_5-1-1:mapDataType($element, $modelSubset)
-        else if($element/properties/@stereotype="XSDsimpleType") then
+        else if($element/properties[@stereotype="XSDsimpleType"]) then
           aixm_5-1-1:mapXSDsimpleType($element, $modelSubset)
-        else if($element/properties/@stereotype="XSDcomplexType") then
+        else if($element/properties[@stereotype="XSDcomplexType"]) then
           aixm_5-1-1:mapXSDcomplexType($element, $modelSubset)
         else
           aixm_5-1-1:mapPlain($element, $modelSubset)
@@ -70,7 +70,7 @@ declare function aixm_5-1-1:mapFeature(
       <sh:NodeShape rdf:about="{$aixm_5-1-1:namespace}AIXMTimeSlice" />
     </sh:and>
     {
-      aixm_5-1-1:mapComplexAttributes($element, ())
+      aixm_5-1-1:mapAttributes($element, ())
     }
     {
       aixm_5-1-1:mapDirectConnectors($element, $modelSubset)
@@ -109,7 +109,7 @@ declare function aixm_5-1-1:mapObject(
       </sh:and>
     }
     {
-      aixm_5-1-1:mapComplexAttributes($element, ())
+      aixm_5-1-1:mapAttributes($element, ())
     }
     {
       aixm_5-1-1:mapDirectConnectors($element, $modelSubset)
@@ -126,7 +126,7 @@ declare function aixm_5-1-1:mapChoice(
 ) {
   <sh:NodeShape rdf:about="{$aixm_5-1-1:namespace}{$element/@name/string()}">
     {
-      aixm_5-1-1:mapComplexAttributes($element, ())
+      aixm_5-1-1:mapAttributes($element, ())
     }
     {
       aixm_5-1-1:mapDirectConnectors($element, $modelSubset)
@@ -231,7 +231,7 @@ declare function aixm_5-1-1:mapDataType(
       <sh:maxCount rdf:datatype="{$aixm_5-1-1:xsd}integer">1</sh:maxCount>
     </sh:property>
     {
-      aixm_5-1-1:mapComplexAttributes($element, "XSDfacet")
+      aixm_5-1-1:mapAttributes($element, "XSDfacet")
     }
     {
       if($element/attributes/attribute/properties[@type="NilReasonEnumeration"]) then 
@@ -326,7 +326,7 @@ declare function aixm_5-1-1:getRoleName(
     "the"||$className
 };
 
-declare function aixm_5-1-1:mapComplexAttributes(
+declare function aixm_5-1-1:mapAttributes(
   $element as element(),
   $notStereotype as xs:string*
 ) as element()* {
