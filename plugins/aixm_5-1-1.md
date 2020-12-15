@@ -148,7 +148,7 @@ These basic elements are not part of the AIXM 5.1.1 XMI file and therefore are g
 
 ### 2.2. Basic methods of mapping
 
-For mapping of different stereotypes, the following basic methods are used:
+For mapping of different stereotypes, the following basic methods are used (but there are exceptions):
 1. Attributes of a UML class are mapped into optional property shapes with the AIXM datatype being a target node. Example attribute name of AirportHeliport:
 
 		aixm:AirportHeliportTimeSlice
@@ -172,7 +172,7 @@ For mapping of different stereotypes, the following basic methods are used:
 				sh:minCount 0 ;
 				sh:path aixm:responsibleOrganisation
 			] .
-3. A UML class may be an association class for a connection between to other classes. As already explained in 2., a property shape is added to an association class targeting the target class of the association. Example of connection between AirportHeliport and OrganisationAuthority with AirportHeliportResponsibilityOrganisation as assocation class:
+3. A UML class can be an association class for a connection between to other classes. As already explained in 2., a property shape is added to an association class targeting the target class of the association. Example of connection between AirportHeliport and OrganisationAuthority with AirportHeliportResponsibilityOrganisation as assocation class:
 		
 		aixm:AirportHeliportResponsibilityOrganisation
 			sh:property [
@@ -211,15 +211,60 @@ For each UML class with stereotype "feature" two SHACL shapes and RDFS classes a
 
 #### 2.3.2 Object
 
-TBD.
+For each UML class with stereotype "object" a SHACL shape and RDFS class is generated. In addition to the use of the three basic mapping methods, generalizations need to mapped. For each super class, a RDFS subClassOf and SHACL and statement are added. Example AirportHeliportUsage:
+
+	aixm:AirportHeliportUsage
+		a rdfs:Class , sh:NodeShape ;
+		rdfs:subClassOf aixm:UsageCondition ;
+		sh:and ( aixm:UsageCondition ) ;
+		sh:property [ 
+			sh:maxCount 1 ;
+			sh:minCount 0 ;
+			sh:node aixm:CodeOperationAirportHeliportType ;
+			sh:path aixm:operation
+		] .
 
 ### 3.3 Choice
 
-TBD.
+For each UML class with stereotype "choice" a SHACL shape is generated. The basic methods 1 and 2 are used for mapping attributes and connections. In addition, a SHACL exactly one (sh:xone) statement is added for each connection property, because the choice represents a link between a class and some other classes. Example SignificantPoint (if only DesignatedPoint and AirportHeliport are selected):
+
+	aixm:SignificantPoint
+		a sh:NodeShape ;
+		sh:property [ 
+			sh:class aixm:DesignatedPoint ;
+			sh:maxCount 1 ;
+			sh:minCount 0 ;
+			sh:path aixm:fixDesignatedPoint
+		] ;
+		sh:property [ 
+			sh:class aixm:AirportHeliport ;
+			sh:maxCount 1 ;
+			sh:minCount 0 ;
+			sh:path aixm:airportReferencePoint
+		] ;
+		sh:xone (
+			[ 
+				sh:property [ 
+					sh:minCount 1 ;
+                                        sh:path aixm:airportReferencePoint
+				]
+			]
+			[ 
+				sh:property [ 
+					sh:minCount 1 ;
+				        sh:path aixm:fixDesignatedPoint
+				] 
+			]
+		) .
 
 ### 3.4 CodeList
 
-TBD.
+For each UML class with stereotype "CodeList" a SHACL shape is generated. Its attributes are allowed values and therefore mapped into a SHACL list. If a super class with stereotype "XSDsimpleType" exists, a SHACL datatype statement is added. Example NilReasonEnumeration:
+
+	aixm:NilReasonEnumeration
+		a sh:NodeShape ;
+		sh:datatype xsd:string ;
+		sh:in ( "inapplicable" "missing" "template" "unknown" "withheld" "other" ) .
 
 ### 3.5 DataType
 
@@ -235,4 +280,6 @@ No mapping.
 
 ### 3.8 No stereotype
 
-TBD.
+For each UML class with no stereotype a RDFS class and a simple SHACL shape with no content are generated. Typically, only GML based classes have no stereotype. UML classes from GML are classes with names starting with "GM_".  These GML based classes are mapped into the GML namespace.
+
+	gml:Point a rdfs:Class , sh:NodeShape .
