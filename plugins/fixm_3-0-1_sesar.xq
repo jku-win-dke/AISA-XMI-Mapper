@@ -67,7 +67,6 @@ declare function fixm_3-0-1_sesar:mapAttributes(
   return <sh:property rdf:parseType="Resource">
     <sh:path rdf:resource="{$fixm_3-0-1_sesar:namespace}{$attribute/@name/string()}" />
     <sh:node rdf:resource="{$fixm_3-0-1_sesar:namespace}{$attribute/properties/@type/string()}" />
-    <sh:minCount rdf:datatype="{$fixm_3-0-1_sesar:xsd}integer">0</sh:minCount>
     <sh:maxCount rdf:datatype="{$fixm_3-0-1_sesar:xsd}integer">1</sh:maxCount> 
   </sh:property>
 };
@@ -78,7 +77,6 @@ declare function fixm_3-0-1_sesar:mapConnectors(
 ) as element()* {
   for $connector in $modelSubset/connectors/connector
   where $connector/source[@xmi:idref=$element/@xmi:idref]
-  let $targetName:=$connector/target/model/@name/string()
   let $pathName:=
     if(fn:exists($connector/@name)) then
       $connector/@name/string()
@@ -87,10 +85,10 @@ declare function fixm_3-0-1_sesar:mapConnectors(
   let $cardinality:=$connector/target/type/@multiplicity
   return <sh:property rdf:parseType="Resource">
     <sh:path rdf:resource="{$fixm_3-0-1_sesar:namespace}{$pathName}" />
-    <sh:class rdf:resource="{$fixm_3-0-1_sesar:namespace}{$targetName}" />
+    <sh:class rdf:resource="{$fixm_3-0-1_sesar:namespace}{$connector/target/model/@name/string()}" />
     {
       let $minCount:=fn:substring($cardinality, 1, 1)
-      return if(fn:exists($minCount) and $minCount!="*") then
+      return if(fn:exists($minCount) and $minCount!="*" and $minCount!="0") then
         <sh:minCount rdf:datatype="{$fixm_3-0-1_sesar:xsd}integer">{$minCount}</sh:minCount>
     }
     {

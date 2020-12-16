@@ -14,7 +14,6 @@
 @prefix s1: <https://github.com/aixm/donlon/blob/master/EA_AIP_DS_FULL_20170701.xml#>.
 @prefix s2: <https://github.com/aixm/donlon/blob/master/digitalNOTAM/DN_AD.CLS_except_special_flights.xml#>.
 
-
 <uuid:dd062d88-3e64-4a5d-bebd-89476db9ebea> 
   a aixm:AirportHeliport;
   aixm:timeSlice 
@@ -25,7 +24,7 @@ s1:AHP_EADH
   a aixm:AirportHeliportTimeSlice;
   gml:validTime s1:vtnull0;
   aixm:interpretation [rdf:value "BASELINE"];
-  aixm:sequenceNumber [rdf:value 1 ];
+  aixm:sequenceNumber [rdf:value 1];
   aixm:correctionNumber [rdf:value 0];
   aixm:featureLifetime s1:ltnull0;
   aixm:designator [rdf:value "EADH"];

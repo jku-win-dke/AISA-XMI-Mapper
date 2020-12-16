@@ -5,7 +5,6 @@
 				<classes>
 					<class>EfplFlight</class>
 					<class>Aircraft</class>
-					<class>AircraftAddress</class>
 				</classes>
 			</model>
 		</models>

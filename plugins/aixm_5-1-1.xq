@@ -242,7 +242,6 @@ declare function aixm_5-1-1:mapDataType(
               where $attribute/properties[@type!="NilReasonEnumeration"]
               return <sh:property rdf:parseType="Resource">
                 <sh:path rdf:resource="{$aixm_5-1-1:namespace}{$attribute/@name/string()}" />
-                <sh:minCount rdf:datatype="{$aixm_5-1-1:xsd}integer">0</sh:minCount> 
               </sh:property>
             }
             <sh:property rdf:parseType="Resource">
@@ -343,7 +342,6 @@ declare function aixm_5-1-1:mapAttributes(
   return <sh:property rdf:parseType="Resource">
     <sh:path rdf:resource="{$aixm_5-1-1:namespace}{$attribute/@name/string()}" />
     <sh:node rdf:resource="{$aixm_5-1-1:namespace}{$attribute/properties/@type/string()}" />
-    <sh:minCount rdf:datatype="{$aixm_5-1-1:xsd}integer">0</sh:minCount>
     <sh:maxCount rdf:datatype="{$aixm_5-1-1:xsd}integer">1</sh:maxCount> 
   </sh:property>
 };
@@ -389,7 +387,7 @@ declare function aixm_5-1-1:mapDirectConnectors(
       <sh:class rdf:resource="{$aixm_5-1-1:namespace}{$targetName}" />
       {
         let $minCount:=fn:substring($cardinality, 1, 1)
-        return if(fn:exists($minCount) and $minCount!="*") then
+        return if(fn:exists($minCount) and $minCount!="*" and $minCount!="0") then
           <sh:minCount rdf:datatype="{$aixm_5-1-1:xsd}integer">{$minCount}</sh:minCount>
       }
       {
@@ -427,7 +425,11 @@ declare function aixm_5-1-1:mapIndirectConnectors(
 
 declare function aixm_5-1-1:getGMLBasisElements(){
   
-  <sh:NodeShape rdf:about="{$aixm_5-1-1:namespace}AIXMFeature" />,
+  <sh:NodeShape rdf:about="{$aixm_5-1-1:namespace}AIXMFeature">
+    <sh:property rdf:parseType="Resource">
+      <sh:path rdf:resource="{$aixm_5-1-1:namespace}timeSlice" />
+    </sh:property>
+  </sh:NodeShape>,
   
   <sh:NodeShape rdf:about="{$aixm_5-1-1:namespace}AIXMTimeSlice">
     <sh:property rdf:parseType="Resource">
@@ -481,6 +483,21 @@ declare function aixm_5-1-1:getGMLBasisElements(){
     <sh:property rdf:parseType="Resource">
       <sh:path rdf:resource="{$aixm_5-1-1:gml}indeterminatePosition" />
       <sh:datatype rdf:resource="{$aixm_5-1-1:xsd}string" />
+      <sh:in rdf:parseType="Resource">
+        <rdf:rest rdf:parseType="Resource">
+          <rdf:first>after</rdf:first>
+          <rdf:rest rdf:parseType="Resource">
+            <rdf:first>before</rdf:first>
+            <rdf:rest rdf:parseType="Resource">
+               <rdf:first>now</rdf:first>
+               <rdf:rest rdf:parseType="Resource">
+                 <rdf:first>unknown</rdf:first>
+                 <rdf:rest rdf:resource="{$aixm_5-1-1:rdf}nil"/>
+               </rdf:rest>
+            </rdf:rest>
+          </rdf:rest>
+        </rdf:rest>
+      </sh:in>
       <sh:maxCount rdf:datatype="{$aixm_5-1-1:xsd}integer">1</sh:maxCount>
     </sh:property>
     <sh:xone rdf:parseType="Collection">
@@ -502,6 +519,7 @@ declare function aixm_5-1-1:getGMLBasisElements(){
   <sh:NodeShape rdf:about="{$aixm_5-1-1:namespace}TimeSliceInterpretationType">
     <sh:property rdf:parseType="Resource">
       <sh:path rdf:resource="{$aixm_5-1-1:rdf}value" />
+      <sh:datatype rdf:resource="{$aixm_5-1-1:xsd}string" />
       <sh:in rdf:parseType="Resource">
         <rdf:rest rdf:parseType="Resource">
           <rdf:first>BASELINE</rdf:first>

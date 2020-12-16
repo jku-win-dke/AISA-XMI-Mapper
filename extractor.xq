@@ -20,7 +20,32 @@ declare function extractor:getModelSubset(
         fn:error(xs:QName("error"), "element not found: "||$className)
       else
         fn:error(xs:QName("error"), "unique name assumption violated: "||$className)
-    
+  
+  let $connectors:=
+    for $connector in $xmiFile/xmi:XMI/xmi:Extension/connectors/connector
+    where $connector/properties[@ea_type!="Generalization"]
+    where $connector/properties[@ea_type!="Dependency"]
+    where (
+      ( $connector/source[@xmi:idref=$elements/@xmi:idref]
+        and $connector/properties[@direction!="Destination -&gt; Source"]
+      ) or
+      ( $connector/target[@xmi:idref=$elements/@xmi:idref]
+        and $connector/properties[@direction="Destination -&gt; Source"]
+      ))
+    return $connector
+  
+  let $elements:=$elements union (
+    for $connector in $connectors
+    return 
+      if(fn:exists($connector/properties/@direction)=false()) then
+        $xmiFile/xmi:XMI/xmi:Extension/elements/element[@xmi:idref=$connector/target/@xmi:idref]
+      else if($connector/properties[@direction="Source -&gt; Destination"]) then
+        $xmiFile/xmi:XMI/xmi:Extension/elements/element[@xmi:idref=$connector/target/@xmi:idref]
+      else
+        $xmiFile/xmi:XMI/xmi:Extension/elements/element[@xmi:idref=$connector/source/@xmi:idref]
+  )
+  
+  (:
   let $connectors:=
     for $connector in $xmiFile/xmi:XMI/xmi:Extension/connectors/connector
     where $connector/properties[@ea_type!="Generalization"]
@@ -28,6 +53,7 @@ declare function extractor:getModelSubset(
     where $connector/source[@xmi:idref=$elements/@xmi:idref]
     where $connector/target[@xmi:idref=$elements/@xmi:idref]
     return $connector
+  :)
   
   let $elements:=$elements union extractor:getSuperClasses($xmiFile, $elements)
   let $elements:=$elements union extractor:getAssociationClasses($xmiFile, $connectors)       
