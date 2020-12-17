@@ -106,7 +106,7 @@
   <sh:NodeShape rdf:about="http://www.aixm.aero/schema/5.1.1#NoNumberType">
     <sh:property rdf:parseType="Resource">
       <sh:path rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#value"/>
-      <sh:datatype rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+      <sh:datatype rdf:resource="http://www.w3.org/2001/XMLSchema#unsignedInt"/>
       <sh:minCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:minCount>
       <sh:maxCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:maxCount>
     </sh:property>

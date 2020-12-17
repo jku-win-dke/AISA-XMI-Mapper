@@ -5,9 +5,11 @@ declare namespace xmi="http://schema.omg.org/spec/XMI/2.1";
 declare function extractor:getModelSubset(
   $model as element()
 ) as element()*{
+  let $xsdDatatypes:=fn:doc("input/datatypes.xsd")/xs:schema/xs:simpleType
   let $xmiFile:=fn:doc($model/@location)
   let $classNames:=fn:distinct-values($model/classes/class/string()) 
   
+  (: selected classes :)
   let $elements:=
     for $className in $classNames
     let $element:=$xmiFile/xmi:XMI/xmi:Extension/elements/element
@@ -21,44 +23,64 @@ declare function extractor:getModelSubset(
       else
         fn:error(xs:QName("error"), "unique name assumption violated: "||$className)
   
+  (: connectors :)
   let $connectors:=
-    for $connector in $xmiFile/xmi:XMI/xmi:Extension/connectors/connector
-    where $connector/properties[@ea_type!="Generalization"]
-    where $connector/properties[@ea_type!="Dependency"]
-    where (
-      ( $connector/source[@xmi:idref=$elements/@xmi:idref]
-        and $connector/properties[@direction!="Destination -&gt; Source"]
-      ) or
-      ( $connector/target[@xmi:idref=$elements/@xmi:idref]
-        and $connector/properties[@direction="Destination -&gt; Source"]
-      ))
-    return $connector
+    if($model/classes[@level="1"]) then
+      for $connector in $xmiFile/xmi:XMI/xmi:Extension/connectors/connector
+      where $connector/properties[@ea_type!="Generalization"]
+      where $connector/properties[@ea_type!="Dependency"]
+      where $connector/source[@xmi:idref=$elements/@xmi:idref]
+      where $connector/target[@xmi:idref=$elements/@xmi:idref]
+      where $connector/source/model[@type="Class"]
+      where $connector/target/model[@type="Class"]
+      return $connector
+    else if($model/classes[@level="2"]) then
+      for $connector in $xmiFile/xmi:XMI/xmi:Extension/connectors/connector
+      where $connector/properties[@ea_type!="Generalization"]
+      where $connector/properties[@ea_type!="Dependency"]
+      where (
+        ( $connector/source[@xmi:idref=$elements/@xmi:idref]
+          and $connector/properties[@direction!="Destination -&gt; Source"]
+        ) or
+        ( $connector/target[@xmi:idref=$elements/@xmi:idref]
+          and $connector/properties[@direction="Destination -&gt; Source"]
+        ))
+      where $connector/source/model[@type="Class"]
+      where $connector/target/model[@type="Class"]
+      return $connector
+    else if($model/classes[@level="3"]) then
+      extractor:get3rdLevelConnectors($xmiFile, $elements)
+    else
+      ()
+    
+  (: indirectly selected classes by connectors :)
+  let $elements:=$elements union (
+    if($model/classes[@level="2" or @level="3"]) then
+      for $connector in $connectors
+      return 
+        if(fn:exists($connector/properties/@direction)=false()) then
+          $xmiFile/xmi:XMI/xmi:Extension/elements/element[@xmi:idref=$connector/target/@xmi:idref]
+        else if($connector/properties[@direction="Source -&gt; Destination"]) then
+          $xmiFile/xmi:XMI/xmi:Extension/elements/element[@xmi:idref=$connector/target/@xmi:idref]
+        else
+          $xmiFile/xmi:XMI/xmi:Extension/elements/element[@xmi:idref=$connector/source/@xmi:idref]
+    )
   
+  (: association classes :)
   let $elements:=$elements union (
     for $connector in $connectors
-    return 
-      if(fn:exists($connector/properties/@direction)=false()) then
-        $xmiFile/xmi:XMI/xmi:Extension/elements/element[@xmi:idref=$connector/target/@xmi:idref]
-      else if($connector/properties[@direction="Source -&gt; Destination"]) then
-        $xmiFile/xmi:XMI/xmi:Extension/elements/element[@xmi:idref=$connector/target/@xmi:idref]
-      else
-        $xmiFile/xmi:XMI/xmi:Extension/elements/element[@xmi:idref=$connector/source/@xmi:idref]
+    where $connector/extendedProperties[@associationclass]
+    let $associationElement:=$xmiFile/xmi:XMI/xmi:Extension/elements/element
+      [@xmi:idref=$connector/extendedProperties/@associationclass]
+    return $associationElement
   )
   
-  (:
-  let $connectors:=
-    for $connector in $xmiFile/xmi:XMI/xmi:Extension/connectors/connector
-    where $connector/properties[@ea_type!="Generalization"]
-    where $connector/properties[@ea_type!="Dependency"]
-    where $connector/source[@xmi:idref=$elements/@xmi:idref]
-    where $connector/target[@xmi:idref=$elements/@xmi:idref]
-    return $connector
-  :)
-  
+  (: super classes and their super classes ... :)
   let $elements:=$elements union extractor:getSuperClasses($xmiFile, $elements)
-  let $elements:=$elements union extractor:getAssociationClasses($xmiFile, $connectors)       
-  let $elements:=$elements union extractor:getAttributeClasses($xmiFile, $elements)
   
+  (: attribute classes, their super classes and their attribute classes, ... :)
+  let $elements:=$elements union extractor:getAttributeClasses($xmiFile, $elements, $xsdDatatypes)
+    
   return <model>
     <elements>
       {$elements}
@@ -67,6 +89,38 @@ declare function extractor:getModelSubset(
       {$connectors}
     </connectors>
   </model>
+};
+
+declare function extractor:get3rdLevelConnectors(
+  $xmiFile as document-node(),
+  $elements as element()*
+) as element()*{
+  for $connector in $xmiFile/xmi:XMI/xmi:Extension/connectors/connector
+  where $connector/properties[@ea_type!="Generalization"]
+  where $connector/properties[@ea_type!="Dependency"]
+  where (
+    ( $connector/source[@xmi:idref=$elements/@xmi:idref]
+      and $connector/properties[@direction!="Destination -&gt; Source"]
+    ) or
+    ( $connector/target[@xmi:idref=$elements/@xmi:idref]
+      and $connector/properties[@direction="Destination -&gt; Source"]
+    ))
+  where $connector/source/model[@type="Class"]
+  where $connector/target/model[@type="Class"]
+  return
+    if($connector/source[@xmi:idref=$elements/@xmi:idref]
+      and $connector/properties[@direction!="Destination -&gt; Source"]
+      and $connector/source[@xmi:idref!=$connector/target/@xmi:idref]) then (
+        $connector, 
+        extractor:get3rdLevelConnectors($xmiFile, $xmiFile/xmi:XMI/xmi:Extension/elements/element[@xmi:idref=$connector/target/@xmi:idref])
+    )
+    else if($connector/target[@xmi:idref=$elements/@xmi:idref]
+      and $connector/properties[@direction="Destination -&gt; Source"]
+      and $connector/source[@xmi:idref!=$connector/target/@xmi:idref]) then (
+        $connector,
+        extractor:get3rdLevelConnectors($xmiFile, $xmiFile/xmi:XMI/xmi:Extension/elements/element[@xmi:idref=$connector/source/@xmi:idref])
+    )
+    else $connector
 };
 
 declare function extractor:getSuperClasses(
@@ -79,38 +133,30 @@ declare function extractor:getSuperClasses(
     let $superElement:=$xmiFile/xmi:XMI/xmi:Extension/elements/element
       [@xmi:idref=$generalization/@end]
       [@xmi:type="uml:Class"]
+    where fn:exists($superElement)
     return (
       $superElement,
       extractor:getSuperClasses($xmiFile, $superElement) 
     )
 };
 
-declare function extractor:getAssociationClasses(
-  $xmiFile as document-node(),
-  $connectors as element()*
-){
-  for $connector in $connectors
-  where $connector/extendedProperties[@associationclass]
-  let $associationClass:=$xmiFile/xmi:XMI/xmi:Extension/elements/element
-    [@xmi:idref=$connector/extendedProperties/@associationclass]
-  return (
-    $associationClass,
-    extractor:getSuperClasses($xmiFile, $associationClass) 
-  )
-};
-
 declare function extractor:getAttributeClasses(
   $xmiFile as document-node(),
-  $classes as element()*
+  $elements as element()*,
+  $xsdDatatypes as element()*
 ) as element()* {
-  for $class in $classes
-    for $attribute in $class/attributes/attribute
-    let $attributeClass:=$xmiFile/xmi:XMI/xmi:Extension/elements/element
+  for $element in $elements
+    for $attribute in $element/attributes/attribute
+    let $attributeElement:=$xmiFile/xmi:XMI/xmi:Extension/elements/element
       [@name=$attribute/properties/@type]
       [@xmi:type="uml:Class"]
-    return (
-        $attributeClass, 
-        extractor:getSuperClasses($xmiFile, $attributeClass), 
-        extractor:getAttributeClasses($xmiFile, $attributeClass)
+    where fn:exists($attributeElement)
+    return 
+      if($attribute/properties[@type=$xsdDatatypes/@name/string()]) then
+        $attributeElement
+      else (
+        $attributeElement,
+        extractor:getSuperClasses($xmiFile, $attributeElement),
+        extractor:getAttributeClasses($xmiFile, $attributeElement, $xsdDatatypes)
       )
 };

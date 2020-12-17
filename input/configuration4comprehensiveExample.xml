@@ -10,8 +10,8 @@
 			model must fulfill the following techniical requirements:
 				1. class diagram must be exported to XMI by enterprise architect
 		-->
-			<model name="AIXM" type="AIXM" location="input/AIXM_5.1.1.xmi">
-				<classes>
+			<model name="AIXM_comprehensiveExample" type="aixm_5-1-1" location="input/AIXM_5.1.1.xmi">
+				<classes level="1">
 					<class>TerminalSegmentPoint</class>
 					<class>Curve</class>
 					<class>ObstacleAssessmentArea</class>
@@ -42,8 +42,8 @@
 					<class>AirTrafficControlService</class>
 				</classes>
 			</model>
-			<model name="FIXM" type="FIXM" location="input/FIXM_3.0.1_SESAR.xmi">
-				<classes>
+			<model name="FIXM_comprehensiveExample" type="fixm_3-0-1_sesar" location="input/FIXM_3.0.1_SESAR.xmi">
+				<classes level="1">
 					<class>StandardCapabilitiesIndicator</class>
 					<class>EngineType</class>
 					<class>AircraftPerformanceCategory</class>

@@ -537,7 +537,7 @@ declare function aixm_5-1-1:getGMLBasisElements(){
   <sh:NodeShape rdf:about="{$aixm_5-1-1:namespace}NoNumberType">
     <sh:property rdf:parseType="Resource">
       <sh:path rdf:resource="{$aixm_5-1-1:rdf}value" />
-      <sh:datatype rdf:resource="{$aixm_5-1-1:xsd}integer" />
+      <sh:datatype rdf:resource="{$aixm_5-1-1:xsd}unsignedInt" />
       <sh:minCount rdf:datatype="{$aixm_5-1-1:xsd}integer">1</sh:minCount>
       <sh:maxCount rdf:datatype="{$aixm_5-1-1:xsd}integer">1</sh:maxCount>
     </sh:property>

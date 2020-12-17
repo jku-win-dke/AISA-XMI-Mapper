@@ -24,8 +24,8 @@ s1:AHP_EADH
   a aixm:AirportHeliportTimeSlice;
   gml:validTime s1:vtnull0;
   aixm:interpretation [rdf:value "BASELINE"];
-  aixm:sequenceNumber [rdf:value 1];
-  aixm:correctionNumber [rdf:value 0];
+  aixm:sequenceNumber [rdf:value "1"^^xsd:unsignedInt];
+  aixm:correctionNumber [rdf:value "0"^^xsd:unsignedInt];
   aixm:featureLifetime s1:ltnull0;
   aixm:designator [rdf:value "EADH"];
   aixm:name [rdf:value "DONLON/DOWNTOWN HELIPORT" ];
@@ -116,8 +116,8 @@ s1:ln003
   a event:Event;
   event:timeSlice s2:IDE_ACT_22;
   aixm:interpretation [rdf:value "BASELINE"];
-  aixm:sequenceNumber [rdf:value 1];
-  aixm:correctionNumber [rdf:value 0];
+  aixm:sequenceNumber [rdf:value "1"^^xsd:unsignedInt];
+  aixm:correctionNumber [rdf:value "0"^^xsd:unsignedInt];
   aixm:featureLifetime s2:IDE_ACT_24 ;
   event:name [rdf:value "EADH_20180511"];
   event:encoding [rdf:value "DIGITAL"];
@@ -165,8 +165,8 @@ s2:ID_ACT_11
   a aixm:AirportHeliportTimeSlice;
   gml:validTime s2:ID_ACT_12;
   aixm:interpretation [rdf:value "TEMPDELTA"];
-  aixm:sequenceNumber [rdf:value 1];
-  aixm:correctionNumber [rdf:value 0];
+  aixm:sequenceNumber [rdf:value "1"^^xsd:unsignedInt];
+  aixm:correctionNumber [rdf:value "0"^^xsd:unsignedInt];
   aixm:availability s2:ID_ACT_13;
   aixm:extension s2:ID_ACT_211. 
 
