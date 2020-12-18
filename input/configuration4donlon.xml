@@ -2,7 +2,7 @@
 	<selection>
 		<models>
 			<model name="AIXM_donlon" type="aixm_5-1-1" location="input/AIXM_5.1.1.xmi">
-				<classes level="2">
+				<classes connectorLevel="1">
 					<class>AirportHeliport</class>
 					<class>City</class>
 					<class>AirportHeliportResponsibilityOrganisation</class>

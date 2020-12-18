@@ -11,7 +11,7 @@
 				1. class diagram must be exported to XMI by enterprise architect
 		-->
 			<model name="AIXM_comprehensiveExample" type="aixm_5-1-1" location="input/AIXM_5.1.1.xmi">
-				<classes level="1">
+				<classes connectorLevel="1">
 					<class>TerminalSegmentPoint</class>
 					<class>Curve</class>
 					<class>ObstacleAssessmentArea</class>
@@ -43,7 +43,7 @@
 				</classes>
 			</model>
 			<model name="FIXM_comprehensiveExample" type="fixm_3-0-1_sesar" location="input/FIXM_3.0.1_SESAR.xmi">
-				<classes level="1">
+				<classes connectorLevel="1">
 					<class>StandardCapabilitiesIndicator</class>
 					<class>EngineType</class>
 					<class>AircraftPerformanceCategory</class>

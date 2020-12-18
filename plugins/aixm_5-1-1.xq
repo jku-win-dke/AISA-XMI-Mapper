@@ -75,9 +75,6 @@ declare function aixm_5-1-1:mapFeature(
     {
       aixm_5-1-1:mapDirectConnectors($element, $modelSubset)
     }
-    {
-      aixm_5-1-1:mapIndirectConnectors($element, $modelSubset)
-    }
   </sh:NodeShape>
 };
 
@@ -410,11 +407,6 @@ declare function aixm_5-1-1:mapIndirectConnectors(
       else
         $connector/source/model/@name/string()
     let $pathName:=aixm_5-1-1:getRoleName($targetName)
-    let $cardinality:=
-      if($connector/properties[@direction="Source -&gt; Destination"]) then
-        $connector/target/type/@multiplicity
-      else
-        $connector/source/type/@multiplicity
     return <sh:property rdf:parseType="Resource">
       <sh:path rdf:resource="{$aixm_5-1-1:namespace}{$pathName}" />
       <sh:class rdf:resource="{$aixm_5-1-1:namespace}{$targetName}" />

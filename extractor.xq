@@ -25,7 +25,7 @@ declare function extractor:getModelSubset(
   
   (: connectors :)
   let $connectors:=
-    if($model/classes[@level="1"]) then
+    if($model/classes[@connectorLevel="1"]) then
       for $connector in $xmiFile/xmi:XMI/xmi:Extension/connectors/connector
       where $connector/properties[@ea_type!="Generalization"]
       where $connector/properties[@ea_type!="Dependency"]
@@ -34,28 +34,31 @@ declare function extractor:getModelSubset(
       where $connector/source/model[@type="Class"]
       where $connector/target/model[@type="Class"]
       return $connector
-    else if($model/classes[@level="2"]) then
+    else if($model/classes[@connectorLevel="2"]) then
       for $connector in $xmiFile/xmi:XMI/xmi:Extension/connectors/connector
       where $connector/properties[@ea_type!="Generalization"]
       where $connector/properties[@ea_type!="Dependency"]
       where (
         ( $connector/source[@xmi:idref=$elements/@xmi:idref]
           and $connector/properties[@direction!="Destination -&gt; Source"]
+        ) or 
+        ( $connector/source[@xmi:idref=$elements/@xmi:idref]
+          and fn:exists($connector/properties/@direction)=false())
         ) or
         ( $connector/target[@xmi:idref=$elements/@xmi:idref]
           and $connector/properties[@direction="Destination -&gt; Source"]
-        ))
+      )
       where $connector/source/model[@type="Class"]
       where $connector/target/model[@type="Class"]
       return $connector
-    else if($model/classes[@level="3"]) then
+    else if($model/classes[@connectorLevel="n"]) then
       extractor:get3rdLevelConnectors($xmiFile, $elements)
     else
       ()
     
   (: indirectly selected classes by connectors :)
   let $elements:=$elements union (
-    if($model/classes[@level="2" or @level="3"]) then
+    if($model/classes[@connectorLevel!="0" or @connectorLevel!="1"]) then
       for $connector in $connectors
       return 
         if(fn:exists($connector/properties/@direction)=false()) then
@@ -101,10 +104,13 @@ declare function extractor:get3rdLevelConnectors(
   where (
     ( $connector/source[@xmi:idref=$elements/@xmi:idref]
       and $connector/properties[@direction!="Destination -&gt; Source"]
+    ) or 
+    ( $connector/source[@xmi:idref=$elements/@xmi:idref]
+      and fn:exists($connector/properties/@direction)=false())
     ) or
     ( $connector/target[@xmi:idref=$elements/@xmi:idref]
       and $connector/properties[@direction="Destination -&gt; Source"]
-    ))
+    )
   where $connector/source/model[@type="Class"]
   where $connector/target/model[@type="Class"]
   return

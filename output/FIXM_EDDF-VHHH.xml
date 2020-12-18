@@ -12,6 +12,10 @@
   </sh:NodeShape>
   <sh:NodeShape rdf:about="http://www.fixm.aero/Extension">
     <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
+    <rdfs:subClassOf rdf:resource="http://www.fixm.aero/Feature"/>
+    <sh:and rdf:parseType="Collection">
+      <sh:NodeShape rdf:about="http://www.fixm.aero/Feature"/>
+    </sh:and>
   </sh:NodeShape>
   <sh:NodeShape rdf:about="http://www.fixm.aero/Feature">
     <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
@@ -55,6 +59,10 @@
   </sh:NodeShape>
   <sh:NodeShape rdf:about="http://www.fixm.aero/EfplFlight">
     <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
+    <rdfs:subClassOf rdf:resource="http://www.fixm.aero/Flight"/>
+    <sh:and rdf:parseType="Collection">
+      <sh:NodeShape rdf:about="http://www.fixm.aero/Flight"/>
+    </sh:and>
     <sh:property rdf:parseType="Resource">
       <sh:path rdf:resource="http://www.fixm.aero/ifplId"/>
       <sh:node rdf:resource="http://www.fixm.aero/IFPLId"/>
@@ -96,9 +104,38 @@
       <sh:maxCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:maxCount>
     </sh:property>
   </sh:NodeShape>
-  <sh:NodeShape rdf:about="http://www.fixm.aero/EfplSpecialHandlingCode"/>
+  <sh:NodeShape rdf:about="http://www.fixm.aero/EfplSpecialHandlingCode">
+    <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
+    <sh:property rdf:parseType="Resource">
+      <sh:path rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#value"/>
+      <sh:minCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:minCount>
+      <sh:maxCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:maxCount>
+      <sh:in rdf:parseType="Resource">
+        <rdf:rest rdf:parseType="Resource">
+          <rdf:first>CPDLCX</rdf:first>
+          <rdf:rest rdf:parseType="Resource">
+            <rdf:first>EXM833</rdf:first>
+            <rdf:rest rdf:parseType="Resource">
+              <rdf:first>PROTECTED</rdf:first>
+              <rdf:rest rdf:parseType="Resource">
+                <rdf:first>RNAVINOP</rdf:first>
+                <rdf:rest rdf:parseType="Resource">
+                  <rdf:first>RNAVX</rdf:first>
+                  <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                </rdf:rest>
+              </rdf:rest>
+            </rdf:rest>
+          </rdf:rest>
+        </rdf:rest>
+      </sh:in>
+    </sh:property>
+  </sh:NodeShape>
   <sh:NodeShape rdf:about="http://www.fixm.aero/EfplTrajectoryPoint">
     <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
+    <rdfs:subClassOf rdf:resource="http://www.fixm.aero/TrajectoryPoint"/>
+    <sh:and rdf:parseType="Collection">
+      <sh:NodeShape rdf:about="http://www.fixm.aero/TrajectoryPoint"/>
+    </sh:and>
     <sh:property rdf:parseType="Resource">
       <sh:path rdf:resource="http://www.fixm.aero/aerodromeIdentifier"/>
       <sh:node rdf:resource="http://www.fixm.aero/AerodromeReference"/>
@@ -132,6 +169,10 @@
   </sh:NodeShape>
   <sh:NodeShape rdf:about="http://www.fixm.aero/EfplTrajectoryRoutePair">
     <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
+    <rdfs:subClassOf rdf:resource="http://www.fixm.aero/TrajectoryRoutePair"/>
+    <sh:and rdf:parseType="Collection">
+      <sh:NodeShape rdf:about="http://www.fixm.aero/TrajectoryRoutePair"/>
+    </sh:and>
   </sh:NodeShape>
   <sh:NodeShape rdf:about="http://www.fixm.aero/FlightPerformanceData">
     <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
@@ -164,6 +205,10 @@
   </sh:NodeShape>
   <sh:NodeShape rdf:about="http://www.fixm.aero/Aircraft">
     <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
+    <rdfs:subClassOf rdf:resource="http://www.fixm.aero/Feature"/>
+    <sh:and rdf:parseType="Collection">
+      <sh:NodeShape rdf:about="http://www.fixm.aero/Feature"/>
+    </sh:and>
     <sh:property rdf:parseType="Resource">
       <sh:path rdf:resource="http://www.fixm.aero/aircraftColours"/>
       <sh:node rdf:resource="http://www.fixm.aero/FreeText"/>
@@ -315,7 +360,26 @@
       <sh:maxCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:maxCount>
     </sh:property>
   </sh:NodeShape>
-  <sh:NodeShape rdf:about="http://www.fixm.aero/DinghyColour"/>
+  <sh:NodeShape rdf:about="http://www.fixm.aero/DinghyColour">
+    <sh:property rdf:parseType="Resource">
+      <sh:path rdf:resource="http://www.fixm.aero/otherColour"/>
+      <sh:node rdf:resource="http://www.fixm.aero/FreeText"/>
+      <sh:maxCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:maxCount>
+    </sh:property>
+    <sh:property rdf:parseType="Resource">
+      <sh:path rdf:resource="http://www.fixm.aero/colourCode"/>
+      <sh:class rdf:resource="http://www.fixm.aero/DinghyColourCode"/>
+      <sh:maxCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:maxCount>
+    </sh:property>
+    <sh:xone rdf:parseType="Collection">
+      <rdf:Description>
+        <sh:property rdf:parseType="Resource">
+          <sh:path rdf:resource="http://www.fixm.aero/colourCode"/>
+          <sh:minCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:minCount>
+        </sh:property>
+      </rdf:Description>
+    </sh:xone>
+  </sh:NodeShape>
   <sh:NodeShape rdf:about="http://www.fixm.aero/SurvivalCapabilities">
     <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
     <sh:property rdf:parseType="Resource">
@@ -364,6 +428,10 @@
   </sh:NodeShape>
   <sh:NodeShape rdf:about="http://www.fixm.aero/Flight">
     <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
+    <rdfs:subClassOf rdf:resource="http://www.fixm.aero/Feature"/>
+    <sh:and rdf:parseType="Collection">
+      <sh:NodeShape rdf:about="http://www.fixm.aero/Feature"/>
+    </sh:and>
     <sh:property rdf:parseType="Resource">
       <sh:path rdf:resource="http://www.fixm.aero/controllingUnit"/>
       <sh:node rdf:resource="http://www.fixm.aero/AtcUnitReference"/>
@@ -390,18 +458,64 @@
       <sh:maxCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:maxCount>
     </sh:property>
   </sh:NodeShape>
-  <sh:NodeShape rdf:about="http://www.fixm.aero/AirspeedMeasure"/>
+  <sh:NodeShape rdf:about="http://www.fixm.aero/AirspeedMeasure">
+    <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
+    <sh:property rdf:parseType="Resource">
+      <sh:path rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#value"/>
+      <sh:minCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:minCount>
+      <sh:maxCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:maxCount>
+      <sh:in rdf:parseType="Resource">
+        <rdf:rest rdf:parseType="Resource">
+          <rdf:first>KILOMETRES_PER_HOUR</rdf:first>
+          <rdf:rest rdf:parseType="Resource">
+            <rdf:first>KNOTS</rdf:first>
+            <rdf:rest rdf:parseType="Resource">
+              <rdf:first>MACH</rdf:first>
+              <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </rdf:rest>
+          </rdf:rest>
+        </rdf:rest>
+      </sh:in>
+    </sh:property>
+  </sh:NodeShape>
   <sh:NodeShape rdf:about="http://www.fixm.aero/Distance">
     <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
+    <rdfs:subClassOf rdf:resource="http://www.fixm.aero/UnitOfMeasure"/>
+    <sh:and rdf:parseType="Collection">
+      <sh:NodeShape rdf:about="http://www.fixm.aero/UnitOfMeasure"/>
+    </sh:and>
     <sh:property rdf:parseType="Resource">
       <sh:path rdf:resource="http://www.fixm.aero/uom"/>
       <sh:node rdf:resource="http://www.fixm.aero/DistanceMeasure"/>
       <sh:maxCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:maxCount>
     </sh:property>
   </sh:NodeShape>
-  <sh:NodeShape rdf:about="http://www.fixm.aero/DistanceMeasure"/>
+  <sh:NodeShape rdf:about="http://www.fixm.aero/DistanceMeasure">
+    <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
+    <sh:property rdf:parseType="Resource">
+      <sh:path rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#value"/>
+      <sh:minCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:minCount>
+      <sh:maxCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:maxCount>
+      <sh:in rdf:parseType="Resource">
+        <rdf:rest rdf:parseType="Resource">
+          <rdf:first>NAUTICAL_MILES</rdf:first>
+          <rdf:rest rdf:parseType="Resource">
+            <rdf:first>MILES</rdf:first>
+            <rdf:rest rdf:parseType="Resource">
+              <rdf:first>KILOMETERS</rdf:first>
+              <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </rdf:rest>
+          </rdf:rest>
+        </rdf:rest>
+      </sh:in>
+    </sh:property>
+  </sh:NodeShape>
   <sh:NodeShape rdf:about="http://www.fixm.aero/TrueAirspeedOrMach">
     <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
+    <rdfs:subClassOf rdf:resource="http://www.fixm.aero/UnitOfMeasure"/>
+    <sh:and rdf:parseType="Collection">
+      <sh:NodeShape rdf:about="http://www.fixm.aero/UnitOfMeasure"/>
+    </sh:and>
     <sh:property rdf:parseType="Resource">
       <sh:path rdf:resource="http://www.fixm.aero/uom"/>
       <sh:node rdf:resource="http://www.fixm.aero/AirspeedMeasure"/>
@@ -413,13 +527,33 @@
   </sh:NodeShape>
   <sh:NodeShape rdf:about="http://www.fixm.aero/Weight">
     <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
+    <rdfs:subClassOf rdf:resource="http://www.fixm.aero/UnitOfMeasure"/>
+    <sh:and rdf:parseType="Collection">
+      <sh:NodeShape rdf:about="http://www.fixm.aero/UnitOfMeasure"/>
+    </sh:and>
     <sh:property rdf:parseType="Resource">
       <sh:path rdf:resource="http://www.fixm.aero/uom"/>
       <sh:node rdf:resource="http://www.fixm.aero/WeightMeasure"/>
       <sh:maxCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:maxCount>
     </sh:property>
   </sh:NodeShape>
-  <sh:NodeShape rdf:about="http://www.fixm.aero/WeightMeasure"/>
+  <sh:NodeShape rdf:about="http://www.fixm.aero/WeightMeasure">
+    <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
+    <sh:property rdf:parseType="Resource">
+      <sh:path rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#value"/>
+      <sh:minCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:minCount>
+      <sh:maxCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:maxCount>
+      <sh:in rdf:parseType="Resource">
+        <rdf:rest rdf:parseType="Resource">
+          <rdf:first>KILOGRAMS</rdf:first>
+          <rdf:rest rdf:parseType="Resource">
+            <rdf:first>POUNDS</rdf:first>
+            <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+          </rdf:rest>
+        </rdf:rest>
+      </sh:in>
+    </sh:property>
+  </sh:NodeShape>
   <sh:NodeShape rdf:about="http://www.fixm.aero/Duration">
     <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
   </sh:NodeShape>
