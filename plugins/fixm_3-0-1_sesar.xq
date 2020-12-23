@@ -5,7 +5,7 @@ declare namespace rdfs="http://www.w3.org/2000/01/rdf-schema#";
 declare namespace sh="http://www.w3.org/ns/shacl#";
 declare namespace xmi="http://schema.omg.org/spec/XMI/2.1";
 
-declare variable $fixm_3-0-1_sesar:namespace:="http://www.fixm.aero/"; 
+declare variable $fixm_3-0-1_sesar:namespace:="http://www.aisa-project.eu/vocabulary/fixm_3-0-1_sesar#"; 
 declare variable $fixm_3-0-1_sesar:xsd:="http://www.w3.org/2001/XMLSchema#";
 declare variable $fixm_3-0-1_sesar:rdf:="http://www.w3.org/1999/02/22-rdf-syntax-ns#";
 declare variable $fixm_3-0-1_sesar:rdfs:="http://www.w3.org/2000/01/rdf-schema#";
@@ -17,7 +17,8 @@ declare function fixm_3-0-1_sesar:map(
     xmlns:sh="http://www.w3.org/ns/shacl#"
     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" 
     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
-    xmlns:xsd="http://www.w3.org/2001/XMLSchema#">
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+    xmlns:fixm="http://www.aisa-project.eu/vocabulary/fixm_3-0-1_sesar#">
     {
       for $element in $modelSubset/elements/element
       return
@@ -34,11 +35,15 @@ declare function fixm_3-0-1_sesar:map(
 declare function fixm_3-0-1_sesar:mapEnumeration(
   $element as element(),
   $modelSubset as element()
-) as element()* {
+) as element() {
   <sh:NodeShape rdf:about="{$fixm_3-0-1_sesar:namespace}{$element/@name/string()}">
     <rdf:type rdf:resource="{$fixm_3-0-1_sesar:rdfs}Class" />
     <sh:property rdf:parseType="Resource">
-      <sh:path rdf:resource="{$fixm_3-0-1_sesar:rdf}value" />
+      {
+        if(fn:ends-with($element/@name/string(), "Measure")) then
+          <sh:path rdf:resource="{$fixm_3-0-1_sesar:namespace}uom" />
+        else <sh:path rdf:resource="{$fixm_3-0-1_sesar:rdf}value" />
+      }
       <sh:minCount rdf:datatype="{$fixm_3-0-1_sesar:xsd}integer">1</sh:minCount>
       <sh:maxCount rdf:datatype="{$fixm_3-0-1_sesar:xsd}integer">1</sh:maxCount>
       <sh:in rdf:parseType="Resource">
@@ -51,38 +56,12 @@ declare function fixm_3-0-1_sesar:mapEnumeration(
 declare function fixm_3-0-1_sesar:mapChoice(
   $element as element(),
   $modelSubset as element()
-) as element()* {
-  <sh:NodeShape rdf:about="{$fixm_3-0-1_sesar:namespace}{$element/@name/string()}">
-    { fixm_3-0-1_sesar:mapAttributes($element) }
-    { fixm_3-0-1_sesar:mapConnectors($element, $modelSubset) }
-    {
-      <sh:xone rdf:parseType="Collection">
-        {
-          for $connector in $modelSubset/connectors/connector
-          where $connector/source[@xmi:idref=$element/@xmi:idref]
-          return <rdf:Description>
-            <sh:property rdf:parseType="Resource">
-              {
-                let $pathName:=
-                  if(fn:exists($connector/@name)) then
-                    $connector/@name/string()
-                  else
-                    $connector/target/model/@name/string()
-                return <sh:path rdf:resource="{$fixm_3-0-1_sesar:namespace}{$pathName}" />
-              }
-              <sh:minCount rdf:datatype="{$fixm_3-0-1_sesar:xsd}integer">1</sh:minCount> 
-            </sh:property>
-          </rdf:Description>
-        }
-      </sh:xone>
-    }
-  </sh:NodeShape>
-} ;
+) {} ;
 
 declare function fixm_3-0-1_sesar:mapPlain(
   $element as element(),
   $modelSubset as element()
-) as element()* {
+) as element() {
   <sh:NodeShape rdf:about="{$fixm_3-0-1_sesar:namespace}{$element/@name/string()}">
     <rdf:type rdf:resource="{$fixm_3-0-1_sesar:rdfs}Class" />
     {
@@ -95,17 +74,35 @@ declare function fixm_3-0-1_sesar:mapPlain(
         { <sh:NodeShape rdf:about="{$fixm_3-0-1_sesar:namespace}{$superElement/@name/string()}" /> } 
       </sh:and>
     }
-    { fixm_3-0-1_sesar:mapAttributes($element) }
+    {
+      let $uomAttribute:=$element/attributes/attribute[@name="uom"]
+      return if(fn:exists($uomAttribute)) then
+        <sh:and rdf:parseType="Collection">
+          { <sh:NodeShape rdf:about="{$fixm_3-0-1_sesar:namespace}{$uomAttribute/properties/@type/string()}" /> } 
+        </sh:and>
+    }
+    {
+      if(fn:exists($element/properties/@genlinks)) then
+        <sh:property rdf:parseType="Resource">
+          <sh:path rdf:resource="{$fixm_3-0-1_sesar:rdf}value"/>
+          {
+            let $datatype:=fn:replace($element/properties/@genlinks, "Parent=", "")
+            let $datatype:=fn:replace($datatype, ";", "")
+            let $datatype:=
+              if($datatype="int") then "integer" 
+              else if($datatype="duration") then "string"
+              else if($datatype="double") then "decimal"
+              else $datatype
+            return <sh:datatype rdf:resource="{$fixm_3-0-1_sesar:xsd}{$datatype}"/>
+          }
+          <sh:minCount rdf:datatype="{$fixm_3-0-1_sesar:xsd}integer">1</sh:minCount>
+          <sh:maxCount rdf:datatype="{$fixm_3-0-1_sesar:xsd}integer">1</sh:maxCount> 
+        </sh:property>
+    }
+    { fixm_3-0-1_sesar:mapAttributes($element, $modelSubset) }
     { fixm_3-0-1_sesar:mapConnectors($element, $modelSubset) }
   </sh:NodeShape>
 } ;
-
-declare function fixm_3-0-1_sesar:getNamespace(
-  $element as element(),
-  $modelSubset as element()
-) as element()*{
-  
-};
 
 declare function fixm_3-0-1_sesar:getSuperElements(
   $element as element(),
@@ -131,15 +128,57 @@ declare function fixm_3-0-1_sesar:getCollection(
     <rdf:rest rdf:resource="{$fixm_3-0-1_sesar:rdf}nil"/>
 };
 
+(:maxcount???:)
+declare function fixm_3-0-1_sesar:mapChoiceAttributeToXone(
+  $element as element(),
+  $modelSubset as element(),
+  $attributeName as xs:string
+) as element() {
+  <sh:xone rdf:parseType="Collection">
+  {
+    for $connector in $modelSubset/connectors/connector
+    where $connector/source[@xmi:idref=$element/@xmi:idref]
+    return <rdf:Description>
+      <sh:property rdf:parseType="Resource">
+         <sh:path rdf:resource="{$fixm_3-0-1_sesar:namespace}{$attributeName}" />
+         <sh:minCount rdf:datatype="{$fixm_3-0-1_sesar:xsd}integer">1</sh:minCount>
+         <sh:class rdf:resource="{$fixm_3-0-1_sesar:namespace}{$connector/target/model/@name/string()}" />
+       </sh:property>
+     </rdf:Description>
+   }
+   </sh:xone>
+};
+
 declare function fixm_3-0-1_sesar:mapAttributes(
-  $element as element()
+  $element as element(),
+  $modelSubset as element()
 ) as element()* {
   for $attribute in $element/attributes/attribute
-  return <sh:property rdf:parseType="Resource">
-    <sh:path rdf:resource="{$fixm_3-0-1_sesar:namespace}{$attribute/@name/string()}" />
-    <sh:class rdf:resource="{$fixm_3-0-1_sesar:namespace}{$attribute/properties/@type/string()}" />
-    <sh:maxCount rdf:datatype="{$fixm_3-0-1_sesar:xsd}integer">1</sh:maxCount> 
-  </sh:property>
+  where $attribute[@name!="uom"]
+  let $attributeElement:=$modelSubset/elements/element[@name=$attribute/properties/@type]
+  return if($attributeElement/properties[@stereotype="choice"]) then (
+    <sh:property rdf:parseType="Resource">
+      <sh:path rdf:resource="{$fixm_3-0-1_sesar:namespace}{$attribute/@name/string()}" />
+      <sh:minCount rdf:datatype="{$fixm_3-0-1_sesar:xsd}integer">0</sh:minCount>
+      {
+        let $maxCount:=$attribute/bounds/@upper/string()
+        return if($maxCount!="*") then
+          <sh:maxCount rdf:datatype="{$fixm_3-0-1_sesar:xsd}integer">{$maxCount}</sh:maxCount>
+      }
+    </sh:property>,
+    fixm_3-0-1_sesar:mapChoiceAttributeToXone($attributeElement, $modelSubset, $attribute/@name/string())
+  )
+  else
+    <sh:property rdf:parseType="Resource">
+      <sh:path rdf:resource="{$fixm_3-0-1_sesar:namespace}{$attribute/@name/string()}" />
+      <sh:node rdf:resource="{$fixm_3-0-1_sesar:namespace}{$attribute/properties/@type/string()}" />
+      <sh:minCount rdf:datatype="{$fixm_3-0-1_sesar:xsd}integer">0</sh:minCount>
+      {
+        let $maxCount:=$attribute/bounds/@upper/string()
+        return if($maxCount!="*") then
+          <sh:maxCount rdf:datatype="{$fixm_3-0-1_sesar:xsd}integer">{$maxCount}</sh:maxCount>
+      }
+    </sh:property>
 };
 
 declare function fixm_3-0-1_sesar:mapConnectors(
@@ -152,18 +191,18 @@ declare function fixm_3-0-1_sesar:mapConnectors(
     if(fn:exists($connector/@name)) then
       $connector/@name/string()
     else
-      $connector/target/model/@name/string()
-  let $cardinality:=$connector/target/type/@multiplicity
+      fn:lower-case(fn:substring($connector/target/model/@name/string(), 1, 1))
+      ||fn:substring($connector/target/model/@name/string(), 2)
   return <sh:property rdf:parseType="Resource">
     <sh:path rdf:resource="{$fixm_3-0-1_sesar:namespace}{$pathName}" />
-    <sh:class rdf:resource="{$fixm_3-0-1_sesar:namespace}{$connector/target/model/@name/string()}" />
+    <sh:node rdf:resource="{$fixm_3-0-1_sesar:namespace}{$connector/target/model/@name/string()}" />
     {
-      let $minCount:=fn:substring($cardinality, 1, 1)
-      return if(fn:exists($minCount) and $minCount!="*" and $minCount!="0") then
+      let $minCount:=fn:substring-before($connector/target/type/@multiplicity, "..")
+      return if(fn:exists($minCount) and $minCount!="*") then
         <sh:minCount rdf:datatype="{$fixm_3-0-1_sesar:xsd}integer">{$minCount}</sh:minCount>
     }
     {
-      let $maxCount:=fn:substring($cardinality, fn:string-length($cardinality), 1)
+      let $maxCount:=fn:substring-after($connector/target/type/@multiplicity, "..")
       return if(fn:exists($maxCount) and $maxCount!="*") then
         <sh:maxCount rdf:datatype="{$fixm_3-0-1_sesar:xsd}integer">{$maxCount}</sh:maxCount> 
       }

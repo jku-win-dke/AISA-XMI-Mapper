@@ -1,0 +1,38 @@
+ <configuration>
+	<selection>
+		<models>
+			<model name="FIXM_EDDF-VHHH" type="fixm_3-0-1_sesar" location="input/FIXM_3.0.1_SESAR.xmi">
+				<classes connectorLevel="1">
+					<class>EfplFlight</class>
+					<class>Aircraft</class>
+					<class>AircraftType</class>
+					<class>AircraftCapabilities</class>
+					<class>CommunicationCapabilities</class>
+					<class>NavigationCapabilities</class>
+					<class>SurveillanceCapabilities</class>
+					<class>EfplFlightDeparture</class>
+					<class>IcaoAerodromeReference</class>
+					<class>FlightIdentification</class>
+					<class>AircraftOperator</class>
+					<class>Organization</class>
+					<class>AerodromesOfDestination</class>
+					<class>EfplTrajectoryRoutePair</class>
+					<class>EfplRoute</class>
+					<class>Trajectory</class>
+					<class>EfplTrajectoryPoint</class>
+					<class>MeteorologicalData</class>
+					<class>EfplPoint4D</class>
+					<class>FlightLevel</class>
+					<class>Speed</class>
+					<class>TrajectoryPointRole</class>
+					<class>FlightPerformanceData</class>
+					<class>OtherInformation</class>
+					
+					<class>OperatorCategory</class>
+					<class>PersonOrOrganization</class>
+					<class>Person</class>
+				</classes>
+			</model>
+		</models>
+	</selection>
+ </configuration>

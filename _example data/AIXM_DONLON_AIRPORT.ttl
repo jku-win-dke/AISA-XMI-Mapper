@@ -5,8 +5,9 @@
 #  DNOTAM data manually transformed from 
 #   https://github.com/aixm/donlon/blob/master/digitalNOTAM/DN_AD.CLS_except_special_flights.xml (accessed 30-Nov-2020)
 
+@prefix aixm: <http://www.aisa-project.eu/vocabulary/aixm_5-1-1#> .
+
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-@prefix aixm: <http://www.aixm.aero/schema/5.1.1#> .
 @prefix gml: <http://www.opengis.net/gml/3.2#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix event: <http://www.aixm.aero/schema/5.1/event#> .

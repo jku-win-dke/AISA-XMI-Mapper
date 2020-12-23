@@ -13,9 +13,9 @@ import module "http://www.aisa-project.eu/xquery/fixm_3-0-1_sesar" at "plugins/f
 (: choose as content for fn:doc("input/<content>.xml")/configuration: 
             - configuration4comprehensiveExample
             - configuration4donlon
-            - configuration4EDDF-VHHH
+            - configuration4EDDFVHHH
 or a selfmade configuration file :)
-declare variable $config:=fn:doc("input/configuration4EDDF-VHHH.xml")/configuration;
+declare variable $config:=fn:doc("input/configuration4EDDFVHHH.xml")/configuration;
 
 for $model in $config/selection/models/model
 let $modelSubset:=extractor:getModelSubset($model)

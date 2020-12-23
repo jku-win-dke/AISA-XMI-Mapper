@@ -14,7 +14,7 @@ declare function extractor:getModelSubset(
     for $className in $classNames
     let $element:=$xmiFile/xmi:XMI/xmi:Extension/elements/element
       [@name=$className]
-      [@xmi:type="uml:Class"]
+      [@xmi:type="uml:Class" or @xmi:type="uml:Enumeration"]
     return
       if(fn:count($element)=1) then 
         $element
@@ -43,10 +43,14 @@ declare function extractor:getModelSubset(
           and $connector/properties[@direction!="Destination -&gt; Source"]
         ) or 
         ( $connector/source[@xmi:idref=$elements/@xmi:idref]
-          and fn:exists($connector/properties/@direction)=false())
+          and $connector/properties[@direction="Unspecified"]
+        ) or 
+        ( $connector/source[@xmi:idref=$elements/@xmi:idref]
+          and fn:exists($connector/properties/@direction)=false()
         ) or
         ( $connector/target[@xmi:idref=$elements/@xmi:idref]
           and $connector/properties[@direction="Destination -&gt; Source"]
+        )
       )
       where $connector/source/model[@type="Class"]
       where $connector/target/model[@type="Class"]
@@ -106,11 +110,15 @@ declare function extractor:get3rdLevelConnectors(
       and $connector/properties[@direction!="Destination -&gt; Source"]
     ) or 
     ( $connector/source[@xmi:idref=$elements/@xmi:idref]
-      and fn:exists($connector/properties/@direction)=false())
+      and $connector/properties[@direction="Unspecified"]
+    ) or 
+    ( $connector/source[@xmi:idref=$elements/@xmi:idref]
+      and fn:exists($connector/properties/@direction)=false()
     ) or
     ( $connector/target[@xmi:idref=$elements/@xmi:idref]
       and $connector/properties[@direction="Destination -&gt; Source"]
     )
+  )
   where $connector/source/model[@type="Class"]
   where $connector/target/model[@type="Class"]
   return
@@ -138,7 +146,7 @@ declare function extractor:getSuperClasses(
     where $generalization[@start=$element/@xmi:idref]
     let $superElement:=$xmiFile/xmi:XMI/xmi:Extension/elements/element
       [@xmi:idref=$generalization/@end]
-      [@xmi:type="uml:Class"]
+      [@xmi:type="uml:Class" or @xmi:type="uml:Enumeration"]
     where fn:exists($superElement)
     return (
       $superElement,
@@ -155,7 +163,7 @@ declare function extractor:getAttributeClasses(
     for $attribute in $element/attributes/attribute
     let $attributeElement:=$xmiFile/xmi:XMI/xmi:Extension/elements/element
       [@name=$attribute/properties/@type]
-      [@xmi:type="uml:Class"]
+      [@xmi:type="uml:Class" or @xmi:type="uml:Enumeration"]
     where fn:exists($attributeElement)
     return 
       if($attribute/properties[@type=$xsdDatatypes/@name/string()]) then

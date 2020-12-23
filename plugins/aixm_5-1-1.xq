@@ -6,7 +6,7 @@ declare namespace rdfs="http://www.w3.org/2000/01/rdf-schema#";
 declare namespace sh="http://www.w3.org/ns/shacl#";
 declare namespace xmi="http://schema.omg.org/spec/XMI/2.1";
 
-declare variable $aixm_5-1-1:namespace:="http://www.aixm.aero/schema/5.1.1#"; 
+declare variable $aixm_5-1-1:namespace:="http://www.aisa-project.eu/vocabulary/aixm_5-1-1#"; 
 declare variable $aixm_5-1-1:xsd:="http://www.w3.org/2001/XMLSchema#";
 declare variable $aixm_5-1-1:gml:="http://www.opengis.net/gml/3.2#";
 declare variable $aixm_5-1-1:rdf:="http://www.w3.org/1999/02/22-rdf-syntax-ns#";
@@ -21,7 +21,7 @@ declare function aixm_5-1-1:map(
     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
     xmlns:gml="http://www.opengis.net/gml/3.2#"
-    xmlns:aixm="http://www.aixm.aero/schema/5.1.1#">
+    xmlns:aixm="http://www.aisa-project.eu/vocabulary/aixm_5-1-1#">
     {
       if(fn:exists($modelSubset/elements/element/properties[@stereotype="feature"])) then
         aixm_5-1-1:getGMLBasisElements()
@@ -339,7 +339,12 @@ declare function aixm_5-1-1:mapAttributes(
   return <sh:property rdf:parseType="Resource">
     <sh:path rdf:resource="{$aixm_5-1-1:namespace}{$attribute/@name/string()}" />
     <sh:node rdf:resource="{$aixm_5-1-1:namespace}{$attribute/properties/@type/string()}" />
-    <sh:maxCount rdf:datatype="{$aixm_5-1-1:xsd}integer">1</sh:maxCount> 
+    <sh:minCount rdf:datatype="{$aixm_5-1-1:xsd}integer">0</sh:minCount>
+    {
+      let $maxCount:=$attribute/bounds/@upper/string()
+      return if($maxCount!="*") then
+        <sh:maxCount rdf:datatype="{$aixm_5-1-1:xsd}integer">{$maxCount}</sh:maxCount>
+    }
   </sh:property>
 };
 
@@ -383,12 +388,12 @@ declare function aixm_5-1-1:mapDirectConnectors(
       <sh:path rdf:resource="{$aixm_5-1-1:namespace}{$pathName}" />
       <sh:class rdf:resource="{$aixm_5-1-1:namespace}{$targetName}" />
       {
-        let $minCount:=fn:substring($cardinality, 1, 1)
-        return if(fn:exists($minCount) and $minCount!="*" and $minCount!="0") then
+        let $minCount:=fn:substring-before($cardinality, "..")
+        return if(fn:exists($minCount) and $minCount!="*") then
           <sh:minCount rdf:datatype="{$aixm_5-1-1:xsd}integer">{$minCount}</sh:minCount>
       }
       {
-        let $maxCount:=fn:substring($cardinality, fn:string-length($cardinality), 1)
+        let $maxCount:=fn:substring-after($cardinality, "..")
         return if(fn:exists($maxCount) and $maxCount!="*") then
           <sh:maxCount rdf:datatype="{$aixm_5-1-1:xsd}integer">{$maxCount}</sh:maxCount> 
         }
