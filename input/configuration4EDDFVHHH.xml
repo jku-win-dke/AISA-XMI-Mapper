@@ -2,7 +2,7 @@
 	<selection>
 		<models>
 			<model name="FIXM_EDDF-VHHH" type="fixm_3-0-1_sesar" location="input/FIXM_3.0.1_SESAR.xmi">
-				<classes connectorLevel="1">
+				<classes connectorLevel="n">
 					<class>EfplFlight</class>
 					<class>Aircraft</class>
 					<class>AircraftType</class>
