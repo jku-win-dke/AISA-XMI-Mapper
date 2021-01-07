@@ -353,6 +353,7 @@ declare function aixm_5-1-1:mapDirectConnectors(
   $modelSubset as element()
 ) as element()* {
   for $connector in $modelSubset/connectors/connector
+  where $connector/properties[@ea_type!="Generalization"]
   where (
     ( $connector/source[@xmi:idref=$element/@xmi:idref]
       and $connector/properties[@direction="Source -&gt; Destination"]

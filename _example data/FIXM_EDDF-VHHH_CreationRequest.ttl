@@ -9,6 +9,7 @@
 
 @prefix cs:		<eurocontrol/cfmu/b2b/CommonServices#> .
 @prefix fs:		<eurocontrol/cfmu/b2b/FlightfixmServices#> .
+
 @prefix s1:		<https://www.fixm.aero/releases/SESAR_Ext-1.0/SESAR_E-FPL_Extension_v1.0_beta.zip/EDDF-VHHH_FIXMCreationRequest.xml#> .
 
 s1:ID_001
@@ -56,18 +57,18 @@ s1:ID_013
 	a fixm:CommunicationCapabilities ;
 	fixm:otherDataLinkCapabilities [ rdf:value "SVM" ] ;
 	fixm:selectiveCallingCode [ rdf:value "EHJM" ] ;
-	fixm:communicationCode [ rdf:value "E2 E3 H M1 Y" ] ;
-	fixm:dataLinkCode [ rdf:value "J3 J4 J5" ]  .
+	fixm:communicationCode [ rdf:value "E2", "E3", "H", "M1", "Y" ] ;
+	fixm:dataLinkCode [ rdf:value "J3", "J4", "J5" ]  .
 	
 s1:ID_014
 	a fixm:NavigationCapabilities ;
 	fixm:otherNavigationCapabilities [ rdf:value "RNVD1E2A1" ] ;
-	fixm:navigationCode [ rdf:value "A D G I W X" ] ;
-	fixm:performanceBaseCode [ rdf:value "A1 B1 C1 D1 L1 O1 S1 S2" ] .
+	fixm:navigationCode [ rdf:value "A", "D", "G", "I", "W", "X" ] ;
+	fixm:performanceBasedCode [ rdf:value "A1", "B1", "C1", "D1", "L1", "O1", "S1", "S2" ] .
 	
 s1:ID_015
 	a fixm:SurveillanceCapabilities ;
-	fixm:surveillanceCode [ rdf:value "B1 D1 L" ] .
+	fixm:surveillanceCode [ rdf:value "B1" ], [ rdf:value "D1" ], [ rdf:value "L" ] .
 	
 s1:ID_004
 	a fixm:EfplFlightDeparture ;
@@ -103,7 +104,7 @@ s1:ID_007
 	
 s1:ID_018
 	a fixm:IcaoAerodromeReference ;
-	fixm:code [ rdf:value "VHHH" ] .
+	fixm:code [ rdf:value "VHHH" ] . 
 	
 s1:ID_019
 	a fixm:IcaoAerodromeReference ;

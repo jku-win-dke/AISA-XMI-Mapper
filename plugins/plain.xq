@@ -33,22 +33,31 @@ declare function plain:map(
         }
         {
           (: sh:and :)
-          for $generalization in $element/links/Generalization
-          where $generalization[@start=$element/@xmi:idref]
-          let $superClass:=$modelSubset/elements/element[@xmi:idref=$generalization/@end]
-          where fn:exists($superClass)
-          return <sh:and rdf:parseType="Collection">
-            <sh:NodeShape rdf:about="{$plain:namespace}{$superClass/@name/string()}" />
-          </sh:and>
+          if(fn:exists($element/links/Generalization)) then
+            <sh:and rdf:parseType="Collection">
+            {
+              for $generalization in $element/links/Generalization
+              where $generalization[@start=$element/@xmi:idref]
+              let $superClass:=$modelSubset/elements/element[@xmi:idref=$generalization/@end]
+              where fn:exists($superClass)
+              return <sh:NodeShape rdf:about="{$plain:namespace}{$superClass/@name/string()}" />
+            }
+            </sh:and>
         }
         {
           (: attributes :)
           for $attribute in $element/attributes/attribute
-          return <sh:property rdf:parseType="Resource">
-            <sh:path rdf:resource="{$plain:namespace}{$attribute/@name/string()}" />
-            <sh:class rdf:resource="{$plain:namespace}{$attribute/properties/@type/string()}" />
-            <sh:maxCount rdf:datatype="{$plain:xsd}integer">1</sh:maxCount> 
-          </sh:property>
+          return 
+            <sh:property rdf:parseType="Resource">
+              <sh:path rdf:resource="{$plain:namespace}{$attribute/@name/string()}" />
+              <sh:class rdf:resource="{$plain:namespace}{$attribute/properties/@type/string()}" />
+              <sh:minCount rdf:datatype="{$plain:xsd}integer">0</sh:minCount>
+              {
+                let $maxCount:=$attribute/bounds/@upper/string()
+                return if($maxCount!="*") then
+                  <sh:maxCount rdf:datatype="{$plain:xsd}integer">{$maxCount}</sh:maxCount>
+              }
+            </sh:property>
         }
         {
           (: connectors :)
@@ -66,18 +75,19 @@ declare function plain:map(
             <sh:path rdf:resource="{$plain:namespace}{$pathName}" />
             <sh:class rdf:resource="{$plain:namespace}{$connector/target/model/@name/string()}" />
             {
-              let $minCount:=fn:substring($cardinality, 1, 1)
-              return if(fn:exists($minCount) and $minCount!="*" and $minCount!="0") then
+              let $minCount:=fn:substring-before($cardinality, "..")
+              return if(fn:exists($minCount) and $minCount!="*") then
                 <sh:minCount rdf:datatype="{$plain:xsd}integer">{$minCount}</sh:minCount>
             }
             {
-              let $maxCount:=fn:substring($cardinality, fn:string-length($cardinality), 1)
+              let $maxCount:=fn:substring-after($cardinality, "..")
               return if(fn:exists($maxCount) and $maxCount!="*") then
                 <sh:maxCount rdf:datatype="{$plain:xsd}integer">{$maxCount}</sh:maxCount> 
             }
           </sh:property>
         }
         {
+          (: association class connectors :)
           for $connector in $modelSubset/connectors/connector
           where $element[@xmi:idref=$connector/extendedProperties/@associationclass]
           let $pathName:=

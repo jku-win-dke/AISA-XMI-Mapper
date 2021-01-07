@@ -27,10 +27,6 @@
 					<class>TrajectoryPointRole</class>
 					<class>FlightPerformanceData</class>
 					<class>OtherInformation</class>
-					
-					<class>OperatorCategory</class>
-					<class>PersonOrOrganization</class>
-					<class>Person</class>
 				</classes>
 			</model>
 		</models>
