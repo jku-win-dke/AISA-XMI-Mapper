@@ -1,0 +1,45 @@
+# DONLON DOWNTOWN HELIPORT (BASELINE and DNOTAM data)
+#  Baseline AIXM data manually transformed  
+#   from https://ext.eurocontrol.int/aixm_confluence/display/AIX/COCESNA?preview=/327825/327826/COCESNA_20170516_sample.xml (accessed: 08-Jan-2021)
+#   Lines 1165 - 1190
+
+@prefix aixm: <http://www.aisa-project.eu/vocabulary/aixm_5-1-1#> .
+
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix gml: <http://www.opengis.net/gml/3.2#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix event: <http://www.aixm.aero/schema/5.1/event#> .
+
+@prefix s1: <https://ext.eurocontrol.int/aixm_confluence/display/AIX/COCESNA?preview=/327825/327826/COCESNA_20170516_sample.xml>.
+
+<AIXMDB_F_380835_RS2245>
+	a aixm:MissedApproachLeg ;
+	aixm:timeSlice <AIXMDB_T_4151379_RS2246> .
+	
+<AIXMDB_T_4151379_RS2246>
+	a aixm:MissedApproachLegTimeSlice ;
+	gml:validTime <AIXMDB_VT_RS2247> ;
+	aixm:interpretation [ rdf:value "BASELINE" ] ;
+	aixm:sequenceNumber [ rdf:value "2"^^xsd:unsignedInt ] ;
+	aixm:correctionNumber [ rdf:value "0"^^xsd:unsignedInt ] ;
+	aixm:legTypeARINC [ rdf:value "TF" ] ;
+	aixm:courseType [ rdf:value "MAG_TRACK" ] ;
+	aixm:speedLimit [ aixm:uom "KT" ; rdf:value 265 ] ;
+	aixm:speedReference [ rdf:value "IAS" ] ;
+	aixm:lowerLimitAltitude [ aixm:uom "FT" ; rdf:value 9000 ] ;
+	aixm:lowerLimitReference [ rdf:value "MSL" ] ;
+	aixm:altidudeInterpretation [ rdf:value "ABOVER_LOWER" ] ;
+	aixm:endPoint <AIXMDB_O_574654_RS2248> .
+	
+<AIXMDB_VT_RS2247>
+	a gml:TimePeriod ;
+	gml:beginPosition [ rdf:value "2016-12-07T14:26:03.000"^^xsd:dateTime ] ;
+	gml:endPosition [ gml:indeterminatePosition "unknown" ] .
+	
+<AIXMDB_O_574654_RS2248>
+	a aixm:TerminalSegmentPoint ;
+	aixm:flyOver [ rdf:value "NO" ] ;
+	aixm:pointChoice <urn:uuid:64252890-52e4-47a1-94e2-c565b1873dd9> .
+	
+<urn:uuid:64252890-52e4-47a1-94e2-c565b1873dd9>
+	a aixm:DesignatedPoint .

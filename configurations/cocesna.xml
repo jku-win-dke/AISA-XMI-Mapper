@@ -1,0 +1,13 @@
+ <configuration>
+	<selection>
+		<models>
+			<model name="AIXM_cocesna" type="aixm_5-1-1" location="input/AIXM_5.1.1.xmi">
+				<classes connectorLevel="3">
+					<class>MissedApproachLeg</class>
+					<class>TerminalSegmentPoint</class>
+					<class>DesignatedPoint</class>
+				</classes>
+			</model>
+		</models>
+	</selection>
+ </configuration>

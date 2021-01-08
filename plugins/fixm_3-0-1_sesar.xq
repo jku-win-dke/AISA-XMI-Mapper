@@ -1,12 +1,12 @@
 module namespace fixm_3-0-1_sesar="http://www.aisa-project.eu/xquery/fixm_3-0-1_sesar";
 
+import module "http://www.aisa-project.eu/xquery/utilities" at "../utilities.xq";
+
 declare namespace utilities="http://www.aisa-project.eu/xquery/utilities";
 declare namespace rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#";
 declare namespace rdfs="http://www.w3.org/2000/01/rdf-schema#";
 declare namespace sh="http://www.w3.org/ns/shacl#";
 declare namespace xmi="http://schema.omg.org/spec/XMI/2.1";
-
-import module "http://www.aisa-project.eu/xquery/utilities" at "../utilities.xq";
 
 declare variable $fixm_3-0-1_sesar:namespace:="http://www.aisa-project.eu/vocabulary/fixm_3-0-1_sesar#"; 
 declare variable $fixm_3-0-1_sesar:xsd:="http://www.w3.org/2001/XMLSchema#";
@@ -71,7 +71,8 @@ declare %private function fixm_3-0-1_sesar:mapPlain(
     <rdf:type rdf:resource="{$fixm_3-0-1_sesar:rdfs}Class" />
     {
       for $superElement in utilities:getSuperElements($element, $modelSubset, ())
-      return <rdfs:subClassOf rdf:resource="{$fixm_3-0-1_sesar:namespace}{$superElement/@name/string()}" />
+      return 
+        <rdfs:subClassOf rdf:resource="{$fixm_3-0-1_sesar:namespace}{$superElement/@name/string()}" />
     }
     {
       let $superElements:=utilities:getSuperElements($element, $modelSubset, ())
@@ -79,7 +80,8 @@ declare %private function fixm_3-0-1_sesar:mapPlain(
         <sh:and rdf:parseType="Collection">
           {
             for $superElement in $superElements
-            return <sh:NodeShape rdf:about="{$fixm_3-0-1_sesar:namespace}{$superElement/@name/string()}" /> 
+            return 
+              <sh:NodeShape rdf:about="{$fixm_3-0-1_sesar:namespace}{$superElement/@name/string()}" /> 
           } 
         </sh:and>
     }
@@ -103,13 +105,16 @@ declare %private function fixm_3-0-1_sesar:mapPlain(
               else if($datatype="duration") then "string"
               else if($datatype="double") then "decimal"
               else $datatype
-            return <sh:datatype rdf:resource="{$fixm_3-0-1_sesar:xsd}{$datatype}"/>
+            return 
+              <sh:datatype rdf:resource="{$fixm_3-0-1_sesar:xsd}{$datatype}"/>
           }
           {
             for $constraint in $element/constraints/constraint
             return 
               if($constraint[fn:lower-case(@type)="pattern"]) then
-                <sh:pattern rdf:datatype="{$fixm_3-0-1_sesar:xsd}string">{$constraint/@name/string()}</sh:pattern>
+                <sh:pattern rdf:datatype="{$fixm_3-0-1_sesar:xsd}string">
+                  { $constraint/@name/string() }
+                </sh:pattern>
               else if($constraint[fn:lower-case(@type)="range"]) then
                 let $min:=fn:substring-after($constraint/@name, "[")
                 let $min:=fn:substring-before($min, "..")
@@ -118,14 +123,22 @@ declare %private function fixm_3-0-1_sesar:mapPlain(
                 return (
                   if($min!="*") then
                     if(fn:contains($min, ".")) then
-                      <sh:minInclusive rdf:datatype="{$fixm_3-0-1_sesar:xsd}decimal">{$min}</sh:minInclusive>
+                      <sh:minInclusive rdf:datatype="{$fixm_3-0-1_sesar:xsd}decimal">
+                        { $min }
+                      </sh:minInclusive>
                     else
-                      <sh:minInclusive rdf:datatype="{$fixm_3-0-1_sesar:xsd}integer">{$min}</sh:minInclusive>,
+                      <sh:minInclusive rdf:datatype="{$fixm_3-0-1_sesar:xsd}integer">
+                        { $min }
+                      </sh:minInclusive>,
                   if($max!="*") then
                     if(fn:contains($max, ".")) then
-                      <sh:maxInclusive rdf:datatype="{$fixm_3-0-1_sesar:xsd}decimal">{$max}</sh:maxInclusive>
+                      <sh:maxInclusive rdf:datatype="{$fixm_3-0-1_sesar:xsd}decimal">
+                        { $max }
+                      </sh:maxInclusive>
                     else
-                      <sh:maxInclusive rdf:datatype="{$fixm_3-0-1_sesar:xsd}integer">{$max}</sh:maxInclusive>
+                      <sh:maxInclusive rdf:datatype="{$fixm_3-0-1_sesar:xsd}integer">
+                        { $max }
+                      </sh:maxInclusive>
                 )
               else if($constraint[fn:lower-case(@type)="length"]) then
                 let $min:=fn:substring-after($constraint/@name, "[")
@@ -134,12 +147,15 @@ declare %private function fixm_3-0-1_sesar:mapPlain(
                 let $max:=fn:substring-before($max, "]")
                 return (
                   if($min!="*") then
-                    <sh:minLength rdf:datatype="{$fixm_3-0-1_sesar:xsd}integer">{$min}</sh:minLength>,
+                    <sh:minLength rdf:datatype="{$fixm_3-0-1_sesar:xsd}integer">
+                      { $min }
+                    </sh:minLength>,
                   if($max!="*") then
-                    <sh:maxLength rdf:datatype="{$fixm_3-0-1_sesar:xsd}integer">{$max}</sh:maxLength>
+                    <sh:maxLength rdf:datatype="{$fixm_3-0-1_sesar:xsd}integer">
+                      { $max }
+                    </sh:maxLength>
                 )
-              else (: constraint type: usage, xsd, relation :) 
-                ()
+              else () (: constraint type: usage, xsd, relation :) 
           }
           <sh:minCount rdf:datatype="{$fixm_3-0-1_sesar:xsd}integer">1</sh:minCount>
           <sh:maxCount rdf:datatype="{$fixm_3-0-1_sesar:xsd}integer">1</sh:maxCount>
@@ -208,7 +224,9 @@ declare %private function fixm_3-0-1_sesar:mapConnectors(
       fn:lower-case(fn:substring($connector/target/model/@name/string(), 1, 1))
       ||fn:substring($connector/target/model/@name/string(), 2)
   let $targetElement:=$modelSubset/elements/element[@xmi:idref=$connector/target/@xmi:idref]
-  let $targetConnectors:=$modelSubset/connectors/connector[source/@xmi:idref=$targetElement/@xmi:idref]
+  let $targetConnectors:=$modelSubset/connectors/connector
+    [source/@xmi:idref=$targetElement/@xmi:idref]
+    [properties/@ea_type!="Generalization"]
   return 
     if($targetElement/properties[@stereotype="choice"] and fn:exists($targetConnectors)) then (
       <sh:property rdf:parseType="Resource">
