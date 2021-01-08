@@ -173,7 +173,9 @@ declare %private function fixm_3-0-1_sesar:mapAttributes(
   for $attribute in $element/attributes/attribute
   where $attribute[@name!="uom"]
   let $attributeElement:=$modelSubset/elements/element[@name=$attribute/properties/@type]
-  let $attributeConnectors:=$modelSubset/connectors/connector[source/@xmi:idref=$attributeElement/@xmi:idref]
+  let $attributeConnectors:=$modelSubset/connectors/connector
+    [source/@xmi:idref=$attributeElement/@xmi:idref]
+    [properties/@ea_type="Generalization"]
   return 
     if($attributeElement/properties[@stereotype="choice"] and fn:exists($attributeConnectors)) then (
       <sh:property rdf:parseType="Resource">

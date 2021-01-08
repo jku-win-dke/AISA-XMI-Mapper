@@ -15,7 +15,7 @@ declare namespace fixm_3-0-1_sesar="http://www.aisa-project.eu/xquery/fixm_3-0-1
             - cocesna
             - eddfvhhh
 or a selfmade configuration file :)
-declare variable $config:=fn:doc("configurations/donlon.xml")/configuration;
+declare variable $config:=fn:doc("configurations/eddfvhhh.xml")/configuration;
 
 for $model in $config/selection/models/model
 let $modelSubset:=extractor:getModelSubset($model)
