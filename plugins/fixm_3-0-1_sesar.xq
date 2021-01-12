@@ -1,6 +1,6 @@
 module namespace fixm_3-0-1_sesar="http://www.aisa-project.eu/xquery/fixm_3-0-1_sesar";
 
-import module "http://www.aisa-project.eu/xquery/utilities" at "../utilities.xq";
+import module "http://www.aisa-project.eu/xquery/utilities" at "utilities.xq";
 
 declare namespace utilities="http://www.aisa-project.eu/xquery/utilities";
 declare namespace rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#";

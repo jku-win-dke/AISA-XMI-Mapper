@@ -1,0 +1,21 @@
+ <configuration>
+	<selection>
+		<models>
+			<model input="input/AIXM_5.1.1.xmi" type="aixm_5-1-1" output="output/AIXM_DONLON.xml">
+				<classes connectorLevel="n">
+					<class>AirportHeliport</class>
+					<class>City</class>
+					<class>AirportHeliportResponsibilityOrganisation</class>
+					<class>OrganisationAuthority</class>
+					<class>ElevatedPoint</class>
+					<class>AirportHeliportAvailability</class>
+					<class>AirportHeliportUsage</class>
+					<class>ConditionCombination</class>
+					<class>FlightCharacteristic</class>
+					<class>Note</class>
+					<class>LinguisticNote</class>
+				</classes>
+			</model>
+		</models>
+	</selection>
+ </configuration>

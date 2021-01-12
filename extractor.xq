@@ -6,7 +6,7 @@ declare function extractor:getModelSubset(
   $model as element()
 ) as element()* {
   
-  let $xmiFile:=fn:doc($model/@location)
+  let $xmiFile:=fn:doc($model/@input)
   let $classNames:=fn:distinct-values($model/classes/class/string()) 
   
   let $selectedElements:=

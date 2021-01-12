@@ -1,0 +1,46 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>at.jku.dke</groupId>
+	<artifactId>xmiMapper</artifactId>
+	<version>1.0</version>
+	<packaging>jar</packaging>
+
+	<name>xmiMapper</name>
+	<url>http://maven.apache.org</url>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+
+	<repositories>
+		<repository>
+			<id>basex</id>
+			<name>BaseX Maven Repository</name>
+			<url>http://files.basex.org/maven</url>
+		</repository>
+	</repositories>
+
+	<dependencies>
+		<!-- https://docs.basex.org/wiki/Maven -->
+		<dependency>
+			<groupId>org.basex</groupId>
+			<artifactId>basex</artifactId>
+			<version>9.4</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.jena/jena-core -->
+		<dependency>
+			<groupId>org.apache.jena</groupId>
+			<artifactId>jena-core</artifactId>
+			<version>3.17.0</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.jena/jena-shacl -->
+		<dependency>
+			<groupId>org.apache.jena</groupId>
+			<artifactId>jena-shacl</artifactId>
+			<version>3.17.0</version>
+		</dependency>
+	</dependencies>
+</project>

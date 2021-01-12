@@ -9,15 +9,10 @@ declare namespace plain="http://www.aisa-project.eu/xquery/plain";
 declare namespace aixm_5-1-1="http://www.aisa-project.eu/xquery/aixm_5-1-1";
 declare namespace fixm_3-0-1_sesar="http://www.aisa-project.eu/xquery/fixm_3-0-1_sesar";
 
-(: choose as content for fn:doc("configurations/<content>.xml")/configuration: 
-            - comprehensiveExample
-            - donlon
-            - cocesna
-            - eddfvhhh
-or a selfmade configuration file :)
-declare variable $config:=fn:doc("configurations/eddfvhhh.xml")/configuration;
+declare variable $config external;
+declare variable $configuration:=fn:doc($config)/configuration;
 
-for $model in $config/selection/models/model
+for $model in $configuration/selection/models/model
 let $modelSubset:=extractor:getModelSubset($model)
 let $mappedModel:=
   if($model/@type/string()="aixm_5-1-1") then
@@ -26,8 +21,4 @@ let $mappedModel:=
     fixm_3-0-1_sesar:map($modelSubset)
   else
     plain:map($modelSubset)
-let $fileName:="output/"||$model/@name/string()||".xml"
-return (
-  $mappedModel, 
-  file:write($fileName, $mappedModel)
-)
+return file:write($model/@output, $mappedModel)

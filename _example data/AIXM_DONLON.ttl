@@ -1,0 +1,224 @@
+# DONLON DOWNTOWN HELIPORT (BASELINE and DNOTAM data)
+#  Baseline AIXM data manually transformed  
+#   from https://github.com/aixm/donlon/blob/master/EA_AIP_DS_FULL_20170701.xml (accessed: 30-Nov-2020)
+#   Lines 932 - 1036
+#  DNOTAM data manually transformed from 
+#   https://github.com/aixm/donlon/blob/master/digitalNOTAM/DN_AD.CLS_except_special_flights.xml (accessed 30-Nov-2020)
+
+@prefix aixm: <http://www.aisa-project.eu/vocabulary/aixm_5-1-1#> .
+
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix gml: <http://www.opengis.net/gml/3.2#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix event: <http://www.aixm.aero/schema/5.1/event#> .
+
+@prefix s1: <https://github.com/aixm/donlon/blob/master/EA_AIP_DS_FULL_20170701.xml#>.
+@prefix s2: <https://github.com/aixm/donlon/blob/master/digitalNOTAM/DN_AD.CLS_except_special_flights.xml#>.
+
+<uuid:dd062d88-3e64-4a5d-bebd-89476db9ebea> 
+  a aixm:AirportHeliport;
+  aixm:timeSlice 
+    s1:AHP_EADH, 
+    s2:ID_ACT_11. 
+  
+s1:AHP_EADH 
+  a aixm:AirportHeliportTimeSlice;
+  gml:validTime s1:vtnull0;
+  aixm:interpretation [rdf:value "BASELINE"];
+  aixm:sequenceNumber [rdf:value "1"^^xsd:unsignedInt];
+  aixm:correctionNumber [rdf:value "0"^^xsd:unsignedInt];
+  aixm:featureLifetime s1:ltnull0;
+  aixm:designator [rdf:value "EADH"];
+  aixm:name [rdf:value "DONLON/DOWNTOWN HELIPORT" ];
+  aixm:locationIndicatorICAO [rdf:value "EADH"];
+  aixm:designatorIATA [ aixm:nilReason "unknown"];
+  aixm:certifiedICAO [ aixm:nilReason "unknown"];
+  aixm:controlType [rdf:value "CIVIL"];
+  aixm:fieldElevation [aixm:uom "M"; rdf:value "18"];
+  aixm:fieldElevationAccuracy [aixm:uom "M"; rdf:value "0.5"];
+  aixm:magneticVariation [rdf:value -3.0];
+  aixm:magneticVariationAccuracy [rdf:value 1.0];
+  aixm:dateMagneticVariation [rdf:value "1990"];
+  aixm:magneticVariationChange [rdf:value 0.03];
+  aixm:referenceTemperature [aixm:uom "C"; rdf:value 21.0];
+  aixm:transitionAltitude [aixm:uom "FT"; rdf:value "3500"];
+  aixm:certificationDate [ aixm:nilReason "unknown"];
+  aixm:certificationExpiryDate [aixm:nilReason "unknown"];
+  aixm:servedCity s1:ID_110;
+  aixm:responsibleOrganisation s1:A-a72cfd3a;
+  aixm:ARP s1:elpoint1EADH;
+  aixm:availability s1:AHY_EADH_PERMIT;
+  aixm:annotation s1:n002;
+  aixm:annotation s1:n003.
+  
+s1:vtnull0
+  a gml:TimePeriod;
+  gml:beginPosition [rdf:value "2009-01-01T00:00:00Z"^^xsd:dateTime];
+  gml:endPosition [gml:indeterminatePosition "unknown"]. 
+
+s1:ltnull0
+  a gml:TimePeriod;
+  gml:beginPosition [rdf:value "2009-01-01T00:00:00Z"^^xsd:dateTime];
+  gml:endPosition [gml:indeterminatePosition "unknown"]. 
+  
+s1:ID_110
+  a aixm:City;
+  aixm:name [rdf:value "DONLON"].
+  
+s1:A-a72cfd3a
+  a aixm:AirportHeliportResponsibilityOrganisation;
+  aixm:role [rdf:value "OPERATE"];
+  aixm:theOrganisationAuthority <uuid:74efb6ba-a52a-46c0-a16b-03860d356882>.
+  
+<uuid:74efb6ba-a52a-46c0-a16b-03860d356882> a aixm:OrganisationAuthority .
+  
+s1:elpoint1EADH
+  a aixm:ElevatedPoint;
+  gml:pos [rdf:value "52.288888888888884 -32.035"].
+  
+s1:AHY_EADH_PERMIT
+  a aixm:AirportHeliportAvailability;
+  aixm:operationalStatus [rdf:value "NORMAL"];
+  aixm:usage s1:AHU_EADH_PERMIT.
+  
+s1:AHU_EADH_PERMIT
+  a aixm:AirportHeliportUsage;
+  aixm:type [rdf:value "PERMIT"];
+  aixm:selection s1:agtayyat.
+  
+s1:agtayyat
+  a aixm:ConditionCombination;
+  aixm:logicalOperator [rdf:value "NONE"];
+  aixm:flight s1:F_yastadyt.
+  
+s1:F_yastadyt  
+  a aixm:FlightCharacteristic;
+  aixm:rule [rdf:value "VFR"].
+  
+s1:n002
+  a aixm:Note;
+  aixm:propertyName [rdf:value "fieldElevation"];
+  aixm:translatedNote s1:ln002.
+  
+s1:ln002
+  a aixm:LinguisticNote;
+  aixm:note [rdf:value "Geoid undulation at ELEV PSN is 9 M"].
+  
+s1:n003
+  a aixm:Note;
+  aixm:propertyName [rdf:value "aRP"];
+  aixm:translatedNote s1:ln003.
+  
+s1:ln003
+  a aixm:LinguisticNote;
+  aixm:note [rdf:value "Heliport reference point site at heliport: geometric centre of TLOF, Direction and distance from (city): Donlon	downtown, east shore of Donlon river"].
+
+<uuid:1d713318-a022-4f0f-808a-8eea31b3e411>
+  a event:Event;
+  event:timeSlice s2:IDE_ACT_22;
+  aixm:interpretation [rdf:value "BASELINE"];
+  aixm:sequenceNumber [rdf:value "1"^^xsd:unsignedInt];
+  aixm:correctionNumber [rdf:value "0"^^xsd:unsignedInt];
+  aixm:featureLifetime s2:IDE_ACT_24 ;
+  event:name [rdf:value "EADH_20180511"];
+  event:encoding [rdf:value "DIGITAL"];
+  event:scenario [rdf:value "AD.CLS"];
+  event:version [rdf:value 2.0];
+  event:revision [rdf:value "2018-05-10T09:54:13Z"^^xsd:dateTime];
+  event:textNOTAM s2:IDE_ACT_25.
+  
+s2:IDE_ACT_22
+  a event:EventTimeSlice;
+  gml:validTime s2:IDE_ACT_23.
+  
+s2:IDE_ACT_23
+  a gml:TimePeriod;
+  gml:beginPosition [rdf:value "2018-05-11T10:00:00Z"^^xsd:dateTime];
+  gml:endPosition [rdf:value "2018-05-11T18:00:00Z"^^xsd:dateTime].
+  
+s2:IDE_ACT_24
+  a gml:TimePeriod;
+  gml:beginPosition [rdf:value "2018-05-11T10:00:00Z"^^xsd:dateTime];
+  gml:endPosition [rdf:value "2018-05-11T18:00:00Z"^^xsd:dateTime].  
+  
+s2:IDE_ACT_25
+  a event:NOTAM;
+  event:series [rdf:value "B"];
+  event:number [rdf:value 0315];
+  event:year [rdf:value 2018];
+  event:type [rdf:value "N"];
+  event:issued [rdf:value "2018-05-10T09:54:13Z"^^xsd:dateTime];
+  event:affectedFIR [rdf:value "EAAD"];
+  event:selectionCode [rdf:value "QFPLC"];
+  event:traffic [rdf:value "V"];
+  event:purpose [rdf:value "NBO"];
+  event:scope [rdf:value "A"];
+  event:minimumFL [rdf:value "000"];
+  event:maximumFL [rdf:value "999"];
+  event:coordinates [rdf:value "5217N03202W"];
+  event:radius [rdf:value "005"];
+  event:location [rdf:value "EADH"];
+  event:effectiveStart [rdf:value "1805111000"];
+  event:effectiveEnd [rdf:value "1805111800"];
+  event:text [rdf:value "Heliport closed except home based, SAR and MEDEVAC."].
+  
+s2:ID_ACT_11
+  a aixm:AirportHeliportTimeSlice;
+  gml:validTime s2:ID_ACT_12;
+  aixm:interpretation [rdf:value "TEMPDELTA"];
+  aixm:sequenceNumber [rdf:value "1"^^xsd:unsignedInt];
+  aixm:correctionNumber [rdf:value "0"^^xsd:unsignedInt];
+  aixm:availability s2:ID_ACT_13;
+  aixm:extension s2:ID_ACT_211. 
+
+s2:ID_ACT_12
+  a gml:TimePeriod;
+  gml:beginPosition [rdf:value "2018-05-11T10:00:00Z"^^xsd:dateTime];
+  gml:endPosition [rdf:value "2018-05-11T18:00:00Z"^^xsd:dateTime].    
+
+s2:ID_ACT_13 
+  a aixm:AirportHeliportAvailability;
+  aixm:operationalStatus [rdf:value "CLOSED"];
+  aixm:usage s2:ID_ACT_14.
+  
+s2:ID_ACT_14
+  a aixm:AirportHeliportUsage;
+  aixm:type [rdf:value "PERMIT"];
+  aixm:selection s2:ID_ACT_15.
+  
+s2:ID_ACT_15
+  a aixm:ConditionCombination;
+  aixm:logicalOperator [rdf:value "OR"];
+  aixm:subCondition s2:ID_ACT_16, s2:ID_ACT_18, s2:ID_ACT_20.
+  
+s2:ID_ACT_16
+  a aixm:ConditionCombination;
+  aixm:logicalOperator [rdf:value "NONE"];
+  aixm:flight s2:ID_ACT_17.
+  
+s2:ID_ACT_17
+  a aixm:FlightCharacteristic;
+  aixm:origin [rdf:value "HOME_BASED"].
+
+s2:ID_ACT_18
+  a aixm:ConditionCombination;
+  aixm:logicalOperator [rdf:value "NONE"];
+  aixm:flight s2:ID_ACT_19.
+  
+s2:ID_ACT_19
+  a aixm:FlightCharacteristic;
+  aixm:status [rdf:value "SAR"].
+
+s2:ID_ACT_20
+  a aixm:ConditionCombination;
+  aixm:logicalOperator [rdf:value "NONE"];
+  aixm:flight s2:ID_ACT_21.
+  
+s2:ID_ACT_21
+  a aixm:FlightCharacteristic;
+  aixm:status [rdf:value "OTHER"].
+  
+#link from Tempdelta timeslice to event (no idea what xsi:nil=true means here, not translated)  
+s2:ID_ACT_211 
+  a event:AirportHeliportExtension;
+  event:theEvent <uuid:1d713318-a022-4f0f-808a-8eea31b3e411>.  

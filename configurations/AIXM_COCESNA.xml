@@ -1,0 +1,13 @@
+ <configuration>
+	<selection>
+		<models>
+			<model input="input/AIXM_5.1.1.xmi" type="aixm_5-1-1" output="output/AIXM_COCESNA.xml">
+				<classes connectorLevel="n">
+					<class>MissedApproachLeg</class>
+					<class>TerminalSegmentPoint</class>
+					<class>DesignatedPoint</class>
+				</classes>
+			</model>
+		</models>
+	</selection>
+ </configuration>

@@ -1,6 +1,6 @@
 module namespace plain="http://www.aisa-project.eu/xquery/plain";
 
-import module "http://www.aisa-project.eu/xquery/utilities" at "../utilities.xq";
+import module "http://www.aisa-project.eu/xquery/utilities" at "utilities.xq";
 
 declare namespace utilities="http://www.aisa-project.eu/xquery/utilities";
 declare namespace gml="http://www.opengis.net/gml/3.2#";

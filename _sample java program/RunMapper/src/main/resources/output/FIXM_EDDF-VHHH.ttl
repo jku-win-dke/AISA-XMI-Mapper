@@ -1,0 +1,3454 @@
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix sh:    <http://www.w3.org/ns/shacl#> .
+@prefix fixm:  <http://www.aisa-project.eu/vocabulary/fixm_3-0-1_sesar#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+
+fixm:ClearedFlightInformation
+        a            rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:DirectRouting ;
+                       sh:path      fixm:directRouting
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:VerticalRate ;
+                       sh:path      fixm:rateOfClimbDescend
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:LateralOfftrack ;
+                       sh:path      fixm:offtrackClearance
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:Direction ;
+                       sh:path      fixm:heading
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:AirspeedChoice ;
+                       sh:path      fixm:clearedSpeed
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:AltitudeChoice ;
+                       sh:path      fixm:clearedFlightLevel
+                     ] .
+
+fixm:ConstrainedAirspace
+        a            rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:datatype  xsd:string ;
+                       sh:maxCount  1 ;
+                       sh:minCount  1 ;
+                       sh:path      rdf:value
+                     ] .
+
+fixm:AirTrafficType  a  rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:in        [ rdf:rest  ( "OAT" "GAT" )
+                                    ] ;
+                       sh:minCount  1 ;
+                       sh:path      rdf:value
+                     ] .
+
+fixm:Direction  a        rdfs:Class , sh:NodeShape ;
+        rdfs:subClassOf  fixm:Angle ;
+        sh:and           ( fixm:Angle ) ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:DirectionReference ;
+                           sh:path      fixm:ref
+                         ] .
+
+fixm:EfplFlightRules  a  rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:in        [ rdf:rest  ( "IFR" "IFR_THEN_VFR" "VFR" "VFR_THEN_IFR" )
+                                    ] ;
+                       sh:minCount  1 ;
+                       sh:path      rdf:value
+                     ] .
+
+fixm:AltitudeMeasure  a  rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:in        [ rdf:rest  ( "FEET" "METRES" )
+                                    ] ;
+                       sh:minCount  1 ;
+                       sh:path      fixm:uom
+                     ] .
+
+fixm:IcaoAerodromeReference
+        a                rdfs:Class , sh:NodeShape ;
+        rdfs:subClassOf  fixm:AerodromeReference ;
+        sh:and           ( fixm:AerodromeReference ) ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:AerodromeIcaoCode ;
+                           sh:path      fixm:code
+                         ] .
+
+fixm:SpeedSchedule  a  rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:AirspeedInIasOrMach ;
+                       sh:path      fixm:subsequentSpeed
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:AirspeedInIasOrMach ;
+                       sh:path      fixm:initialSpeed
+                     ] .
+
+fixm:SlotAssignment  a  rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:datatype  xsd:string ;
+                       sh:maxCount  1 ;
+                       sh:minCount  1 ;
+                       sh:path      rdf:value
+                     ] .
+
+fixm:DistanceMeasure  a  rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:in        [ rdf:rest  ( "NAUTICAL_MILES" "MILES" "KILOMETERS" )
+                                    ] ;
+                       sh:minCount  1 ;
+                       sh:path      fixm:uom
+                     ] .
+
+fixm:MarinePollutantIndicator
+        a            rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:in        [ rdf:rest  ( "MARINE_POLLUTANT" )
+                                    ] ;
+                       sh:minCount  1 ;
+                       sh:path      rdf:value
+                     ] .
+
+fixm:AircraftDangerousGoodsLimitation
+        a            rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:in        [ rdf:rest  ( "PASSENGER_AND_CARGO_AIRCRAFT" "CARGO_AIRCRAFT_ONLY" )
+                                    ] ;
+                       sh:minCount  1 ;
+                       sh:path      rdf:value
+                     ] .
+
+fixm:Count  a        rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:datatype      xsd:integer ;
+                       sh:maxCount      1 ;
+                       sh:minCount      1 ;
+                       sh:minInclusive  0 ;
+                       sh:path          rdf:value
+                     ] .
+
+fixm:Pressure  a         rdfs:Class , sh:NodeShape ;
+        rdfs:subClassOf  fixm:UnitOfMeasure ;
+        sh:and           ( fixm:PressureMeasure ) ;
+        sh:and           ( fixm:UnitOfMeasure ) .
+
+fixm:Groundspeed  a      rdfs:Class , sh:NodeShape ;
+        rdfs:subClassOf  fixm:UnitOfMeasure ;
+        sh:and           ( fixm:GroundspeedMeasure ) ;
+        sh:and           ( fixm:UnitOfMeasure ) .
+
+fixm:ProvenanceSource
+        a            rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:datatype  xsd:string ;
+                       sh:maxCount  1 ;
+                       sh:minCount  1 ;
+                       sh:path      rdf:value
+                     ] .
+
+fixm:GloballyUniqueFlightIdentifier
+        a            rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:string ;
+                       sh:path      fixm:codeSpace
+                     ] ;
+        sh:property  [ sh:datatype  xsd:string ;
+                       sh:maxCount  1 ;
+                       sh:minCount  1 ;
+                       sh:path      rdf:value ;
+                       sh:pattern   "[0-9|aA-fF]{8}-[0-9|aA-fF]{4}-4[0-9|aA-fF]{3}-[89aAbB]{1}[0-9|aA-fF]{3}-[0-9|aA-fF]{12}"
+                     ] .
+
+fixm:OtherInformation
+        a            rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:Distance ;
+                       sh:path      fixm:runwayVisualRange
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:int ;
+                       sh:path      fixm:replacementFlightPlanIndicator
+                     ] .
+
+fixm:RadioCommunicationFailure
+        a                rdfs:Class , sh:NodeShape ;
+        rdfs:subClassOf  fixm:Feature ;
+        sh:and           ( fixm:Feature ) ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:LastContact ;
+                           sh:path      fixm:contact
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:FreeText ;
+                           sh:path      fixm:remainingComCapability
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:FreeText ;
+                           sh:path      fixm:radioFailureRemarks
+                         ] .
+
+fixm:WindDirection  a    rdfs:Class , sh:NodeShape ;
+        rdfs:subClassOf  fixm:Angle ;
+        sh:and           ( fixm:Angle ) .
+
+fixm:MeteorologicalData
+        a            rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:Windspeed ;
+                       sh:path      fixm:windSpeed
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:WindDirection ;
+                       sh:path      fixm:windDirection
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:Temperature ;
+                       sh:path      fixm:temperature
+                     ] .
+
+fixm:AtnLogonParameters
+        a                rdfs:Class , sh:NodeShape ;
+        rdfs:subClassOf  fixm:Parameters ;
+        sh:and           ( fixm:Parameters ) .
+
+fixm:CpdlcStartRequestIndicator
+        a            rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:in        [ rdf:rest  ( "SEND_CPDLC_START_REQUEST" )
+                                    ] ;
+                       sh:minCount  1 ;
+                       sh:path      rdf:value
+                     ] .
+
+fixm:FrequencyUsage  a  rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:in        [ rdf:rest  ( "VOICE" "CPDLC" )
+                                    ] ;
+                       sh:minCount  1 ;
+                       sh:path      rdf:value
+                     ] .
+
+fixm:Fans1ALogonParameters
+        a                rdfs:Class , sh:NodeShape ;
+        rdfs:subClassOf  fixm:Parameters ;
+        sh:and           ( fixm:Parameters ) .
+
+fixm:SupplementalData
+        a            rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:Person ;
+                       sh:path      fixm:pilotInCommand
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:Count ;
+                       sh:path      fixm:personsOnBoard
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:Duration ;
+                       sh:path      fixm:fuelEndurance
+                     ] .
+
+fixm:PackingGroup  a  rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:in        [ rdf:rest  ( "I" "II" "III" )
+                                    ] ;
+                       sh:minCount  1 ;
+                       sh:path      rdf:value
+                     ] .
+
+fixm:TextCountryCode  a  rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:datatype  xsd:string ;
+                       sh:maxCount  1 ;
+                       sh:minCount  1 ;
+                       sh:path      rdf:value ;
+                       sh:pattern   "[A-Z]{2}"
+                     ] .
+
+fixm:VolumeMeasure  a  rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:in        [ rdf:rest  ( "LITRES" "GALLONS" )
+                                    ] ;
+                       sh:minCount  1 ;
+                       sh:path      fixm:uom
+                     ] .
+
+fixm:EnRoute  a          sh:NodeShape , rdfs:Class ;
+        rdfs:subClassOf  fixm:Feature ;
+        sh:and           ( fixm:Feature ) ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:Pointout ;
+                           sh:path      fixm:pointout
+                         ] ;
+        sh:property      [ sh:minCount  0 ;
+                           sh:path      fixm:controlElement
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:CpdlcConnection ;
+                           sh:path      fixm:cpdlcConnection
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:FleetPriority ;
+                           sh:path      fixm:fleetPrioritization
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:AircraftPosition ;
+                           sh:path      fixm:position
+                         ] ;
+        sh:property      [ sh:minCount  0 ;
+                           sh:node      fixm:UnitBoundary ;
+                           sh:path      fixm:boundaryCrossings
+                         ] ;
+        sh:property      [ sh:minCount  0 ;
+                           sh:node      fixm:AerodromeReference ;
+                           sh:path      fixm:alternateAerodrome
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:ClearedFlightInformation ;
+                           sh:path      fixm:cleared
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:BeaconCodeAssignment ;
+                           sh:path      fixm:beaconCodeAssignment
+                         ] ;
+        sh:xone          ( [ sh:property  [ sh:class     fixm:AirspaceConstraint ;
+                                            sh:minCount  1 ;
+                                            sh:path      fixm:controlElement
+                                          ]
+                           ]
+                         ) .
+
+fixm:TextCity  a     rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:datatype  xsd:string ;
+                       sh:maxCount  1 ;
+                       sh:minCount  1 ;
+                       sh:path      rdf:value
+                     ] .
+
+fixm:LifeJacketCode  a  rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:in        [ rdf:rest  ( "FLUORESCEIN" "VERY_HIGH_FREQUENCY" "LIGHTS" "ULTRA_HIGH_FREQUENCY" )
+                                    ] ;
+                       sh:minCount  1 ;
+                       sh:path      rdf:value
+                     ] .
+
+fixm:AtcUnitName  a  rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:datatype  xsd:string ;
+                       sh:maxCount  1 ;
+                       sh:minCount  1 ;
+                       sh:path      rdf:value ;
+                       sh:pattern   "([A-Z]{4})|([A-Za-z0-9]{1,})"
+                     ] .
+
+fixm:UnitBoundaryIndicator
+        a            rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:in        [ rdf:rest  ( "PAST" "CURRENT" "FUTURE" )
+                                    ] ;
+                       sh:minCount  1 ;
+                       sh:path      rdf:value
+                     ] .
+
+fixm:OperatorCategory
+        a            rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:in        [ rdf:rest  ( "AIR_CARRIER" "FREIGHT_CARGO_CARRIER" "GENERAL_AVIATION" "MILITARY" "AIR_TAXI" "OTHER" )
+                                    ] ;
+                       sh:minCount  1 ;
+                       sh:path      rdf:value
+                     ] .
+
+fixm:CompatibilityGroup
+        a                rdfs:Class , sh:NodeShape ;
+        rdfs:subClassOf  fixm:FreeText ;
+        sh:and           ( fixm:FreeText ) .
+
+fixm:LastContact  a      rdfs:Class , sh:NodeShape ;
+        rdfs:subClassOf  fixm:Feature ;
+        sh:and           ( fixm:Feature ) ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:LastPositionReport ;
+                           sh:path      fixm:position
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:AtcUnitName ;
+                           sh:path      fixm:lastContactUnit
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:Time ;
+                           sh:path      fixm:lastContactTime
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:RadioFrequency ;
+                           sh:path      fixm:contactFrequency
+                         ] .
+
+fixm:Time  a         rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:datatype  xsd:dateTime ;
+                       sh:maxCount  1 ;
+                       sh:minCount  1 ;
+                       sh:path      rdf:value
+                     ] .
+
+fixm:VerticalRate  a     rdfs:Class , sh:NodeShape ;
+        rdfs:subClassOf  fixm:UnitOfMeasure ;
+        sh:and           ( fixm:UnitOfMeasure ) ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  1 ;
+                           sh:node      fixm:VerticalRateMeasure ;
+                           sh:path      fixm:uom
+                         ] .
+
+fixm:RadioFrequency  a   rdfs:Class , sh:NodeShape ;
+        rdfs:subClassOf  fixm:UnitOfMeasure ;
+        sh:and           ( fixm:UnitOfMeasure ) ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  1 ;
+                           sh:node      fixm:FrequencyMeasure ;
+                           sh:path      fixm:uom
+                         ] .
+
+fixm:WindSpeedMeasure
+        a            rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:in        [ rdf:rest  ( "MILES_PER_HOUR" "KILOMETRES_PER_HOUR" "KNOTS" "METERS_PER_SECOND" )
+                                    ] ;
+                       sh:minCount  1 ;
+                       sh:path      fixm:uom
+                     ] .
+
+fixm:AftnAddress  a  rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:datatype  xsd:string ;
+                       sh:maxCount  1 ;
+                       sh:minCount  1 ;
+                       sh:path      rdf:value
+                     ] .
+
+fixm:NonStandardCoordinationReason
+        a            rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:in        [ rdf:rest  ( "LATE_ACTIVATION" "LATERAL_DEVIATION" "LATE_REVISION" "NON_STANDARD_TFL" "NON_STANDARD_EQUIPMENT" "NON_STANDARD_SSR_CODE" "TRANSITION_POINT" )
+                                    ] ;
+                       sh:minCount  1 ;
+                       sh:path      rdf:value
+                     ] .
+
+fixm:ProvenanceSystem
+        a            rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:datatype  xsd:string ;
+                       sh:maxCount  1 ;
+                       sh:minCount  1 ;
+                       sh:path      rdf:value
+                     ] .
+
+fixm:FrequencyMeasure
+        a            rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:in        [ rdf:rest  ( "MEGAHERTZ" "KILOHERTZ" )
+                                    ] ;
+                       sh:minCount  1 ;
+                       sh:path      fixm:uom
+                     ] .
+
+fixm:IcaoAircraftIdentifier
+        a            rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:datatype  xsd:string ;
+                       sh:maxCount  1 ;
+                       sh:minCount  1 ;
+                       sh:path      rdf:value ;
+                       sh:pattern   "[A-Z0-9]{2,4}"
+                     ] .
+
+fixm:RouteConstraintOrPreference
+        a            rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:ConstraintOrPreferenceCategory ;
+                       sh:path      fixm:constraintType
+                     ] .
+
+fixm:LateralOfftrack  a  rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:OfftrackReason ;
+                       sh:path      fixm:offtrackReason
+                     ] ;
+        sh:property  [ sh:maxCount  2 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:OfftrackDistance ;
+                       sh:path      fixm:offtrackDistance
+                     ] .
+
+fixm:FissileExcepted  a  rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:in        [ rdf:rest  ( "EXCEPTED" )
+                                    ] ;
+                       sh:minCount  1 ;
+                       sh:path      rdf:value
+                     ] .
+
+fixm:ActualSpeed  a  rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:Groundspeed ;
+                       sh:path      fixm:surveillance
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:TrueAirspeedOrMach ;
+                       sh:path      fixm:pilotReported
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:Groundspeed ;
+                       sh:path      fixm:calculated
+                     ] .
+
+fixm:UnitBoundary  a     rdfs:Class , sh:NodeShape ;
+        rdfs:subClassOf  fixm:AtcUnitReference ;
+        sh:and           ( fixm:AtcUnitReference ) ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:AtcUnitReference ;
+                           sh:path      fixm:downstreamUnit
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:BoundaryCrossing ;
+                           sh:path      fixm:boundaryCrossingCoordinated
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:UnitBoundaryIndicator ;
+                           sh:path      fixm:unitBoundaryIndicator
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:BoundaryCrossing ;
+                           sh:path      fixm:boundaryCrossingProposed
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:AtcUnitReference ;
+                           sh:path      fixm:upstreamUnit
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:Handoff ;
+                           sh:path      fixm:handoff
+                         ] .
+
+fixm:ProvenanceCentre
+        a            rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:datatype  xsd:string ;
+                       sh:maxCount  1 ;
+                       sh:minCount  1 ;
+                       sh:path      rdf:value
+                     ] .
+
+fixm:AtcUnitReference
+        a            rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:DelegatedUnitIndicator ;
+                       sh:path      fixm:delegated
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:FreeText ;
+                       sh:path      fixm:sectorIdentifier
+                     ] .
+
+fixm:CommunicationCapabilities
+        a            rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:minCount  0 ;
+                       sh:node      fixm:CommunicationCode ;
+                       sh:path      fixm:communicationCode
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:SelectiveCallingCode ;
+                       sh:path      fixm:selectiveCallingCode
+                     ] ;
+        sh:property  [ sh:minCount  0 ;
+                       sh:node      fixm:DataLinkCode ;
+                       sh:path      fixm:dataLinkCode
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:FreeText ;
+                       sh:path      fixm:otherDataLinkCapabilities
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:FreeText ;
+                       sh:path      fixm:otherCommunicationCapabilities
+                     ] .
+
+fixm:ShippingInformation
+        a            rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:minCount  0 ;
+                       sh:node      fixm:AerodromeIcaoCode ;
+                       sh:path      fixm:transferAerodromes
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:StructuredPostalAddress ;
+                       sh:path      fixm:shipper
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:AerodromeReference ;
+                       sh:path      fixm:aerodromeOfUnloading
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:AerodromeReference ;
+                       sh:path      fixm:aerodromeOfLoading
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:TextCountryName ;
+                       sh:path      fixm:destinationCountry
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:FreeText ;
+                       sh:path      fixm:dangerousGoodsScreeningLocation
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:TextCountryName ;
+                       sh:path      fixm:departureCountry
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:FreeText ;
+                       sh:path      fixm:shipmentAuthorizations
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:FreeText ;
+                       sh:path      fixm:supplementaryInformation
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:TextCountryName ;
+                       sh:path      fixm:originCountry
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:FreeText ;
+                       sh:path      fixm:subsidiaryHazardClassAndDivision
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:DeclarationText ;
+                       sh:path      fixm:declarationText
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:StructuredPostalAddress ;
+                       sh:path      fixm:consignee
+                     ] .
+
+fixm:ExpandedRoutePoint
+        a                rdfs:Class , sh:NodeShape ;
+        rdfs:subClassOf  fixm:AbstractRoutePoint ;
+        sh:and           ( fixm:AbstractRoutePoint ) ;
+        sh:property      [ sh:minCount  0 ;
+                           sh:node      fixm:RouteConstraintOrPreference ;
+                           sh:path      fixm:constraint
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:Time ;
+                           sh:path      fixm:estimatedTime
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:Altitude ;
+                           sh:path      fixm:estimatedLevel
+                         ] .
+
+fixm:Longitude  a        rdfs:Class , sh:NodeShape ;
+        rdfs:subClassOf  fixm:UnitOfMeasure ;
+        sh:and           ( fixm:UnitOfMeasure ) .
+
+fixm:SelectiveCallingCode
+        a                rdfs:Class , sh:NodeShape ;
+        rdfs:subClassOf  fixm:FreeText ;
+        sh:and           ( fixm:FreeText ) .
+
+fixm:ClearanceLimitIndicator
+        a            rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:in        [ rdf:rest  ( "CLEARANCE_LIMIT" )
+                                    ] ;
+                       sh:minCount  1 ;
+                       sh:path      rdf:value
+                     ] .
+
+fixm:WeightMeasure  a  rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:in        [ rdf:rest  ( "KILOGRAMS" "POUNDS" )
+                                    ] ;
+                       sh:minCount  1 ;
+                       sh:path      fixm:uom
+                     ] .
+
+fixm:TimeSequence  a  rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:MultiTime ;
+                       sh:path      fixm:request
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:MultiTime ;
+                       sh:path      fixm:ready
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:MultiTime ;
+                       sh:path      fixm:end
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:MultiTime ;
+                       sh:path      fixm:begin
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:TargetMultiTime ;
+                       sh:path      fixm:approval
+                     ] .
+
+fixm:RadioactivityMeasure
+        a            rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:in        [ rdf:rest  ( "GRAMS" "BECQUERELS" )
+                                    ] ;
+                       sh:minCount  1 ;
+                       sh:path      fixm:uom
+                     ] .
+
+fixm:AerodromeIcaoCode
+        a            rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:datatype  xsd:string ;
+                       sh:maxCount  1 ;
+                       sh:minCount  1 ;
+                       sh:path      rdf:value ;
+                       sh:pattern   "[A-Z]{4}"
+                     ] .
+
+fixm:MissedApproachIndicator
+        a            rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:in        [ rdf:rest  ( "MISSED_APPROACH" )
+                                    ] ;
+                       sh:minCount  1 ;
+                       sh:path      rdf:value
+                     ] .
+
+fixm:FlightStatus  a     rdfs:Class , sh:NodeShape ;
+        rdfs:subClassOf  fixm:Feature ;
+        sh:and           ( fixm:Feature ) ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:FlightCycle ;
+                           sh:path      fixm:flightCycle
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:AirfileIndicator ;
+                           sh:path      fixm:airfile
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:FlightAcceptedIndicator ;
+                           sh:path      fixm:accepted
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:FlightSuspendedIndicator ;
+                           sh:path      fixm:suspended
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:AirborneHoldIndicator ;
+                           sh:path      fixm:airborneHold
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:MissedApproachIndicator ;
+                           sh:path      fixm:missedApproach
+                         ] .
+
+fixm:SpeedCondition  a  rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:in        [ rdf:rest  ( "AT_OR_LESS" "AT_OR_GREATER" "AT" )
+                                    ] ;
+                       sh:minCount  1 ;
+                       sh:path      rdf:value
+                     ] .
+
+fixm:DangerousGoodsDimensions
+        a            rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:Volume ;
+                       sh:path      fixm:volume
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:Weight ;
+                       sh:path      fixm:netWeight
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:Weight ;
+                       sh:path      fixm:grossWeight
+                     ] .
+
+fixm:DepartureActivityTimes
+        a            rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:TimeSequence ;
+                       sh:path      fixm:startupTime
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:TimeSequence ;
+                       sh:path      fixm:groundHandlingTime
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:TimeSequence ;
+                       sh:path      fixm:deIcingTime
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:TimeSequence ;
+                       sh:path      fixm:boardingTime
+                     ] .
+
+fixm:IdentifiedUnitReference
+        a                rdfs:Class , sh:NodeShape ;
+        rdfs:subClassOf  fixm:AtcUnitReference ;
+        sh:and           ( fixm:AtcUnitReference ) ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:AtcUnitName ;
+                           sh:path      fixm:unitIdentifier
+                         ] .
+
+fixm:AirspaceType  a  rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:in        [ rdf:rest  ( "SECTOR" "FIR" )
+                                    ] ;
+                       sh:minCount  1 ;
+                       sh:path      rdf:value
+                     ] .
+
+fixm:Dinghy  a       rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:path      fixm:colour
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:DinghyCover ;
+                       sh:path      fixm:covered
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:Count ;
+                       sh:path      fixm:totalCapacity
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:Count ;
+                       sh:path      fixm:quantity
+                     ] ;
+        sh:xone      ( [ sh:property  [ sh:class     fixm:DinghyColourCode ;
+                                        sh:minCount  1 ;
+                                        sh:path      fixm:colour
+                                      ]
+                       ]
+                     ) .
+
+fixm:AltitudeReference
+        a            rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:in        [ rdf:rest  ( "MEAN_SEA_LEVEL" "FLIGHT_LEVEL" )
+                                    ] ;
+                       sh:minCount  1 ;
+                       sh:path      rdf:value
+                     ] .
+
+fixm:DinghyColourCode
+        a            rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:in        [ rdf:rest  ( "RED" "ORANGE" "YELLOW" "GREEN" "BLUE" "VIOLET" "BLACK" "WHITE" "GRAY" "SILVER" )
+                                    ] ;
+                       sh:minCount  1 ;
+                       sh:path      rdf:value
+                     ] .
+
+fixm:Windspeed  a        rdfs:Class , sh:NodeShape ;
+        rdfs:subClassOf  fixm:UnitOfMeasure ;
+        sh:and           ( fixm:WindSpeedMeasure ) ;
+        sh:and           ( fixm:UnitOfMeasure ) .
+
+fixm:RouteSegment  a  rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:RoutePoint ;
+                       sh:path      fixm:routePoint
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:AtsRoute ;
+                       sh:path      fixm:airway
+                     ] .
+
+fixm:BoundaryCrossing
+        a            rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:AltitudeInTransition ;
+                       sh:path      fixm:altitudeInTransition
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:LateralOfftrack ;
+                       sh:path      fixm:offtrack
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:Time ;
+                       sh:path      fixm:crossingTime
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:AirspeedChoice ;
+                       sh:path      fixm:crossingSpeed
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:SignificantPoint ;
+                       sh:path      fixm:crossingPoint
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:AltitudeChoice ;
+                       sh:path      fixm:altitude
+                     ] .
+
+fixm:CoordinationStatus
+        a            rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:ReleaseConditions ;
+                       sh:path      fixm:releaseConditions
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:NonStandardCoordinationReason ;
+                       sh:path      fixm:nonStandardCommunicationReason
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:CoordinationStatusCode ;
+                       sh:path      fixm:coordinationStatus
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:AbrogationReasonCode ;
+                       sh:path      fixm:abrogationReason
+                     ] .
+
+fixm:RadioactiveMaterial
+        a            rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:Radionuclide ;
+                       sh:path      fixm:radionuclide
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:RadioactiveMaterialCategory ;
+                       sh:path      fixm:category
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:FissileExcepted ;
+                       sh:path      fixm:fissileExceptedIndicator
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:DecimalIndex ;
+                       sh:path      fixm:transportIndex
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:DecimalIndex ;
+                       sh:path      fixm:criticalitySafetyIndex
+                     ] .
+
+fixm:TelephoneContact
+        a            rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:TextPhone ;
+                       sh:path      fixm:facimile
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:TextPhone ;
+                       sh:path      fixm:voice
+                     ] .
+
+fixm:AirspeedRange  a  rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:AirspeedInIasOrMach ;
+                       sh:path      fixm:upperSpeed
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:AirspeedInIasOrMach ;
+                       sh:path      fixm:lowerSpeed
+                     ] .
+
+fixm:OfftrackReason  a  rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:in        [ rdf:rest  ( "OFFSET" "DEVIATION" )
+                                    ] ;
+                       sh:minCount  1 ;
+                       sh:path      rdf:value
+                     ] .
+
+fixm:Person  a       rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:ContactInformation ;
+                       sh:path      fixm:contact
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:TextName ;
+                       sh:path      fixm:name
+                     ] .
+
+fixm:EmergencyPhase  a  rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:in        [ rdf:rest  ( "INCERFA" "ALERFA" "DETRESFA" "CANCELLED" )
+                                    ] ;
+                       sh:minCount  1 ;
+                       sh:path      rdf:value
+                     ] .
+
+fixm:RunwayPositionAndTime
+        a            rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:ExtendedMultiTime ;
+                       sh:path      fixm:runwayTime
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:RunwayName ;
+                       sh:path      fixm:runwayName
+                     ] .
+
+fixm:EfplPoint4D  a      rdfs:Class , sh:NodeShape ;
+        rdfs:subClassOf  fixm:Point4D ;
+        sh:and           ( fixm:Point4D ) ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:FlightLevel ;
+                           sh:path      fixm:flightLevel
+                         ] .
+
+fixm:Distance  a         rdfs:Class , sh:NodeShape ;
+        rdfs:subClassOf  fixm:UnitOfMeasure ;
+        sh:and           ( fixm:DistanceMeasure ) ;
+        sh:and           ( fixm:UnitOfMeasure ) .
+
+fixm:DelegatedUnitIndicator
+        a            rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:in        [ rdf:rest  ( "AUTHORITY_DELEGATED" )
+                                    ] ;
+                       sh:minCount  1 ;
+                       sh:path      rdf:value
+                     ] .
+
+fixm:WakeTurbulenceCategory
+        a            rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:in        [ rdf:rest  ( "L" "M" "H" "J" )
+                                    ] ;
+                       sh:minCount  1 ;
+                       sh:path      rdf:value
+                     ] .
+
+fixm:FlightCycle  a  rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:in        [ rdf:rest  ( "FILED" "SCHEDULED" "AIRBORNE" "COMPLETED" "CANCELLED" )
+                                    ] ;
+                       sh:minCount  1 ;
+                       sh:path      rdf:value
+                     ] .
+
+fixm:ExpandedRoute  a  rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:minCount  0 ;
+                       sh:node      fixm:ExpandedRoutePoint ;
+                       sh:path      fixm:routePoint
+                     ] .
+
+fixm:AirspeedInIasOrMach
+        a                rdfs:Class , sh:NodeShape ;
+        rdfs:subClassOf  fixm:UnitOfMeasure ;
+        sh:and           ( fixm:AirspeedMeasure ) ;
+        sh:and           ( fixm:UnitOfMeasure ) .
+
+fixm:FlightLevel  a  rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:FlightLevelUnit ;
+                       sh:path      fixm:unit
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:FlightLevel_DataType ;
+                       sh:path      fixm:level
+                     ] .
+
+fixm:DataLinkCode  a  rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:in        [ rdf:rest  ( "J1" "J2" "J3" "J4" "J5" "J6" "J7" )
+                                    ] ;
+                       sh:minCount  1 ;
+                       sh:path      rdf:value
+                     ] .
+
+fixm:RankedTrajectory
+        a            rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:TrajectoryRoutePair ;
+                       sh:path      fixm:routeTrajectoryPair
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:AssignedIndicator ;
+                       sh:path      fixm:assignedIndicator
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:Count ;
+                       sh:path      fixm:maximumAcceptableDelay
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:FreeText ;
+                       sh:path      fixm:identifier
+                     ] .
+
+fixm:Flight  a           sh:NodeShape , rdfs:Class ;
+        rdfs:subClassOf  fixm:Feature ;
+        sh:and           ( fixm:Feature ) ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:Originator ;
+                           sh:path      fixm:originator
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:AircraftOperator ;
+                           sh:path      fixm:operator
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:SupplementalData ;
+                           sh:path      fixm:supplementalData
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:FlightStatus ;
+                           sh:path      fixm:flightStatus
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:GloballyUniqueFlightIdentifier ;
+                           sh:path      fixm:gufi
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:TypeOfFlight ;
+                           sh:path      fixm:flightType
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:FlightArrival ;
+                           sh:path      fixm:arrival
+                         ] ;
+        sh:property      [ sh:minCount  0 ;
+                           sh:node      fixm:Extension ;
+                           sh:path      fixm:extensions
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:FlightIdentification ;
+                           sh:path      fixm:flightIdentification
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:FlightDeparture ;
+                           sh:path      fixm:departure
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:FlightEmergency ;
+                           sh:path      fixm:emergency
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:EnRoute ;
+                           sh:path      fixm:enRoute
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:Aircraft ;
+                           sh:path      fixm:aircraftDescription
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:RadioCommunicationFailure ;
+                           sh:path      fixm:radioCommunicationFailure
+                         ] ;
+        sh:property      [ sh:minCount  0 ;
+                           sh:node      fixm:SpecialHandlingCode ;
+                           sh:path      fixm:specialHandling
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:FreeText ;
+                           sh:path      fixm:remarks
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:EnRouteDiversion ;
+                           sh:path      fixm:enRouteDiversion
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:TrajectoryRoutePair ;
+                           sh:path      fixm:negotiating
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:TrajectoryRoutePair ;
+                           sh:path      fixm:routeToRevisedDestination
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:TrajectoryRoutePair ;
+                           sh:path      fixm:agreed
+                         ] ;
+        sh:property      [ sh:minCount  0 ;
+                           sh:node      fixm:RankedTrajectory ;
+                           sh:path      fixm:rankedTrajectories
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:AtcUnitReference ;
+                           sh:path      fixm:controllingUnit
+                         ] ;
+        sh:property      [ sh:minCount  0 ;
+                           sh:node      fixm:DangerousGoods ;
+                           sh:path      fixm:dangerousGoods
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:FreeText ;
+                           sh:path      fixm:flightFiler
+                         ] .
+
+fixm:EfplTrajectoryPoint
+        a                sh:NodeShape , rdfs:Class ;
+        rdfs:subClassOf  fixm:TrajectoryPoint ;
+        sh:and           ( fixm:TrajectoryPoint ) ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:Weight ;
+                           sh:path      fixm:grossWeight
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:int ;
+                           sh:path      fixm:trajectoryPointType
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:Duration ;
+                           sh:path      fixm:elapsedTime
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:AerodromeReference ;
+                           sh:path      fixm:aerodromeIdentifier
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:TrajectoryPointRole ;
+                           sh:path      fixm:trajectoryPointRole
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:Distance ;
+                           sh:path      fixm:distanceFromTakeOff
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:TrajectorySegment ;
+                           sh:path      fixm:inboundSegment
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:TrueAirspeedOrMach ;
+                           sh:path      fixm:efplEstimatedSpeed
+                         ] .
+
+fixm:EnRouteDiversion
+        a            rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:GloballyUniqueFlightIdentifier ;
+                       sh:path      fixm:diversionRecoveryInformation
+                     ] .
+
+fixm:AtsRoute  a     rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:datatype  xsd:string ;
+                       sh:maxCount  1 ;
+                       sh:minCount  1 ;
+                       sh:path      rdf:value ;
+                       sh:pattern   "[A-Z][A-Z0-9]{1,7}"
+                     ] .
+
+fixm:BoundaryCrossingCondition
+        a            rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:in        [ rdf:rest  ( "AT_OR_ABOVE" "AT_OR_BELOW" )
+                                    ] ;
+                       sh:minCount  1 ;
+                       sh:path      rdf:value
+                     ] .
+
+fixm:AircraftOperator
+        a            rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:OperatorCategory ;
+                       sh:path      fixm:operatorCategory
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:PersonOrOrganization ;
+                       sh:path      fixm:operatingOrganization
+                     ] .
+
+fixm:FlightEmergency  a  sh:NodeShape , rdfs:Class ;
+        rdfs:subClassOf  fixm:Feature ;
+        sh:and           ( fixm:Feature ) ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:IdentifiedUnitReference ;
+                           sh:path      fixm:originator
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:EmergencyPhase ;
+                           sh:path      fixm:phase
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:FreeText ;
+                           sh:path      fixm:emergencyDescription
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:FreeText ;
+                           sh:path      fixm:actionTaken
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:LastContact ;
+                           sh:path      fixm:contact
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:FreeText ;
+                           sh:path      fixm:otherInformation
+                         ] .
+
+fixm:PostalAddress  a  rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:TextCity ;
+                       sh:path      fixm:city
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:TextCountryName ;
+                       sh:path      fixm:countryName
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:TextCountryCode ;
+                       sh:path      fixm:countryCode
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:TextAddress ;
+                       sh:path      fixm:deliveryPoint
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:TextName ;
+                       sh:path      fixm:postalCode
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:TextName ;
+                       sh:path      fixm:administrativeArea
+                     ] .
+
+fixm:DangerousGoodsPackageGroup
+        a            rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:ShipmentUse ;
+                       sh:path      fixm:shipmentUseIndicator
+                     ] ;
+        sh:property  [ sh:minCount  0 ;
+                       sh:node      fixm:DangerousGoodsPackage ;
+                       sh:path      fixm:dangerousGoodsPackage
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:DangerousGoodsDimensions ;
+                       sh:path      fixm:shipmentDimensions
+                     ] .
+
+fixm:FlightAcceptedIndicator
+        a            rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:in        [ rdf:rest  ( "ACCEPTED" )
+                                    ] ;
+                       sh:minCount  1 ;
+                       sh:path      rdf:value
+                     ] .
+
+fixm:CpdlcConnection  a  rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:Fans1ALogonParameters ;
+                       sh:path      fixm:fans1ALogonParameters
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:FrequencyUsage ;
+                       sh:path      fixm:frequencyUsage
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:CpdlcConnectionStatus ;
+                       sh:path      fixm:connectionStatus
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:CpdlcStartRequestIndicator ;
+                       sh:path      fixm:sendCpldcIndicator
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:AtnLogonParameters ;
+                       sh:path      fixm:atnLogonParameters
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:RadioFrequency ;
+                       sh:path      fixm:receivingUnitFrequency
+                     ] .
+
+fixm:EfplTrajectoryRoutePair
+        a                rdfs:Class , sh:NodeShape ;
+        rdfs:subClassOf  fixm:TrajectoryRoutePair ;
+        sh:and           ( fixm:TrajectoryRoutePair ) .
+
+fixm:AircraftType  a  rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:FreeText ;
+                       sh:path      fixm:otherModelData
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:IcaoAircraftIdentifier ;
+                       sh:path      fixm:icaoModelIdentifier
+                     ] .
+
+fixm:DangerousGoodsPackage
+        a            rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:maxCount  2 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:HazardClass ;
+                       sh:path      fixm:subsidiaryHazardClass
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:Count ;
+                       sh:path      fixm:dangerousGoodsQuantity
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:Temperatures ;
+                       sh:path      fixm:temperatures
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:DangerousGoodsDimensions ;
+                       sh:path      fixm:shipmentDimensions
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:RadioactiveMaterial ;
+                       sh:path      fixm:radioactiveMaterials
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:AllPackedInOne ;
+                       sh:path      fixm:allPackedInOne
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:OverpackIndicator ;
+                       sh:path      fixm:overpackIndicator
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:FreeText ;
+                       sh:path      fixm:productName
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:PackingGroup ;
+                       sh:path      fixm:packingGroup
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:AircraftDangerousGoodsLimitation ;
+                       sh:path      fixm:dangerousGoodsLimitation
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:FreeText ;
+                       sh:path      fixm:unNumber
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:MarinePollutantIndicator ;
+                       sh:path      fixm:marinePollutantIndicator
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:CompatibilityGroup ;
+                       sh:path      fixm:compatibilityGroup
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:FreeText ;
+                       sh:path      fixm:packingInstructionNumber
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:ShipmentType ;
+                       sh:path      fixm:shipmentType
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:Count ;
+                       sh:path      fixm:reportableQuantity
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:HazardClass ;
+                       sh:path      fixm:hazardClass
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:FreeText ;
+                       sh:path      fixm:typeOfPackaging
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:FreeText ;
+                       sh:path      fixm:properShippingName
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:FreeText ;
+                       sh:path      fixm:supplementaryInformation
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:FreeText ;
+                       sh:path      fixm:technicalName
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:Dimensions ;
+                       sh:path      fixm:packageDimensions
+                     ] .
+
+fixm:RunwayName  a   rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:datatype  xsd:string ;
+                       sh:maxCount  1 ;
+                       sh:minCount  1 ;
+                       sh:path      rdf:value ;
+                       sh:pattern   "(0[1-9]|[12][0-9]|3[0-6])[LRC]{0,1}"
+                     ] .
+
+fixm:FlightSuspendedIndicator
+        a            rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:in        [ rdf:rest  ( "SUSPENDED" "NOT_SUSPENDED" )
+                                    ] ;
+                       sh:minCount  1 ;
+                       sh:path      rdf:value
+                     ] .
+
+fixm:Volume  a           rdfs:Class , sh:NodeShape ;
+        rdfs:subClassOf  fixm:UnitOfMeasure ;
+        sh:and           ( fixm:VolumeMeasure ) ;
+        sh:and           ( fixm:UnitOfMeasure ) .
+
+fixm:TextPhone  a    rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:datatype  xsd:string ;
+                       sh:maxCount  1 ;
+                       sh:minCount  1 ;
+                       sh:path      rdf:value
+                     ] .
+
+fixm:TrajectoryPoint  a  sh:NodeShape , rdfs:Class ;
+        sh:property  [ sh:minCount  0 ;
+                       sh:node      fixm:TrajectoryChangePointType ;
+                       sh:path      fixm:trajectoryChangeType
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:MeteorologicalData ;
+                       sh:path      fixm:metData
+                     ] ;
+        sh:property  [ sh:minCount  0 ;
+                       sh:node      fixm:TrajectoryChange ;
+                       sh:path      fixm:trajectoryChange
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:Pressure ;
+                       sh:path      fixm:altimeterSetting
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:Point4D ;
+                       sh:path      fixm:point
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:AirspeedChoice ;
+                       sh:path      fixm:predictedAirspeed
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:ExpandedRoutePoint ;
+                       sh:path      fixm:referencePoint
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:GroundspeedChoice ;
+                       sh:path      fixm:predictedGroundspeed
+                     ] .
+
+fixm:CoordinationStatusCode
+        a            rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:in        [ rdf:rest  ( "NOTIFIED" "OFFERED" "RENEGOTIATE_REQUESTED" "RENEGOTIATE_REJECTED" "COORDINATED" "REJECTED" "REQUESTED_ON_FREQUENCY" "ASSUMED" "BACKWARD_COORDINATING" "BACKWARD_COORDINATING_REJECTED" "BACKWARD_COORDINATING_ACCEPTED" "ABROGATED" "ATSU_SKIPPED" "FREQUENCY_CHANGED" "RELEASE_REQUESTED" "RELEASE_REJECTED" "RELEASED" "MANUALLY_REFERRED" )
+                                    ] ;
+                       sh:minCount  1 ;
+                       sh:path      rdf:value
+                     ] .
+
+fixm:SurvivalEquipmentCode
+        a            rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:in        [ rdf:rest  ( "POLAR" "DESERT" "MARITIME" "JUNGLE" )
+                                    ] ;
+                       sh:minCount  1 ;
+                       sh:path      rdf:value
+                     ] .
+
+fixm:EngineType  a   rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:in        [ rdf:rest  ( "PISTON" "TURBO_PROP" "TURBO_SHAFT" "TURBO_JET" "TURBO_FAN" "PROP_FAN" )
+                                    ] ;
+                       sh:minCount  1 ;
+                       sh:path      rdf:value
+                     ] .
+
+fixm:GroundspeedRange
+        a            rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:Groundspeed ;
+                       sh:path      fixm:upperSpeed
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:Groundspeed ;
+                       sh:path      fixm:lowerSpeed
+                     ] .
+
+fixm:RadioactiveMaterialCategory
+        a            rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:in        [ rdf:rest  ( "I_WHITE" "II_YELLOW" "III_YELLOW" )
+                                    ] ;
+                       sh:minCount  1 ;
+                       sh:path      rdf:value
+                     ] .
+
+fixm:TextAddress  a  rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:datatype  xsd:string ;
+                       sh:maxCount  1 ;
+                       sh:minCount  1 ;
+                       sh:path      rdf:value
+                     ] .
+
+fixm:ExtendedMultiTime
+        a                rdfs:Class , sh:NodeShape ;
+        rdfs:subClassOf  fixm:TargetMultiTime ;
+        sh:and           ( fixm:TargetMultiTime ) ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:ReportedTime ;
+                           sh:path      fixm:initial
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:ReportedTime ;
+                           sh:path      fixm:controlled
+                         ] .
+
+fixm:TrueAirspeedOrMach
+        a                rdfs:Class , sh:NodeShape ;
+        rdfs:subClassOf  fixm:UnitOfMeasure ;
+        sh:and           ( fixm:AirspeedMeasure ) ;
+        sh:and           ( fixm:UnitOfMeasure ) .
+
+fixm:TextName  a     rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:datatype  xsd:string ;
+                       sh:maxCount  1 ;
+                       sh:minCount  1 ;
+                       sh:path      rdf:value
+                     ] .
+
+fixm:Trajectory  a   rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:minCount  0 ;
+                       sh:node      fixm:TrajectoryPoint ;
+                       sh:path      fixm:trajectoryPoint
+                     ] .
+
+fixm:EfplFlightDeparture
+        a                rdfs:Class , sh:NodeShape ;
+        rdfs:subClassOf  fixm:FlightDeparture ;
+        sh:and           ( fixm:FlightDeparture ) ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:Duration ;
+                           sh:path      fixm:taxiTime
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:Time ;
+                           sh:path      fixm:estimatedOffBlockTime
+                         ] .
+
+fixm:AirfileIndicator
+        a            rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:in        [ rdf:rest  ( "AIRFILE" )
+                                    ] ;
+                       sh:minCount  1 ;
+                       sh:path      rdf:value
+                     ] .
+
+fixm:DirectRouting  a  rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:SignificantPoint ;
+                       sh:path      fixm:to
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:SignificantPoint ;
+                       sh:path      fixm:from
+                     ] .
+
+fixm:SignificantPoint
+        a       rdfs:Class , sh:NodeShape .
+
+fixm:BeaconCode  a   rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:SsrMode ;
+                       sh:path      fixm:ssrMode
+                     ] ;
+        sh:property  [ sh:datatype  xsd:string ;
+                       sh:maxCount  1 ;
+                       sh:minCount  1 ;
+                       sh:path      rdf:value ;
+                       sh:pattern   "[0-7]{4}"
+                     ] .
+
+fixm:DinghyCover  a  rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:in        [ rdf:rest  ( "COVERED" )
+                                    ] ;
+                       sh:minCount  1 ;
+                       sh:path      rdf:value
+                     ] .
+
+fixm:AirWaybill  a       rdfs:Class , sh:NodeShape ;
+        rdfs:subClassOf  fixm:FreeText ;
+        sh:and           ( fixm:FreeText ) ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:FreeText ;
+                           sh:path      fixm:airWaybillNumber
+                         ] .
+
+fixm:LandingLimits  a  rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:in        [ rdf:rest  ( "I" "II" "III" "IIIA" "IIIB" "IIIC" )
+                                    ] ;
+                       sh:minCount  1 ;
+                       sh:path      rdf:value
+                     ] .
+
+fixm:SurveillanceCode
+        a            rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:in        [ rdf:rest  ( "A" "B1" "B2" "C" "D1" "E" "G1" "H" "I" "L" "P" "S" "U1" "U2" "V1" "V2" "X" )
+                                    ] ;
+                       sh:minCount  1 ;
+                       sh:path      rdf:value
+                     ] .
+
+fixm:PressureMeasure  a  rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:in        [ rdf:rest  ( "ATMOSPHERES" "BAR" "HECTOPASCAL" "PASCAL" "POUNDS_PER_SQUARE_INCH" "TORR" "MILLIBAR" "INCHES_OF_MERCURY" )
+                                    ] ;
+                       sh:minCount  1 ;
+                       sh:path      fixm:uom
+                     ] .
+
+fixm:FlightIdentifier
+        a            rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:datatype  xsd:string ;
+                       sh:maxCount  1 ;
+                       sh:minCount  1 ;
+                       sh:path      rdf:value ;
+                       sh:pattern   "[A-Z0-9]{1,7}"
+                     ] .
+
+fixm:AircraftRegistration
+        a                rdfs:Class , sh:NodeShape ;
+        rdfs:subClassOf  fixm:FreeText ;
+        sh:and           ( fixm:FreeText ) .
+
+fixm:DecimalIndex  a  rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:datatype  xsd:decimal ;
+                       sh:maxCount  1 ;
+                       sh:minCount  1 ;
+                       sh:path      rdf:value
+                     ] .
+
+fixm:AirborneHoldIndicator
+        a            rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:in        [ rdf:rest  ( "AIRBORNE_HOLD" "NOT_AIRBORNE_HOLD" )
+                                    ] ;
+                       sh:minCount  1 ;
+                       sh:path      rdf:value
+                     ] .
+
+fixm:TrajectoryChange
+        a            rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:FreeText ;
+                       sh:path      fixm:specialActivityAirspace
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:ConstrainedAirspace ;
+                       sh:path      fixm:constrainedAirspace
+                     ] .
+
+fixm:SpecialForm  a  rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:in        [ rdf:rest  ( "SPECIAL_FORM" )
+                                    ] ;
+                       sh:minCount  1 ;
+                       sh:path      rdf:value
+                     ] .
+
+fixm:AerodromesOfDestination
+        a            rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:AerodromeReference ;
+                       sh:path      fixm:filedRevisedDestinationAerodrome
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:AerodromeReference ;
+                       sh:path      fixm:alternate2
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:AerodromeReference ;
+                       sh:path      fixm:alternate1
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:AerodromeReference ;
+                       sh:path      fixm:aerodromeOfDestination
+                     ] .
+
+fixm:NavigationCapabilities
+        a            rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:minCount  0 ;
+                       sh:node      fixm:NavigationCode ;
+                       sh:path      fixm:navigationCode
+                     ] ;
+        sh:property  [ sh:minCount  0 ;
+                       sh:node      fixm:PerformanceBasedCode ;
+                       sh:path      fixm:performanceBasedCode
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:FreeText ;
+                       sh:path      fixm:otherNavigationCapabilities
+                     ] .
+
+fixm:AircraftAddress  a  rdfs:Class , sh:NodeShape ;
+        rdfs:subClassOf  fixm:FreeText ;
+        sh:and           ( fixm:FreeText ) .
+
+fixm:NavigationCode  a  rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:in        [ rdf:rest  ( "A" "B" "C" "D" "F" "G" "I" "K" "L" "O" "T" "W" "X" )
+                                    ] ;
+                       sh:minCount  1 ;
+                       sh:path      rdf:value
+                     ] .
+
+fixm:StandPositionAndTime
+        a            rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:TerminalName ;
+                       sh:path      fixm:terminalName
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:ExtendedMultiTime ;
+                       sh:path      fixm:standTime
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:StandName ;
+                       sh:path      fixm:standName
+                     ] .
+
+fixm:AllPackedInOne  a  rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:DecimalIndex ;
+                       sh:path      fixm:qValue
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:Count ;
+                       sh:path      fixm:numberOfPackages
+                     ] .
+
+fixm:FlightDeparture  a  sh:NodeShape , rdfs:Class ;
+        rdfs:subClassOf  fixm:Feature ;
+        sh:and           ( fixm:Feature ) ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:StandardInstrumentRouteDesignator ;
+                           sh:path      fixm:standardInstrumentDeparture
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:RunwayPositionAndTime ;
+                           sh:path      fixm:runwayPositionAndTime
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:Time ;
+                           sh:path      fixm:earliestOffBlockTime
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:DepartureActivityTimes ;
+                           sh:path      fixm:departureTimes
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:StandPositionAndTime ;
+                           sh:path      fixm:standPositionAndTime
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:SlotAssignment ;
+                           sh:path      fixm:departureSlot
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:FleetPriority ;
+                           sh:path      fixm:departureFleetPrioritization
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:SignificantPoint ;
+                           sh:path      fixm:departureFix
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:Weight ;
+                           sh:path      fixm:takeoffWeight
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:TargetMultiTime ;
+                           sh:path      fixm:offBlockReadyTime
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:MultiTime ;
+                           sh:path      fixm:departureFixTime
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:AerodromeReference ;
+                           sh:path      fixm:departureAerodrome
+                         ] ;
+        sh:property      [ sh:minCount  0 ;
+                           sh:node      fixm:AerodromeReference ;
+                           sh:path      fixm:takeoffAlternateAerodrome
+                         ] .
+
+fixm:UnitSectorAirspace
+        a            rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:AirspaceType ;
+                       sh:path      fixm:airspaceType
+                     ] ;
+        sh:property  [ sh:datatype  xsd:string ;
+                       sh:maxCount  1 ;
+                       sh:minCount  1 ;
+                       sh:path      rdf:value
+                     ] .
+
+fixm:TrajectoryRoutePair
+        a            rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:Route ;
+                       sh:path      fixm:route
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:Trajectory ;
+                       sh:path      fixm:trajectory
+                     ] .
+
+fixm:TrajectorySegment
+        a            rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:SegmentType ;
+                       sh:path      fixm:segmentType
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:AtsRoute ;
+                       sh:path      fixm:segmentIdentifier
+                     ] .
+
+fixm:GeographicLocation
+        a            rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:string ;
+                       sh:path      fixm:srsName
+                     ] ;
+        sh:property  [ sh:maxCount  2 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:double ;
+                       sh:path      fixm:pos
+                     ] .
+
+fixm:FlightArrival  a    sh:NodeShape , rdfs:Class ;
+        rdfs:subClassOf  fixm:Feature ;
+        sh:and           ( fixm:Feature ) ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:Time ;
+                           sh:path      fixm:earliestInBlockTime
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:LandingLimits ;
+                           sh:path      fixm:landingLimits
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:StandPositionAndTime ;
+                           sh:path      fixm:standPositionAndTime
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:RunwayPositionAndTime ;
+                           sh:path      fixm:runwayPositionAndTime
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:AerodromeReference ;
+                           sh:path      fixm:filedRevisedDestinationAerodrome
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:StandardInstrumentRouteDesignator ;
+                           sh:path      fixm:filedRevisedDestinationStar
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:AerodromeReference ;
+                           sh:path      fixm:arrivalAerodrome
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:AerodromeReference ;
+                           sh:path      fixm:arrivalAerodromeOriginal
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:FleetPriority ;
+                           sh:path      fixm:arrivalFleetPrioritization
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:MultiTime ;
+                           sh:path      fixm:arrivalFixTime
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:SignificantPoint ;
+                           sh:path      fixm:approachFix
+                         ] ;
+        sh:property      [ sh:minCount  0 ;
+                           sh:node      fixm:AerodromeReference ;
+                           sh:path      fixm:arrivalAerodromeAlternate
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:MultiTime ;
+                           sh:path      fixm:approachTime
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:StandardInstrumentRouteDesignator ;
+                           sh:path      fixm:standardInstrumentArrival
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:Count ;
+                           sh:path      fixm:arrivalSequenceNumber
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:SignificantPoint ;
+                           sh:path      fixm:arrivalFix
+                         ] .
+
+fixm:ShipmentType  a  rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:in        [ rdf:rest  ( "RADIOACTIVE" )
+                                    ] ;
+                       sh:minCount  1 ;
+                       sh:path      rdf:value
+                     ] .
+
+fixm:PositionReportSource
+        a            rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:in        [ rdf:rest  ( "PROGRESS_REPORT" "SURVEILLANCE" )
+                                    ] ;
+                       sh:minCount  1 ;
+                       sh:path      rdf:value
+                     ] .
+
+fixm:FlightLevel_DataType
+        a            rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:datatype  xsd:integer ;
+                       sh:maxCount  1 ;
+                       sh:minCount  1 ;
+                       sh:path      rdf:value
+                     ] .
+
+fixm:Feature  a      rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:Provenance ;
+                       sh:path      fixm:provenance
+                     ] .
+
+fixm:Organization  a  rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:ContactInformation ;
+                       sh:path      fixm:contact
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:TextName ;
+                       sh:path      fixm:otherOrganization
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:TextName ;
+                       sh:path      fixm:name
+                     ] .
+
+fixm:FlightIdentification
+        a            rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:minCount  0 ;
+                       sh:node      fixm:FlightIdentifier ;
+                       sh:path      fixm:marketingCarrierFlightIdentifier
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:CarrierIdentifier ;
+                       sh:path      fixm:majorCarrierIdentifier
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:FlightIdentifier ;
+                       sh:path      fixm:aircraftIdentification
+                     ] .
+
+fixm:Temperature  a      rdfs:Class , sh:NodeShape ;
+        rdfs:subClassOf  fixm:UnitOfMeasure ;
+        sh:and           ( fixm:TemperatureMeasure ) ;
+        sh:and           ( fixm:UnitOfMeasure ) .
+
+fixm:Weight  a           rdfs:Class , sh:NodeShape ;
+        rdfs:subClassOf  fixm:UnitOfMeasure ;
+        sh:and           ( fixm:WeightMeasure ) ;
+        sh:and           ( fixm:UnitOfMeasure ) .
+
+fixm:Speed  a            rdfs:Class , sh:NodeShape ;
+        rdfs:subClassOf  fixm:AirspeedInIasOrMach ;
+        sh:and           ( fixm:AirspeedInIasOrMach ) ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:SpeedCondition ;
+                           sh:path      fixm:speedCondition
+                         ] .
+
+fixm:SegmentType  a  rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:in        [ rdf:rest  ( "airRoute" "arrivalProcedure" "departureProcedure" "direct" "otsTrack" )
+                                    ] ;
+                       sh:minCount  1 ;
+                       sh:path      rdf:value
+                     ] .
+
+fixm:HazardClass  a      rdfs:Class , sh:NodeShape ;
+        rdfs:subClassOf  fixm:Count ;
+        sh:and           ( fixm:Count ) ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:Count ;
+                           sh:path      fixm:hazardDivision
+                         ] .
+
+fixm:AirspeedMeasure  a  rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:in        [ rdf:rest  ( "KILOMETRES_PER_HOUR" "KNOTS" "MACH" )
+                                    ] ;
+                       sh:minCount  1 ;
+                       sh:path      fixm:uom
+                     ] .
+
+fixm:AngleMeasure  a  rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:in        [ rdf:rest  ( "DEGREES" )
+                                    ] ;
+                       sh:minCount  1 ;
+                       sh:path      fixm:uom
+                     ] .
+
+fixm:Handoff  a      rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:CoordinationStatus ;
+                       sh:path      fixm:coordinationStatus
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:AtcUnitReference ;
+                       sh:path      fixm:transferringUnit
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:AtcUnitReference ;
+                       sh:path      fixm:receivingUnit
+                     ] .
+
+fixm:ConstraintOrPreferenceCategory
+        a            rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:in        [ rdf:rest  ( "EXECUTIVE_CONTROL" "CONTROLLER_TACTICAL_PLANNING" "NETWORK_STRATEGIC" "OPERATOR_CONSTRAINT" "FLIGHT_PLAN_EXPECTATION" )
+                                    ] ;
+                       sh:minCount  1 ;
+                       sh:path      rdf:value
+                     ] .
+
+fixm:TemporalRange  a  rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:Time ;
+                       sh:path      fixm:latest
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:Time ;
+                       sh:path      fixm:earliest
+                     ] .
+
+fixm:StandardCapabilitiesIndicator
+        a            rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:in        [ rdf:rest  ( "STANDARD" )
+                                    ] ;
+                       sh:minCount  1 ;
+                       sh:path      rdf:value
+                     ] .
+
+fixm:Pointout  a     rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:minCount  0 ;
+                       sh:node      fixm:AtcUnitReference ;
+                       sh:path      fixm:receivingUnit
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:AtcUnitReference ;
+                       sh:path      fixm:originatingUnit
+                     ] .
+
+fixm:Temperatures  a  rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:Temperature ;
+                       sh:path      fixm:flashpointTemperature
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:Temperature ;
+                       sh:path      fixm:emergencyTemperature
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:Temperature ;
+                       sh:path      fixm:controlTemperature
+                     ] .
+
+fixm:FreeText  a     rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:datatype   xsd:string ;
+                       sh:maxCount   1 ;
+                       sh:maxLength  4096 ;
+                       sh:minCount   1 ;
+                       sh:minLength  0 ;
+                       sh:path       rdf:value
+                     ] .
+
+fixm:EfplRoute  a        rdfs:Class , sh:NodeShape ;
+        rdfs:subClassOf  fixm:Route ;
+        sh:and           ( fixm:Route ) ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:EfplFlightRules ;
+                           sh:path      fixm:efplFlightRules
+                         ] .
+
+fixm:TerminalName  a  rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:datatype  xsd:string ;
+                       sh:maxCount  1 ;
+                       sh:minCount  1 ;
+                       sh:path      rdf:value
+                     ] .
+
+fixm:SsrMode  a      rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:in        [ rdf:rest  ( "A" "C" "S" )
+                                    ] ;
+                       sh:minCount  1 ;
+                       sh:path      rdf:value
+                     ] .
+
+fixm:ShipmentUse  a  rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:in        [ rdf:rest  ( "EXCLUSIVE" )
+                                    ] ;
+                       sh:minCount  1 ;
+                       sh:path      rdf:value
+                     ] .
+
+fixm:FlightLevelUnit  a  rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:in        [ rdf:rest  ( "A" "F" "M" "MM" "S" "SM" )
+                                    ] ;
+                       sh:minCount  1 ;
+                       sh:path      rdf:value
+                     ] .
+
+fixm:OfftrackDirection
+        a            rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:in        [ rdf:rest  ( "LEFT" "RIGHT" )
+                                    ] ;
+                       sh:minCount  1 ;
+                       sh:path      rdf:value
+                     ] .
+
+fixm:TrajectoryChangePointType
+        a            rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:in        [ rdf:rest  ( "START_OF_CLIMB" "TOP_OF_CLIMB" "START_OF_DESCENT" "END_OF_DESCENT" "LEVEL_OFF" "CROSSOVER_ALTITUDE" "TRANSITION_ALTITUDE" "SPEED_CHANGE" "UNNAMED_FIX" "RUNWAY" "ENTRY_SPECIAL_ACTIVITY_AIRSPACE" "EXIT_SPECIAL_ACTIVITY_AIRSPACE" "CROSSING_CONSTRAINED_AIRSPACE" "ENTER_HOLD" "INITIAL_PREDICTION" "EXIT_HOLD" )
+                                    ] ;
+                       sh:minCount  1 ;
+                       sh:path      rdf:value
+                     ] .
+
+fixm:Originator  a   rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:FreeText ;
+                       sh:path      fixm:flightOriginator
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:AftnAddress ;
+                       sh:path      fixm:aftnAddress
+                     ] .
+
+fixm:Aircraft  a         rdfs:Class , sh:NodeShape ;
+        rdfs:subClassOf  fixm:Feature ;
+        sh:and           ( fixm:Feature ) ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:Count ;
+                           sh:path      fixm:aircraftQuantity
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:FreeText ;
+                           sh:path      fixm:aircraftColours
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:AircraftCapabilities ;
+                           sh:path      fixm:capabilities
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:AircraftAddress ;
+                           sh:path      fixm:aircraftAddress
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:AircraftRegistration ;
+                           sh:path      fixm:registration
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:WakeTurbulenceCategory ;
+                           sh:path      fixm:wakeTurbulence
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:AircraftPerformanceCategory ;
+                           sh:path      fixm:aircraftPerformance
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:AircraftType ;
+                           sh:path      fixm:aircraftType
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:EngineType ;
+                           sh:path      fixm:engineType
+                         ] .
+
+fixm:GroundspeedMeasure
+        a            rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:in        [ rdf:rest  ( "KILOMETRES_PER_HOUR" "KNOTS" )
+                                    ] ;
+                       sh:minCount  1 ;
+                       sh:path      fixm:uom
+                     ] .
+
+fixm:CpdlcConnectionStatus
+        a            rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:in        [ rdf:rest  ( "NO_CONNECTION" "CONNECTION_FAILED" "CONNECTION_ESTABLISHED" )
+                                    ] ;
+                       sh:minCount  1 ;
+                       sh:path      rdf:value
+                     ] .
+
+fixm:Altitude  a         rdfs:Class , sh:NodeShape ;
+        rdfs:subClassOf  fixm:UnitOfMeasure ;
+        sh:and           ( fixm:UnitOfMeasure ) ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:AltitudeReference ;
+                           sh:path      fixm:ref
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  1 ;
+                           sh:node      fixm:AltitudeMeasure ;
+                           sh:path      fixm:uom
+                         ] .
+
+fixm:Radionuclide  a  rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:SpecialForm ;
+                       sh:path      fixm:specialFormIndicator
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:RadioactiveMaterialActivity ;
+                       sh:path      fixm:activity
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:MaterialDispersability ;
+                       sh:path      fixm:lowDispersibleMaterialIndicator
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:FreeText ;
+                       sh:path      fixm:radionuclideName
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:FreeText ;
+                       sh:path      fixm:radionuclideId
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:FreeText ;
+                       sh:path      fixm:physicalChemicalForm
+                     ] .
+
+fixm:UnitOfMeasure  a  rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:datatype  xsd:decimal ;
+                       sh:maxCount  1 ;
+                       sh:minCount  1 ;
+                       sh:path      rdf:value
+                     ] .
+
+fixm:LengthMeasure  a  rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:in        [ rdf:rest  ( "FEET" "INCHES" "METRES" "CENTIMETRES" "MILLIMETRES" )
+                                    ] ;
+                       sh:minCount  1 ;
+                       sh:path      fixm:uom
+                     ] .
+
+fixm:RoutePoint  a       rdfs:Class , sh:NodeShape ;
+        rdfs:subClassOf  fixm:AbstractRoutePoint ;
+        sh:and           ( fixm:AbstractRoutePoint ) ;
+        sh:property      [ sh:minCount  0 ;
+                           sh:node      fixm:RouteConstraintOrPreference ;
+                           sh:path      fixm:constraint
+                         ] .
+
+fixm:AssignedIndicator
+        a            rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:in        [ rdf:rest  ( "ASSIGNED" )
+                                    ] ;
+                       sh:minCount  1 ;
+                       sh:path      rdf:value
+                     ] .
+
+fixm:ReportedTime  a  rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:Time ;
+                       sh:path      fixm:time
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:Provenance ;
+                       sh:path      fixm:provenance
+                     ] .
+
+fixm:FleetPriority  a  rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:datatype      xsd:integer ;
+                       sh:maxCount      1 ;
+                       sh:maxInclusive  10 ;
+                       sh:minCount      1 ;
+                       sh:minInclusive  1 ;
+                       sh:path          rdf:value
+                     ] .
+
+fixm:VerticalRange  a  rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:Altitude ;
+                       sh:path      fixm:upperBound
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:Altitude ;
+                       sh:path      fixm:lowerBound
+                     ] .
+
+fixm:AbstractRoutePoint
+        a            rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:ClearanceLimitIndicator ;
+                       sh:path      fixm:clearanceLimit
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:SignificantPoint ;
+                       sh:path      fixm:point
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:FlightRules ;
+                       sh:path      fixm:flightRules
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:Duration ;
+                       sh:path      fixm:delayAtPoint
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:AirTrafficType ;
+                       sh:path      fixm:airTrafficType
+                     ] .
+
+fixm:TextCountryName  a  rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:datatype  xsd:string ;
+                       sh:maxCount  1 ;
+                       sh:minCount  1 ;
+                       sh:path      rdf:value
+                     ] .
+
+fixm:RadioactiveMaterialActivity
+        a                rdfs:Class , sh:NodeShape ;
+        rdfs:subClassOf  fixm:UnitOfMeasure ;
+        sh:and           ( fixm:UnitOfMeasure ) ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  1 ;
+                           sh:node      fixm:RadioactivityMeasure ;
+                           sh:path      fixm:uom
+                         ] .
+
+fixm:AdditionalHandlingInformation
+        a            rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:PersonOrOrganization ;
+                       sh:path      fixm:responsibleAgent
+                     ] .
+
+fixm:CommunicationCode
+        a            rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:in        [ rdf:rest  ( "E1" "E2" "E3" "H" "M1" "M2" "M3" "P1" "P2" "P3" "P4" "P5" "P6" "P7" "P8" "P9" "U" "V" "Y" )
+                                    ] ;
+                       sh:minCount  1 ;
+                       sh:path      rdf:value
+                     ] .
+
+fixm:AircraftPerformanceCategory
+        a            rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:in        [ rdf:rest  ( "A" "B" "C" "D" "E" "H" )
+                                    ] ;
+                       sh:minCount  1 ;
+                       sh:path      rdf:value
+                     ] .
+
+fixm:AerodromeReference
+        a       rdfs:Class , sh:NodeShape .
+
+fixm:SurveillanceCapabilities
+        a            rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:minCount  0 ;
+                       sh:node      fixm:SurveillanceCode ;
+                       sh:path      fixm:surveillanceCode
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:FreeText ;
+                       sh:path      fixm:otherSurveillanceCapabilities
+                     ] .
+
+fixm:MaterialDispersability
+        a            rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:in        [ rdf:rest  ( "LOW_DISPERSIBLE" )
+                                    ] ;
+                       sh:minCount  1 ;
+                       sh:path      rdf:value
+                     ] .
+
+fixm:PointRange  a   rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:TemporalRange ;
+                       sh:path      fixm:temporalRange
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:VerticalRange ;
+                       sh:path      fixm:verticalRange
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:LateralOfftrack ;
+                       sh:path      fixm:lateralRange
+                     ] .
+
+fixm:EfplFlight  a       rdfs:Class , sh:NodeShape ;
+        rdfs:subClassOf  fixm:Flight ;
+        sh:and           ( fixm:Flight ) ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:EfplSpecialHandlingCode ;
+                           sh:path      fixm:efplSpecialHandling
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:IFPLId ;
+                           sh:path      fixm:ifplId
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:AerodromesOfDestination ;
+                           sh:path      fixm:aerodromesOfDestination
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:OtherInformation ;
+                           sh:path      fixm:otherInformation
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:EfplTrajectoryRoutePair ;
+                           sh:path      fixm:efplFiledTrajectory
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:Duration ;
+                           sh:path      fixm:totalEstimatedElapsedTime
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:FlightPerformanceData ;
+                           sh:path      fixm:flightPerformanceData
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:EfplTrajectoryRoutePair ;
+                           sh:path      fixm:efplAcceptedTrajectory
+                         ] .
+
+fixm:Extension  a        rdfs:Class , sh:NodeShape ;
+        rdfs:subClassOf  fixm:Feature ;
+        sh:and           ( fixm:Feature ) .
+
+fixm:CarrierIdentifier
+        a            rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:datatype  xsd:string ;
+                       sh:maxCount  1 ;
+                       sh:minCount  1 ;
+                       sh:path      rdf:value ;
+                       sh:pattern   "[A-Z]{3}"
+                     ] .
+
+fixm:Dimensions  a   rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:Length ;
+                       sh:path      fixm:width
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:Length ;
+                       sh:path      fixm:length
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:Length ;
+                       sh:path      fixm:height
+                     ] .
+
+fixm:DirectionReference
+        a            rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:in        [ rdf:rest  ( "TRUE" "MAGNETIC" )
+                                    ] ;
+                       sh:minCount  1 ;
+                       sh:path      rdf:value
+                     ] .
+
+fixm:AltitudeInTransition
+        a                rdfs:Class , sh:NodeShape ;
+        rdfs:subClassOf  fixm:Altitude ;
+        sh:and           ( fixm:Altitude ) ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:BoundaryCrossingCondition ;
+                           sh:path      fixm:crossingCondition
+                         ] .
+
+fixm:FlightRules  a  rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:in        [ rdf:rest  ( "IFR" "VFR" )
+                                    ] ;
+                       sh:minCount  1 ;
+                       sh:path      rdf:value
+                     ] .
+
+fixm:ReleaseConditions
+        a            rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:in        [ rdf:rest  ( "CLIMB" "DESCENT" "TURNS" "FULL" )
+                                    ] ;
+                       sh:minCount  1 ;
+                       sh:path      rdf:value
+                     ] .
+
+fixm:StructuredPostalAddress
+        a                rdfs:Class , sh:NodeShape ;
+        rdfs:subClassOf  fixm:ContactInformation ;
+        sh:and           ( fixm:ContactInformation ) .
+
+fixm:TrajectoryPointRole
+        a            rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:boolean ;
+                       sh:path      fixm:boundaryPoint
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:boolean ;
+                       sh:path      fixm:bottomOfClimb
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:boolean ;
+                       sh:path      fixm:fromOATToGat
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:boolean ;
+                       sh:path      fixm:fromVFRToIFR
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:boolean ;
+                       sh:path      fixm:fromGATToOAT
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:boolean ;
+                       sh:path      fixm:fromIFRToVFR
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:boolean ;
+                       sh:path      fixm:topOfClimb
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:boolean ;
+                       sh:path      fixm:topOfDescent
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:boolean ;
+                       sh:path      fixm:bottomOfDescent
+                     ] .
+
+fixm:DeclarationText  a  rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:FreeText ;
+                       sh:path      fixm:shipper
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:FreeText ;
+                       sh:path      fixm:consignor
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:FreeText ;
+                       sh:path      fixm:compliance
+                     ] .
+
+fixm:EfplSpecialHandlingCode
+        a            rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:in        [ rdf:rest  ( "CPDLCX" "EXM833" "PROTECTED" "RNAVINOP" "RNAVX" )
+                                    ] ;
+                       sh:minCount  1 ;
+                       sh:path      rdf:value
+                     ] .
+
+fixm:ElapsedTimeLocation
+        a            rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:UnitSectorAirspace ;
+                       sh:path      fixm:region
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:SignificantPoint ;
+                       sh:path      fixm:point
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:Longitude ;
+                       sh:path      fixm:longitude
+                     ] .
+
+fixm:Length  a           rdfs:Class , sh:NodeShape ;
+        rdfs:subClassOf  fixm:UnitOfMeasure ;
+        sh:and           ( fixm:LengthMeasure ) ;
+        sh:and           ( fixm:UnitOfMeasure ) .
+
+fixm:StandName  a    rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:datatype  xsd:string ;
+                       sh:maxCount  1 ;
+                       sh:minCount  1 ;
+                       sh:path      rdf:value
+                     ] .
+
+fixm:OnlineContact  a  rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:TextAddress ;
+                       sh:path      fixm:email
+                     ] .
+
+fixm:OverpackIndicator
+        a            rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:in        [ rdf:rest  ( "OVERPACK_USED" )
+                                    ] ;
+                       sh:minCount  1 ;
+                       sh:path      rdf:value
+                     ] .
+
+fixm:LastPositionReport
+        a            rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:Time ;
+                       sh:path      fixm:timeAtPosition
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:SignificantPoint ;
+                       sh:path      fixm:position
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:FreeText ;
+                       sh:path      fixm:determinationMethod
+                     ] .
+
+fixm:TypeOfFlight  a  rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:in        [ rdf:rest  ( "MILITARY" "GENERAL" "NON_SCHEDULED" "SCHEDULED" "OTHER" )
+                                    ] ;
+                       sh:minCount  1 ;
+                       sh:path      rdf:value
+                     ] .
+
+fixm:DangerousGoods  a   sh:NodeShape , rdfs:Class ;
+        rdfs:subClassOf  fixm:Feature ;
+        sh:and           ( fixm:Feature ) ;
+        sh:property      [ sh:minCount  0 ;
+                           sh:node      fixm:DangerousGoodsPackageGroup ;
+                           sh:path      fixm:packageGroup
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:FreeText ;
+                           sh:path      fixm:onboardLocation
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:AircraftDangerousGoodsLimitation ;
+                           sh:path      fixm:aircraftLimitation
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:ShipmentType ;
+                           sh:path      fixm:shipment
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:AirWaybill ;
+                           sh:path      fixm:airWayBill
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:ShippingInformation ;
+                           sh:path      fixm:shippingInformation
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:AdditionalHandlingInformation ;
+                           sh:path      fixm:handlingInformation
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:FreeText ;
+                           sh:path      fixm:guidebookNumber
+                         ] .
+
+fixm:ContactInformation
+        a            rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:PostalAddress ;
+                       sh:path      fixm:address
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:TelephoneContact ;
+                       sh:path      fixm:phoneFax
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:OnlineContact ;
+                       sh:path      fixm:onlineContact
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:TextName ;
+                       sh:path      fixm:title
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:TextName ;
+                       sh:path      fixm:name
+                     ] .
+
+fixm:Angle  a            rdfs:Class , sh:NodeShape ;
+        rdfs:subClassOf  fixm:UnitOfMeasure ;
+        sh:and           ( fixm:AngleMeasure ) ;
+        sh:and           ( fixm:UnitOfMeasure ) .
+
+fixm:Parameters  a   rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:datatype   xsd:string ;
+                       sh:maxCount   1 ;
+                       sh:maxLength  200 ;
+                       sh:minCount   1 ;
+                       sh:minLength  49 ;
+                       sh:path       rdf:value
+                     ] .
+
+fixm:PlannedReportingPosition
+        a            rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:Time ;
+                       sh:path      fixm:positionEstimatedTime
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:Altitude ;
+                       sh:path      fixm:positionAltitude
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:SignificantPoint ;
+                       sh:path      fixm:position
+                     ] .
+
+fixm:VerticalRateMeasure
+        a            rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:in        [ rdf:rest  ( "FEET_PER_MINUTE" "METRES_PER_SECOND" )
+                                    ] ;
+                       sh:minCount  1 ;
+                       sh:path      fixm:uom
+                     ] .
+
+fixm:EstimatedElapsedTime
+        a            rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:ElapsedTimeLocation ;
+                       sh:path      fixm:location
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:Duration ;
+                       sh:path      fixm:elapsedTime
+                     ] .
+
+fixm:IFPLId  a       rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:datatype  xsd:string ;
+                       sh:maxCount  1 ;
+                       sh:minCount  1 ;
+                       sh:path      rdf:value
+                     ] .
+
+fixm:AirspaceConstraint
+        a            rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:ConstrainedAirspace ;
+                       sh:path      fixm:constrainedAirspace
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:Time ;
+                       sh:path      fixm:airspaceControlledEntryTime
+                     ] .
+
+fixm:EmergencyRadioCode
+        a            rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:in        [ rdf:rest  ( "ULTRA_HIGH_FREQUENCY" "VERY_HIGH_FREQUENCY" "EMERGENCY_LOCATOR_TRANSMITTER" )
+                                    ] ;
+                       sh:minCount  1 ;
+                       sh:path      rdf:value
+                     ] .
+
+fixm:Point4D  a          rdfs:Class , sh:NodeShape ;
+        rdfs:subClassOf  fixm:GeographicLocation ;
+        sh:and           ( fixm:GeographicLocation ) ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:PointRange ;
+                           sh:path      fixm:pointRange
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:Time ;
+                           sh:path      fixm:time
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:Altitude ;
+                           sh:path      fixm:altitude
+                         ] .
+
+fixm:Route  a            rdfs:Class , sh:NodeShape ;
+        rdfs:subClassOf  fixm:Feature ;
+        sh:and           ( fixm:Feature ) ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:SpeedSchedule ;
+                           sh:path      fixm:climbSchedule
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:FlightRules ;
+                           sh:path      fixm:initialFlightRules
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:Time ;
+                           sh:path      fixm:airfileRouteStartTime
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:Altitude ;
+                           sh:path      fixm:requestedAltitude
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:Duration ;
+                           sh:path      fixm:flightDuration
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:ExpandedRoute ;
+                           sh:path      fixm:expandedRoute
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:FreeText ;
+                           sh:path      fixm:routeText
+                         ] ;
+        sh:property      [ sh:minCount  0 ;
+                           sh:node      fixm:EstimatedElapsedTime ;
+                           sh:path      fixm:estimatedElapsedTime
+                         ] ;
+        sh:property      [ sh:minCount  0 ;
+                           sh:node      fixm:RouteSegment ;
+                           sh:path      fixm:segment
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:SpeedSchedule ;
+                           sh:path      fixm:descentSchedule
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:TrueAirspeedOrMach ;
+                           sh:path      fixm:initialCruisingSpeed
+                         ] .
+
+fixm:TemperatureMeasure
+        a            rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:in        [ rdf:rest  ( "FARENHEIT" "CELSIUS" "KELVIN" )
+                                    ] ;
+                       sh:minCount  1 ;
+                       sh:path      fixm:uom
+                     ] .
+
+fixm:TargetMultiTime  a  rdfs:Class , sh:NodeShape ;
+        rdfs:subClassOf  fixm:MultiTime ;
+        sh:and           ( fixm:MultiTime ) ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:ReportedTime ;
+                           sh:path      fixm:target
+                         ] .
+
+fixm:AircraftCapabilities
+        a            rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:StandardCapabilitiesIndicator ;
+                       sh:path      fixm:standardCapabilities
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:SurveillanceCapabilities ;
+                       sh:path      fixm:surveillance
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:NavigationCapabilities ;
+                       sh:path      fixm:navigation
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:CommunicationCapabilities ;
+                       sh:path      fixm:communication
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:SurvivalCapabilities ;
+                       sh:path      fixm:survival
+                     ] .
+
+fixm:OfftrackDistance
+        a            rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:OfftrackDirection ;
+                       sh:path      fixm:direction
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:Distance ;
+                       sh:path      fixm:distance
+                     ] .
+
+fixm:MultiTime  a    rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:ReportedTime ;
+                       sh:path      fixm:estimated
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:ReportedTime ;
+                       sh:path      fixm:actual
+                     ] .
+
+fixm:SurvivalCapabilities
+        a            rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:minCount  0 ;
+                       sh:node      fixm:SurvivalEquipmentCode ;
+                       sh:path      fixm:survivalEquipmentCode
+                     ] ;
+        sh:property  [ sh:minCount  0 ;
+                       sh:node      fixm:LifeJacketCode ;
+                       sh:path      fixm:lifeJacketCode
+                     ] ;
+        sh:property  [ sh:minCount  0 ;
+                       sh:node      fixm:EmergencyRadioCode ;
+                       sh:path      fixm:emergencyRadioCode
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:Dinghy ;
+                       sh:path      fixm:dinghyInformation
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:FreeText ;
+                       sh:path      fixm:survivalEquipmentRemarks
+                     ] .
+
+fixm:BeaconCodeAssignment
+        a            rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:AtcUnitReference ;
+                       sh:path      fixm:reassigningUnit
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:BeaconCode ;
+                       sh:path      fixm:reassignedBeaconCode
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:BeaconCode ;
+                       sh:path      fixm:previousBeaconCode
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:BeaconCode ;
+                       sh:path      fixm:currentBeaconCode
+                     ] .
+
+fixm:AircraftPosition
+        a                sh:NodeShape , rdfs:Class ;
+        rdfs:subClassOf  fixm:Feature ;
+        sh:and           ( fixm:Feature ) ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:PositionReportSource ;
+                           sh:path      fixm:reportSource
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:SignificantPoint ;
+                           sh:path      fixm:position
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:PlannedReportingPosition ;
+                           sh:path      fixm:followingPosition
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:Altitude ;
+                           sh:path      fixm:altitude
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:Time ;
+                           sh:path      fixm:positionTime
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:ActualSpeed ;
+                           sh:path      fixm:actualSpeed
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:Direction ;
+                           sh:path      fixm:track
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      fixm:PlannedReportingPosition ;
+                           sh:path      fixm:nextPosition
+                         ] .
+
+fixm:StandardInstrumentRouteDesignator
+        a            rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:datatype  xsd:string ;
+                       sh:maxCount  1 ;
+                       sh:minCount  1 ;
+                       sh:path      rdf:value
+                     ] .
+
+fixm:SpecialHandlingCode
+        a            rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:in        [ rdf:rest  ( "ALTRV" "ATFMX" "FFR" "FLTCK" "HEAD" "HUM" "MARSA" "MEDEVAC" "NONRVSM" "SAR" "HAZMAT" "HOSP" "STATE" )
+                                    ] ;
+                       sh:minCount  1 ;
+                       sh:path      rdf:value
+                     ] .
+
+fixm:AbrogationReasonCode
+        a            rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:in        [ rdf:rest  ( "TFL" "ROUTE" "CANCELLATION" "DELAY" "HOLD" )
+                                    ] ;
+                       sh:minCount  1 ;
+                       sh:path      rdf:value
+                     ] .
+
+fixm:FlightPerformanceData
+        a            rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:minCount  0 ;
+                       sh:node      fixm:EfplTrajectoryPoint ;
+                       sh:path      fixm:descentProfile
+                     ] ;
+        sh:property  [ sh:minCount  0 ;
+                       sh:node      fixm:EfplTrajectoryPoint ;
+                       sh:path      fixm:climbProfile
+                     ] .
+
+fixm:Duration  a     rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:datatype  xsd:string ;
+                       sh:maxCount  1 ;
+                       sh:minCount  1 ;
+                       sh:path      rdf:value
+                     ] .
+
+fixm:Provenance  a   rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:ProvenanceSystem ;
+                       sh:path      fixm:system
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:ProvenanceSource ;
+                       sh:path      fixm:source
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:ProvenanceCentre ;
+                       sh:path      fixm:centre
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      fixm:Time ;
+                       sh:path      fixm:timestamp
+                     ] .
+
+fixm:PerformanceBasedCode
+        a            rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:in        [ rdf:rest  ( "A1" "B1" "B2" "B3" "B4" "B5" "B6" "C1" "C2" "C3" "C4" "D1" "D2" "D3" "D4" "L1" "O1" "O2" "O3" "O4" "S1" "S2" "T1" "T2" )
+                                    ] ;
+                       sh:minCount  1 ;
+                       sh:path      rdf:value
+                     ] .
