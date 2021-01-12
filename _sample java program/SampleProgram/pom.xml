@@ -4,11 +4,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>at.jku.dke</groupId>
-	<artifactId>xmiMapper</artifactId>
+	<artifactId>SampleProgram</artifactId>
 	<version>1.0</version>
 	<packaging>jar</packaging>
 
-	<name>xmiMapper</name>
+	<name>SampleProgram</name>
 	<url>http://maven.apache.org</url>
 
 	<properties>
