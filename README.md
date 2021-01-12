@@ -2,6 +2,8 @@
 
 For feedback or issues contact: sebastian.gruber@jku.at 
 
+Run: basex -b$config="configurations/FIXM_EDDF-VHHH.xml" mapper.xq
+
 ## 1. Introduction
 
 The AISA-XMI-Mapper maps selected content of UML class diagrams to a combination of RDF Schema (RDFS) and Shape Constraint Language (SHACL). The RDFS defines the vocabulary of the domain (classes and class hierarchies) which is described by the UML class diagrams. The SHACL defines structural constraints of the domain or, in other words, the schema. The mapper is created with the aim of mapping aeronautical UML models (AIXM, FIXM, ...) which adhere to a specific modelling style. Therefore, models provided to the mapper must fulfill certain semantic and syntactic requirements.
