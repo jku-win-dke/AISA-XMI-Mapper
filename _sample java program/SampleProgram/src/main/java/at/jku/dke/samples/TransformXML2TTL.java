@@ -1,4 +1,4 @@
-package at.jku.dke.xmiMapper;
+package at.jku.dke.samples;
 
 import java.io.FileOutputStream;
 

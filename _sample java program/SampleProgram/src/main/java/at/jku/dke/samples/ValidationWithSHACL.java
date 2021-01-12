@@ -1,4 +1,4 @@
-package at.jku.dke.xmiMapper;
+package at.jku.dke.samples;
 
 import org.apache.jena.graph.Graph;
 import org.apache.jena.rdf.model.Model;

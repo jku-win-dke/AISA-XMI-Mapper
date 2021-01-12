@@ -1,4 +1,4 @@
-package at.jku.dke.xmiMapper;
+package at.jku.dke.samples;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -9,8 +9,6 @@ import org.basex.query.QueryException;
 import org.basex.query.QueryProcessor;
 
 public class RunMapper {
-	
-	// for more examples of using BaseX library in Java, see: https://docs.basex.org/wiki/Java_Examples
 
 	public static void main(String[] args) throws QueryException, IOException {
 
