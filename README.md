@@ -3,6 +3,7 @@
 For feedback or issues contact: sebastian.gruber@jku.at 
 
 Run: basex -b$config="configurations/FIXM_EDDF-VHHH.xml" mapper.xq
+More Java Examples: https://docs.basex.org/wiki/Java_Examples
 
 ## 1. Introduction
 
