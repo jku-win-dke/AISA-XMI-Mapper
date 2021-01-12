@@ -1,6 +1,7 @@
-# EDDF-VHHH FIXM Creation Request
-#  from https://www.fixm.aero/release.pl?rel=SESAR_Ext-1.0
-#  file EDDF-VHHH_FIXMCreationRequest.xml
+# EDDF-VHHH Creation Request
+#  FIXM data manually transformed
+#   from https://www.fixm.aero/releases/SESAR_Ext-1.0/SESAR_E-FPL_Extension_v1.0_beta.zip (accessed: 08-Jan-2021)
+#   file EDDF-VHHH_FIXMCreationRequest.xml
 
 @prefix fixm: <http://www.aisa-project.eu/vocabulary/fixm_3-0-1_sesar#> .
 
