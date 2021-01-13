@@ -1,5 +1,5 @@
-# DONLON DOWNTOWN HELIPORT (BASELINE and DNOTAM data)
-#  Baseline AIXM data manually transformed  
+# COCESNA
+#  AIXM data manually transformed  
 #   from https://ext.eurocontrol.int/aixm_confluence/display/AIX/COCESNA?preview=/327825/327826/COCESNA_20170516_sample.xml (accessed: 08-Jan-2021)
 #   Lines 1165 - 1190
 
