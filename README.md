@@ -41,7 +41,7 @@ The architecture of the mapper is shown in the figure below (or see folder [\_ar
 There are a few ways to run the mapper, here are some examples:
 
 1. Install a W3C compliant XQuery processor (e.g. BaseX) and run the file mapper.xq
-	1. Using the BaseX command line tool: `basex -b$config="configurations/<configurationFile.xml>" mapper.xq`
+	1. Using the BaseX command line tool: `basex -b$config="<configurationFile.xml>" mapper.xq`
 	2. Or using the BaseX GUI and manually binding the location of the configuration file to the config variable
 2. Run a Java Code which in turn runs the mapper.xq
 	1. See the example [RunMapper.java](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/_sample%20java%20program/SampleProgram/src/main/java/at/jku/dke/samples/RunMapper.java) of the SampleProgram.
