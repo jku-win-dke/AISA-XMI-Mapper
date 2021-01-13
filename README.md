@@ -32,7 +32,7 @@ Requirement 1 is validated by the mapper and if violated, throws an error. Requi
 
 ### 1.3 Architecture
 
-The architecture of the mapper is shown in the figure below (or see folder [\_architecture](https://github.com/bastlyo/AISA-XMI-Mapper/tree/main/_architecture)). A configuration file refering to XMI files and with lists of selected UML classes is provided as input to the mapper. The selected subset of UML classes is extracted by the extractor module. The extracted subset is then mapped by the corresponding plugin to a RDFS/SHACL document and provided in a RDF/XML file.
+The architecture of the mapper is shown in the figure below (or see [\architecture.jpg](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/_architecture/architecture.JPG)). A configuration file refering to XMI files and with lists of selected UML classes is provided as input to the mapper. The selected subset of UML classes is extracted by the extractor module. The extracted subset is then mapped by the corresponding plugin to a RDFS/SHACL document and provided in a RDF/XML file.
 
 ![Architecture](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/_architecture/architecture.JPG)
 
