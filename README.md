@@ -4,12 +4,12 @@ For feedback or issues contact: sebastian.gruber@jku.at
 
 ## Table of content
 
-1. [Introduction](https://github.com/bastlyo/AISA-XMI-Mapper/tree/main#1-introduction)
-	1. [Semantic Requirements](https://github.com/bastlyo/AISA-XMI-Mapper/tree/main#11-semantic%20requirements)
-	2. [Syntactic Requirements](https://github.com/bastlyo/AISA-XMI-Mapper/tree/main#12-syntactic%20requirements)
-	3. [Architecture](https://github.com/bastlyo/AISA-XMI-Mapper/tree/main#13-architecture)
-	4. [How to run the Mapper](https://github.com/bastlyo/AISA-XMI-Mapper/tree/main#14-how%20to%20run%20the%20mapper)
-	5. [How to validate data graphs](https://github.com/bastlyo/AISA-XMI-Mapper/tree/main#15-how%20to%20validate%20data%20graphs)
+1. [Introduction](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/README.md#1-introduction)
+	1. [Semantic Requirements](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/README.md#11-semantic-requirements)
+	2. [Syntactic Requirements](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/README.md#12-syntactic-requirements)
+	3. [Architecture](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/README.md#13-architecture)
+	4. [How to run the Mapper](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/README.md#14-how-to-run-the-mapper)
+	5. [How to validate data graphs](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/README.md#15-how-to-validate-data-graphs)
 2. Configuration File
 	1. Structure of a configuration file
 	2. How to write a configuration file
