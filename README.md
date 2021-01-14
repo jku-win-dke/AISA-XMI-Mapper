@@ -17,10 +17,10 @@ For feedback or issues contact: sebastian.gruber@jku.at
 	1. mapper.xq
 	2. extractor.xq
 	3. Plugins
-		1. utilities.xq
-		2. aixm_5-1-1.xq
-		3. fixm_3-0-1_sesar.xq
-		4. plain.xq
+		1. aixm_5-1-1.xq
+		2. fixm_3-0-1_sesar.xq
+		3. plain.xq
+		4. utilities.xq
 4. RDFS/SHACL Document
 
 ## 1. Introduction
@@ -54,14 +54,14 @@ There are a few ways to run the mapper, here are two examples:
 	1. Using the BaseX command line tool: `basex -b$config="<configurationFile.xml>" mapper.xq`
 	2. Or using the BaseX GUI and manually binding the location of the configuration file to the config variable
 2. Run a Java Code which in turn runs the mapper.xq
-	1. See the example [RunMapper.java](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/_sample%20java%20program/SampleProgram/src/main/java/at/jku/dke/samples/RunMapper.java) of the SampleProgram.
+	1. See the example [RunMapper.java](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/_sampleJavaProgram/SampleProgram/src/main/java/at/jku/dke/samples/RunMapper.java) of the SampleProgram.
 	
 ### 1.5. How to validate data graphs
 
 The SampleProgram provides two classes which can utilize generated RDFS/SHACL documents:
 
-1. Transforming an RDFS/SHACL document from RDF/XML to RDF/TTL, see [TransformXML2TTL.java](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/_sample%20java%20program/SampleProgram/src/main/java/at/jku/dke/samples/TransformXML2TTL.java) using Apache Jena.
-2. Validating data graphs by an RDFS/SHACL document, see [ValidationWithSHACL.java](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/_sample%20java%20program/SampleProgram/src/main/java/at/jku/dke/samples/ValidationWithSHACL.java) using Apache Jena.
+1. Transforming an RDFS/SHACL document from RDF/XML to RDF/TTL, see [TransformXML2TTL.java](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/_sampleJavaProgram/SampleProgram/src/main/java/at/jku/dke/samples/TransformXML2TTL.java) using Apache Jena.
+2. Validating data graphs by an RDFS/SHACL document, see [ValidationWithSHACL.java](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/_sampleJavaProgram/SampleProgram/src/main/java/at/jku/dke/samples/ValidationWithSHACL.java) using Apache Jena.
 
 Attention! Be cautious that data graphs use the same namespaces as the generated RDFS/SHACL dcouments!
 Example: Instead of using "http://www.aixm.aero/schema/5.1.1#" for AIXM, we use "http://www.aisa-project.eu/vocabulary/aixm_5-1-1#".
@@ -92,7 +92,7 @@ The example below shows that the the classes "AirportHeliport" and "City" of the
 
 ### 2.2. How to write a configuration file 
 
-In order to determine the UML classes to be selected, only consider UML classes from the namespace of the model. As an example, see the decisions for the [configuration](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/configurations/AIXM_DONLON.xml) of the [Donlon airport example](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/_example%20data/AIXM_DONLON.ttl) below.
+In order to determine the UML classes to be selected, only consider UML classes from the namespace of the model. As an example, see the decisions for the [configuration](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/configurations/AIXM_DONLON.xml) of the [Donlon airport example](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/_exampleData/AIXM_DONLON.ttl) below.
 
 	Donlon airport									decisions for configuration file
 	<uuid:dd062d88-3e64-4a5d-bebd-89476db9ebea> a aixm:AirportHeliport; 	-->	<class>AirportHeliport</class>
@@ -139,16 +139,20 @@ The [mapper.xq](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/mapper.xq) 
 
 ### 3.2. extractor.xq
 
-The [extractor.xq](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/extractor.xq)
-The mapper passes the model and selected classes to the extractor-module to extract the to-be mapped subset. The extractor-module selects the follwing data as a subset:
+The [extractor.xq](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/extractor.xq) extracts a subset of UML classes and connectors from an XMI file based on the configuration file. The following steps are performed:
 
-1. The selected classes
-2. Connections only between 1. (except dependencies)
-3. Association classes only between 2.
-4. Super classes of 1. and 3. (as well as their super classes and so forth)
-5. Attribute classes of 1., 3. and 4. (as well as their super classes and their attribute classes and so forth)
-
-The subset of a model is returned to the mapper.
+1. Extracting the selected UML classes
+2. Recursive call of extraction:
+	1. Extract outgoing connectors from the set of extracted UML classes
+	2. Extract UML classes with an ingoing connector from 2.1.
+	3. Extract UML classes which are association classes of connectors from 2.1.
+	4. Extract UML classes which are attributes of extracted UML classes
+	5. If connectorLevel="n":
+		1. If the extracted model subset increased in size, then add another cycle of extraction.
+		2. Otherwise return the extracted model subset.
+	6. Else:
+		1. If the extracted model subset increased in size and connectorLevel > 1, then add another cycle of extraction and reduce the connectorLevel by 1.
+		2. Otherwise, return the extracted model subset.
 
 ## 3.2. Plugins
 
