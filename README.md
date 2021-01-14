@@ -180,3 +180,10 @@ The [utilities.xq](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/plugins/
 ## 4. RDFS/SHACL Document
 
 The resulting document combines RDFS and SHACL because in AISA both formats are generated from the same source and used together. The combination of RDFS and SHACL is very similar to UML class diagrams.
+
+Example aixm:AirportHeliport:
+
+	aixm:AirportHeliport
+		a rdfs:Class ;		# This is RDFS!
+		a sh:NodeShape ;	# This is SHACL!
+		... .
