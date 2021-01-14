@@ -67,104 +67,95 @@ declare %private function fixm_3-0-1_sesar:mapPlain(
   $element as element(),
   $modelSubset as element()
 ) as element() {
-  <sh:NodeShape rdf:about="{$fixm_3-0-1_sesar:namespace}{$element/@name/string()}">
-    <rdf:type rdf:resource="{$fixm_3-0-1_sesar:rdfs}Class" />
-    {
-      for $superElement in utilities:getSuperElements($element, $modelSubset, ())
-      return 
-        <rdfs:subClassOf rdf:resource="{$fixm_3-0-1_sesar:namespace}{$superElement/@name/string()}" />
-    }
-    {
-      let $superElements:=utilities:getSuperElements($element, $modelSubset, ())
-      return if(fn:exists($superElements)) then
-        <sh:and rdf:parseType="Collection">
-          {
-            for $superElement in $superElements
-            return 
-              <sh:NodeShape rdf:about="{$fixm_3-0-1_sesar:namespace}{$superElement/@name/string()}" /> 
-          } 
-        </sh:and>
-    }
-    {
-      let $uomAttribute:=$element/attributes/attribute[@name="uom"]
-      return if(fn:exists($uomAttribute)) then
-        <sh:and rdf:parseType="Collection">
-          <sh:NodeShape rdf:about="{$fixm_3-0-1_sesar:namespace}{$uomAttribute/properties/@type/string()}" /> 
-        </sh:and>
-    }
-    {
-      let $genlinks:=$element/properties/@genlinks
-      return if(fn:exists($genlinks)) then
-        <sh:property rdf:parseType="Resource">
-          <sh:path rdf:resource="{$fixm_3-0-1_sesar:rdf}value"/>
-          {
-            let $datatype:=fn:replace($genlinks, "Parent=", "")
-            let $datatype:=fn:replace($datatype, ";", "")
-            let $datatype:=
-              if($datatype="int") then "integer" 
-              else if($datatype="duration") then "string"
-              else if($datatype="double") then "decimal"
-              else $datatype
-            return 
-              <sh:datatype rdf:resource="{$fixm_3-0-1_sesar:xsd}{$datatype}"/>
-          }
-          {
-            for $constraint in $element/constraints/constraint
-            return 
-              if($constraint[fn:lower-case(@type)="pattern"]) then
-                <sh:pattern rdf:datatype="{$fixm_3-0-1_sesar:xsd}string">
-                  { $constraint/@name/string() }
-                </sh:pattern>
-              else if($constraint[fn:lower-case(@type)="range"]) then
-                let $min:=fn:substring-after($constraint/@name, "[")
-                let $min:=fn:substring-before($min, "..")
-                let $max:=fn:substring-after($constraint/@name, "..")
-                let $max:=fn:substring-before($max, "]")
-                return (
-                  if($min!="*") then
-                    if(fn:contains($min, ".")) then
-                      <sh:minInclusive rdf:datatype="{$fixm_3-0-1_sesar:xsd}decimal">
-                        { $min }
-                      </sh:minInclusive>
-                    else
-                      <sh:minInclusive rdf:datatype="{$fixm_3-0-1_sesar:xsd}integer">
-                        { $min }
-                      </sh:minInclusive>,
-                  if($max!="*") then
-                    if(fn:contains($max, ".")) then
-                      <sh:maxInclusive rdf:datatype="{$fixm_3-0-1_sesar:xsd}decimal">
-                        { $max }
-                      </sh:maxInclusive>
-                    else
-                      <sh:maxInclusive rdf:datatype="{$fixm_3-0-1_sesar:xsd}integer">
-                        { $max }
-                      </sh:maxInclusive>
-                )
-              else if($constraint[fn:lower-case(@type)="length"]) then
-                let $min:=fn:substring-after($constraint/@name, "[")
-                let $min:=fn:substring-before($min, "..")
-                let $max:=fn:substring-after($constraint/@name, "..")
-                let $max:=fn:substring-before($max, "]")
-                return (
-                  if($min!="*") then
-                    <sh:minLength rdf:datatype="{$fixm_3-0-1_sesar:xsd}integer">
-                      { $min }
-                    </sh:minLength>,
-                  if($max!="*") then
-                    <sh:maxLength rdf:datatype="{$fixm_3-0-1_sesar:xsd}integer">
-                      { $max }
-                    </sh:maxLength>
-                )
-              else () (: constraint type: usage, xsd, relation :) 
-          }
+  let $superElements:=utilities:getSuperElements($element, $modelSubset, ())
+  return
+    <sh:NodeShape rdf:about="{$fixm_3-0-1_sesar:namespace}{$element/@name/string()}">
+      {
+        (: not everything is a class :)
+        ()
+      }
+      <rdf:type rdf:resource="{$fixm_3-0-1_sesar:rdfs}Class" />
+      {
+        for $superElement in $superElements
+        return 
+          <rdfs:subClassOf rdf:resource="{$fixm_3-0-1_sesar:namespace}{$superElement/@name/string()}" />
+      }
+      {
+        if(fn:exists($superElements)) then
+          <sh:and rdf:parseType="Collection">
+            {
+              for $superElement in $superElements
+              return 
+                <sh:NodeShape rdf:about="{$fixm_3-0-1_sesar:namespace}{$superElement/@name/string()}" /> 
+            } 
+          </sh:and>
+      }
+      {
+        let $uomAttribute:=$element/attributes/attribute[@name="uom"]
+        return if(fn:exists($uomAttribute)) then
+          <sh:and rdf:parseType="Collection">
+            <sh:NodeShape rdf:about="{$fixm_3-0-1_sesar:namespace}{$uomAttribute/properties/@type/string()}" /> 
+          </sh:and>
+      }
+      {
+        if(fn:exists($element/properties/@genlinks) 
+          or fn:exists($superElements/properties/@genlinks)) then
+          <sh:property rdf:parseType="Resource">
+            <sh:path rdf:resource="{$fixm_3-0-1_sesar:rdf}value"/>
+            {
+              let $datatype:=fn:replace($element/properties/@genlinks, "Parent=", "")
+              let $datatype:=fn:replace($datatype, ";", "")
+              let $datatype:=
+                if($datatype="int") then "integer" 
+                else if($datatype="duration") then "string"
+                else if($datatype="double") then "decimal"
+                else $datatype
+              return if(fn:exists($element/properties/@genlinks)) then
+                <sh:datatype rdf:resource="{$fixm_3-0-1_sesar:xsd}{$datatype}"/>
+            }
+            {
+              for $constraint in $element/constraints/constraint
+              return 
+                if($constraint[fn:lower-case(@type)="pattern"]) then
+                  <sh:pattern rdf:datatype="{$fixm_3-0-1_sesar:xsd}string">{fn:normalize-space($constraint/@name/string())}</sh:pattern>
+                else if($constraint[fn:lower-case(@type)="range"]) then
+                  let $min:=fn:substring-after($constraint/@name, "[")
+                  let $min:=fn:substring-before($min, "..")
+                  let $max:=fn:substring-after($constraint/@name, "..")
+                  let $max:=fn:substring-before($max, "]")
+                  return (
+                    if($min!="*") then
+                      if(fn:contains($min, ".")) then
+                        <sh:minInclusive rdf:datatype="{$fixm_3-0-1_sesar:xsd}decimal">{$min}</sh:minInclusive>
+                      else
+                        <sh:minInclusive rdf:datatype="{$fixm_3-0-1_sesar:xsd}integer">{$min}</sh:minInclusive>,
+                    if($max!="*") then
+                      if(fn:contains($max, ".")) then
+                        <sh:maxInclusive rdf:datatype="{$fixm_3-0-1_sesar:xsd}decimal">{$max}</sh:maxInclusive>
+                      else
+                        <sh:maxInclusive rdf:datatype="{$fixm_3-0-1_sesar:xsd}integer">{$max}</sh:maxInclusive>
+                  )
+                else if($constraint[fn:lower-case(@type)="length"]) then
+                  let $min:=fn:substring-after($constraint/@name, "[")
+                  let $min:=fn:substring-before($min, "..")
+                  let $max:=fn:substring-after($constraint/@name, "..")
+                  let $max:=fn:substring-before($max, "]")
+                  return (
+                    if($min!="*") then
+                      <sh:minLength rdf:datatype="{$fixm_3-0-1_sesar:xsd}integer">{$min}</sh:minLength>,
+                    if($max!="*") then
+                      <sh:maxLength rdf:datatype="{$fixm_3-0-1_sesar:xsd}integer">{$max}</sh:maxLength>
+                  )
+                else () (: constraint type: usage, xsd, relation :) 
+            }
           <sh:minCount rdf:datatype="{$fixm_3-0-1_sesar:xsd}integer">1</sh:minCount>
           <sh:maxCount rdf:datatype="{$fixm_3-0-1_sesar:xsd}integer">1</sh:maxCount>
         </sh:property>
-    }
-    { fixm_3-0-1_sesar:mapAttributes($element, $modelSubset) }
-    { fixm_3-0-1_sesar:mapConnectors($element, $modelSubset) }
-  </sh:NodeShape>
-} ;
+      }
+      { fixm_3-0-1_sesar:mapAttributes($element, $modelSubset) }
+      { fixm_3-0-1_sesar:mapConnectors($element, $modelSubset) }
+    </sh:NodeShape>
+ } ;
 
 declare %private function fixm_3-0-1_sesar:mapAttributes(
   $element as element(),
@@ -200,6 +191,33 @@ declare %private function fixm_3-0-1_sesar:mapAttributes(
         }
       </sh:or>
     )
+    else if($attribute/properties[@type="int" or @type="string" or @type="double" or @type="duration"]) then
+      <sh:property rdf:parseType="Resource">
+        <sh:path rdf:resource="{$fixm_3-0-1_sesar:namespace}{$attribute/@name/string()}" />
+        {
+          let $datatype:=$attribute/properties/@type
+          let $datatype:=
+            if($datatype="int") then "integer" 
+            else if($datatype="duration") then "string"
+            else if($datatype="double") then "decimal"
+            else $datatype
+          return 
+            <sh:node>
+              <sh:NodeShape>
+                <sh:property rdf:parseType="Resource">
+                  <sh:path rdf:resource="{$fixm_3-0-1_sesar:rdf}value"/>
+                  <sh:datatype rdf:resource="{$fixm_3-0-1_sesar:xsd}{$datatype}"/>
+                </sh:property>
+              </sh:NodeShape>
+            </sh:node>
+        }
+        <sh:minCount rdf:datatype="{$fixm_3-0-1_sesar:xsd}integer">0</sh:minCount>
+        {
+          let $maxCount:=$attribute/bounds/@upper/string()
+          return if($maxCount!="*") then
+            <sh:maxCount rdf:datatype="{$fixm_3-0-1_sesar:xsd}integer">{$maxCount}</sh:maxCount>
+        }
+      </sh:property>
     else
       <sh:property rdf:parseType="Resource">
         <sh:path rdf:resource="{$fixm_3-0-1_sesar:namespace}{$attribute/@name/string()}" />
@@ -261,7 +279,14 @@ declare %private function fixm_3-0-1_sesar:mapConnectors(
     else
       <sh:property rdf:parseType="Resource">
         <sh:path rdf:resource="{$fixm_3-0-1_sesar:namespace}{$pathName}" />
-        <sh:node rdf:resource="{$fixm_3-0-1_sesar:namespace}{$connector/target/model/@name/string()}" />
+        {
+          if(fn:exists($targetElement/properties/@genlinks)
+            or fn:exists(utilities:getSuperElements($targetElement, $modelSubset, ())/properties/@genlinks)
+            or $targetElement/properties[@stereotype="enumeration"]) then
+            <sh:node rdf:resource="{$fixm_3-0-1_sesar:namespace}{$connector/target/model/@name/string()}" />
+          else
+            <sh:class rdf:resource="{$fixm_3-0-1_sesar:namespace}{$connector/target/model/@name/string()}" />
+        }
         {
           let $minCount:=fn:substring-before($connector/target/type/@multiplicity, "..")
           return if(fn:exists($minCount) and $minCount!="*") then

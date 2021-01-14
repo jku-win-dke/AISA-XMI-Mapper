@@ -204,33 +204,19 @@ declare %private function aixm_5-1-1:mapDataType(
         where $attribute/stereotype[@stereotype="XSDfacet"]
         return
           if($attribute/@name/string()="minLength") then
-            <sh:minLength rdf:datatype="{$aixm_5-1-1:xsd}integer">
-              { $attribute/initial/@body/string() }
-            </sh:minLength>
+            <sh:minLength rdf:datatype="{$aixm_5-1-1:xsd}integer">{$attribute/initial/@body/string()}</sh:minLength>
           else if($attribute/@name/string()="maxLength") then
-            <sh:maxLength rdf:datatype="{$aixm_5-1-1:xsd}integer">
-              { $attribute/initial/@body/string() }
-            </sh:maxLength>
-          else if($attribute/@name/string()="minInclusive") then
-            <sh:minInclusive rdf:datatype="{$aixm_5-1-1:xsd}integer">
-              { $attribute/initial/@body/string() }
-            </sh:minInclusive>
+            <sh:maxLength rdf:datatype="{$aixm_5-1-1:xsd}integer">{$attribute/initial/@body/string()}</sh:maxLength>
+          else if($attribute/@name/string()="minInclusive") then 
+            <sh:minInclusive rdf:datatype="{$aixm_5-1-1:xsd}integer">{$attribute/initial/@body/string()}</sh:minInclusive>
           else if($attribute/@name/string()="maxInclusive") then
-            <sh:maxInclusive rdf:datatype="{$aixm_5-1-1:xsd}integer">
-              { $attribute/initial/@body/string() }
-            </sh:maxInclusive>
+            <sh:maxInclusive rdf:datatype="{$aixm_5-1-1:xsd}integer">{$attribute/initial/@body/string()}</sh:maxInclusive>
           else if($attribute/@name/string()="minExclusive") then
-            <sh:minExclusive rdf:datatype="{$aixm_5-1-1:xsd}integer">
-              { $attribute/initial/@body/string() }
-            </sh:minExclusive>
+            <sh:minExclusive rdf:datatype="{$aixm_5-1-1:xsd}integer">{$attribute/initial/@body/string()}</sh:minExclusive>
           else if($attribute/@name/string()="maxExclusive") then
-            <sh:maxExclusive rdf:datatype="{$aixm_5-1-1:xsd}integer">
-              { $attribute/initial/@body/string() }
-            </sh:maxExclusive>
+            <sh:maxExclusive rdf:datatype="{$aixm_5-1-1:xsd}integer">{$attribute/initial/@body/string()}</sh:maxExclusive>
           else if($attribute/@name/string()="pattern") then
-            <sh:pattern rdf:datatype="{$aixm_5-1-1:xsd}string">
-              {$attribute/initial/@body/string()}
-            </sh:pattern>
+            <sh:pattern rdf:datatype="{$aixm_5-1-1:xsd}string">{fn:normalize-space($attribute/initial/@body/string())}</sh:pattern>
       }
     </sh:property>
     { aixm_5-1-1:mapAttributes($element, "XSDfacet") }
