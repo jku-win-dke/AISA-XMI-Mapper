@@ -14,6 +14,13 @@ For feedback or issues contact: sebastian.gruber@jku.at
 	1. Structure of a configuration file
 	2. How to write a configuration file
 3. Mapper
+	1. mapper.xq
+	2. extractor.xq
+	3. Plugins
+		1. utilities.xq
+		2. aixm_5-1-1.xq
+		3. fixm_3-0-1_sesar.xq
+		4. plain.xq
 4. RDFS/SHACL Document
 
 ## 1. Introduction
@@ -70,18 +77,18 @@ In the configuration file subsets of UML classes of models to-be mapped can be s
 4. connectorLevel: For each connector level, the subset is increased by another level of outgoing connectors from selected classes to other classes and resolving attributes of classes. The connectorLevel can be "1", "2", ..., "n". It is recommended to use "n" to include not visible classes (especially from stereotype <<choice>> in AIXM and FIXM) of a data graph.
 The example below shows that the the classes "AirportHeliport" and "City" of the model at "input/AIXM_5.1.1.xmi" should be mapped by the plugin with the name "aixm_5-1-1".
 
-	<configuration>
-		<selection>
-			<models>
-				<model input="input/AIXM_5.1.1.xmi" type="aixm_5-1-1" output="output/AIXM_example.xml">
-					<classes connectorLevel="n">
-						<class>AirportHeliport</class>
-						<class>City</class>
-					</classes>
-				</model>
-			</models>
-		</selection>
-	</configuration>
+		<configuration>
+			<selection>
+				<models>
+					<model input="input/AIXM_5.1.1.xmi" type="aixm_5-1-1" output="output/AIXM_example.xml">
+						<classes connectorLevel="n">
+							<class>AirportHeliport</class>
+							<class>City</class>
+						</classes>
+					</model>
+				</models>
+			</selection>
+		</configuration>
 
 ### 2.2. How to write a configuration file 
 
@@ -126,10 +133,13 @@ Additional configuration files can be added without changing existing ones. Howe
 
 ## 3. Mapper
 
-The main module of the mapper delegates the processing to the extractor module and to plugins.
+### 3.1. mapper.xq
 
-### 3.1. Extractor
+The [mapper.xq](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/mapper.xq) is the main module of the mapper. The variable $config refering to the location of the configuration file needs to be set correctly. For each model specified in the configuration file, it delegates the extraction process to the extractor.xq, then it delegates the mapping process with the extracted model subset to the corresponding plugin, and finally writes the result to a file. 
 
+### 3.2. extractor.xq
+
+The [extractor.xq](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/extractor.xq)
 The mapper passes the model and selected classes to the extractor-module to extract the to-be mapped subset. The extractor-module selects the follwing data as a subset:
 
 1. The selected classes
