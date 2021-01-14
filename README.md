@@ -14,15 +14,15 @@ For feedback or issues contact: sebastian.gruber@jku.at
 	1. [Structure of the configuration file](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/README.md#21-structure-of-the-configuration-file)
 	2. [How to write a configuration file](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/README.md#22-how-to-write-a-configuration-file)
 3. [Mapper](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/README.md#3-mapper)
-	1. [mapper.xq](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/README.md#31-mapper.xq)
-	2. extractor.xq
-	3. Plugins
-		1. Basic Mapping Methods
-		2. aixm_5-1-1.xq
-		3. fixm_3-0-1_sesar.xq
-		4. plain.xq
-		5. utilities.xq
-4. RDFS/SHACL Document
+	1. [mapper.xq](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/README.md#31-mapperxq)
+	2. [extractor.xq](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/README.md#32-extractorxq)
+	3. [Plugins](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/README.md#33-plugins)
+		1. [Basic Mapping Methods](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/README.md#331-basic-mapping-methods)
+		2. [aixm_5-1-1.xq](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/README.md#332-aixm_5-1-1xq)
+		3. [fixm_3-0-1_sesar.xq](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/README.md#333-fixm_3-0-1_sesarxq)
+		4. [plain.xq](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/README.md#334-plainxq)
+		5. [utilities.xq](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/README.md#335-utilitiesxq)
+4. [RDFS/SHACL Document](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/README.md#4-rdfsshacl-document)
 
 ## 1. Introduction
 
