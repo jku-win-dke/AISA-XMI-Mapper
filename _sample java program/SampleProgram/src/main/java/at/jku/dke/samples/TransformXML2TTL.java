@@ -10,10 +10,14 @@ import org.apache.jena.shacl.Shapes;
 public class TransformXML2TTL {
 
 	public static void main(String[] args) {
+		
 		try {
+			
+			// change path to RDFS/SHACL file accordingly
 			Graph shapesGraph = RDFDataMgr.loadGraph("src/main/resources/output/FIXM_EDDF-VHHH.xml");
 			Shapes shapes = Shapes.parse(shapesGraph);
 			
+			// change path for output file accordingly
 			FileOutputStream out = new FileOutputStream("src/main/resources/output/FIXM_EDDF-VHHH.ttl");
 			RDFDataMgr.write(out, shapes.getGraph(), Lang.TTL);
 			

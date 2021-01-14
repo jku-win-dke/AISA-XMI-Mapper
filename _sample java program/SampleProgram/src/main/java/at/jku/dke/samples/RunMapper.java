@@ -12,6 +12,7 @@ public class RunMapper {
 
 	public static void main(String[] args) throws QueryException, IOException {
 
+		// change path to configuration file accordingly
 		String configFile = "src/main/resources/configurations/FIXM_EDDF-VHHH.xml";
 
 		String query = Files.readString(Paths.get("src/main/resources/mapper.xq"));
