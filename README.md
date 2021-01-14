@@ -11,7 +11,7 @@ For feedback or issues contact: sebastian.gruber@jku.at
 	4. [How to run the Mapper](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/README.md#14-how-to-run-the-mapper)
 	5. [How to validate data graphs](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/README.md#15-how-to-validate-data-graphs)
 2. [Configuration File](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/README.md#2-configuration-file)
-	1. [Structure of a configuration file](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/README.md#21-structure-of-a-configuration-file)
+	1. [Structure of the configuration file](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/README.md#21-structure-of-the-configuration-file)
 	2. [How to write a configuration file](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/README.md#22-how-to-write-a-configuration-file)
 3. [Mapper](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/README.md#3-mapper)
 	1. [mapper.xq](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/README.md#31-mapper.xq)
