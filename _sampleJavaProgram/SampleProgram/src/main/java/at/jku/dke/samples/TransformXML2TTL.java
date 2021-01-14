@@ -13,12 +13,12 @@ public class TransformXML2TTL {
 		
 		try {
 			
-			// change path to RDFS/SHACL file accordingly
-			Graph shapesGraph = RDFDataMgr.loadGraph("src/main/resources/output/FIXM_EDDF-VHHH.xml");
+			// adjust path to RDFS/SHACL file 
+			Graph shapesGraph = RDFDataMgr.loadGraph("../../output/FIXM_EDDF-VHHH.xml");
 			Shapes shapes = Shapes.parse(shapesGraph);
 			
-			// change path for output file accordingly
-			FileOutputStream out = new FileOutputStream("src/main/resources/output/FIXM_EDDF-VHHH.ttl");
+			// adjust path for output file 
+			FileOutputStream out = new FileOutputStream("../../output/FIXM_EDDF-VHHH.ttl");
 			RDFDataMgr.write(out, shapes.getGraph(), Lang.TTL);
 			
 			out.close();

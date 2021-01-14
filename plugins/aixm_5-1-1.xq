@@ -93,7 +93,7 @@ declare %private function aixm_5-1-1:mapFeature(
     </sh:and>
     { aixm_5-1-1:mapAttributes($element, ()) }
     { aixm_5-1-1:mapConnectors($element, $modelSubset) }
-    { if(fn:count(aixm_5-1-1:mapConnectorsOfAssociationClass($element, $modelSubset))>0) then <oho/> }
+    { aixm_5-1-1:mapConnectorsOfAssociationClass($element, $modelSubset) }
   </sh:NodeShape>
 };
 

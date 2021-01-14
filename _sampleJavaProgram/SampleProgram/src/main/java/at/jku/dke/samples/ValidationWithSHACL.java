@@ -14,12 +14,12 @@ public class ValidationWithSHACL {
 
 		try {
 			
-			// change path to RDFS/SHACL file accordingly
-			Model generatedSchema = RDFDataMgr.loadModel("src/main/resources/output/FIXM_EDDF-VHHH.xml");
+			// adjust path to RDFS/SHACL file 
+			Model generatedSchema = RDFDataMgr.loadModel("../../output/FIXM_EDDF-VHHH.xml");
 			Shapes shapes = Shapes.parse(generatedSchema);
 
-			// change path to instance data accordingly
-			Graph dataGraph = RDFDataMgr.loadGraph("../../_example data/FIXM_EDDF-VHHH.ttl");
+			// adjust path to instance data 
+			Graph dataGraph = RDFDataMgr.loadGraph("../../_exampleData/FIXM_EDDF-VHHH.ttl");
 
 			ValidationReport report = ShaclValidator.get().validate(shapes, dataGraph);
 			RDFDataMgr.write(System.out, report.getModel(), Lang.TTL);

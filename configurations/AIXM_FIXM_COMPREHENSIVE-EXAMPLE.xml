@@ -1,15 +1,6 @@
  <configuration>
 	<selection>
 		<models>
-		<!--
-			model must fulfill the following semantical requirements:
-				1. model must contain only directed associations
-				2. class names must be unique within a model 
-				3. role names of associations of a source class must be unique
-				4. role names must exist if there is more than one association between a source and a destination class
-			model must fulfill the following techniical requirements:
-				1. class diagram must be exported to XMI by enterprise architect
-		-->
 			<model input="input/AIXM_5.1.1.xmi" type="aixm_5-1-1" output="output/AIXM_COMPREHENSIVE-EXAMPLE.xml">
 				<classes connectorLevel="1">
 					<class>TerminalSegmentPoint</class>
