@@ -9,7 +9,10 @@ For feedback or issues contact: sebastian.gruber@jku.at
 	2. Syntactic Requirements
 	3. Architecture
 	4. How to run the Mapper
+	5. How to validate data graphs
 2. Configuration File
+	1. Structure of a configuration file
+	2. How to write a configuration file
 3. Mapper
 4. RDFS/SHACL Document
 
@@ -38,28 +41,40 @@ The architecture of the mapper is shown in the figure below (or see [\architectu
 
 ### 1.4. How to run the Mapper
 
-There are a few ways to run the mapper, here are some examples:
+There are a few ways to run the mapper, here are two examples:
 
 1. Install a W3C compliant XQuery processor (e.g. BaseX) and run the file mapper.xq
 	1. Using the BaseX command line tool: `basex -b$config="<configurationFile.xml>" mapper.xq`
 	2. Or using the BaseX GUI and manually binding the location of the configuration file to the config variable
 2. Run a Java Code which in turn runs the mapper.xq
 	1. See the example [RunMapper.java](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/_sample%20java%20program/SampleProgram/src/main/java/at/jku/dke/samples/RunMapper.java) of the SampleProgram.
+	
+### 1.5. How to validate data graphs
 
-In addition, the SampleProgram provides two more examples:
+The SampleProgram provides two classes which can utilize generated RDFS/SHACL documents:
 
 1. Transforming an RDFS/SHACL document from RDF/XML to RDF/TTL, see [TransformXML2TTL.java](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/_sample%20java%20program/SampleProgram/src/main/java/at/jku/dke/samples/TransformXML2TTL.java) using Apache Jena.
-2. Validating instance data by an RDFS/SHACL document, see [ValidationWithSHACL.java](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/_sample%20java%20program/SampleProgram/src/main/java/at/jku/dke/samples/ValidationWithSHACL.java) using Apache Jena.
+2. Validating data graphs by an RDFS/SHACL document, see [ValidationWithSHACL.java](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/_sample%20java%20program/SampleProgram/src/main/java/at/jku/dke/samples/ValidationWithSHACL.java) using Apache Jena.
+
+Attention! Be cautious that data graphs use the same namespaces as the generated RDFS/SHACL dcouments!
+Example: Instead of using "http://www.aixm.aero/schema/5.1.1#" for AIXM, we use "http://www.aisa-project.eu/vocabulary/aixm_5-1-1#".
 
 ## 2. Configuration File
 
-The configuration file lists the models to-be mapped, i.e. the type of a model, the location/name of its XMI file, and the classes to-be mapped. The example below shows that the the classes "AirportHeliport" and "City" of the model at "input/AIXM_5.1.1.xmi" should be mapped by the plugin with the name "aixm_5-1-1".
+### 2.1. Structure of the configuration file
+
+In the configuration file subsets of UML classes of models to-be mapped can be specified. The following parameters must be provided:
+1. input: The path to the model's XMI file.
+2. type: The type of the model determines the plugin used for mapping, i.e. type can be "aixm_5-1-1", "fixm_3-0-1_sesar", "plain".
+3. output: The path of the to-be generated RDFS/SHACL document.
+4. connectorLevel: For each connector level, the subset is increased by another level of outgoing connectors from selected classes to other classes and resolving attributes of classes. The connectorLevel can be "1", "2", ..., "n". It is recommended to use "n" to include not visible classes (especially from stereotype <<choice>> in AIXM and FIXM) of a data graph.
+The example below shows that the the classes "AirportHeliport" and "City" of the model at "input/AIXM_5.1.1.xmi" should be mapped by the plugin with the name "aixm_5-1-1".
 
 	<configuration>
 		<selection>
 			<models>
-				<model type="aixm_5-1-1" location="input/AIXM_5.1.1.xmi">
-					<classes>
+				<model input="input/AIXM_5.1.1.xmi" type="aixm_5-1-1" output="output/AIXM_example.xml">
+					<classes connectorLevel="n">
 						<class>AirportHeliport</class>
 						<class>City</class>
 					</classes>
@@ -68,11 +83,46 @@ The configuration file lists the models to-be mapped, i.e. the type of a model, 
 		</selection>
 	</configuration>
 
-1. The type of a model determines the plugin used for mapping. If no plugin is specified or a plugin with the provided name does not exist, the plugin for plain UML class diagrams is used. 
-2. The location/name of a model's XMI file can be an absolute reference to an XMI file anywhere in the system. It is, however, recommended that the XMI file is in the input folder of the mapper's folder such that the reference is just "input/<fileName>.xmi".
-3. The selected classes are a subset of a model. By default, the configuration file contains all classes from AIXM and FIXM selected from the comprehensive example.
+### 2.2. How to write a configuration file 
 
-Additional configuration files can be added without changing existing ones. However, the mapper can only consider one configuration file. Make sure that the reference to the to-be used configuration file is correctly set in the main module "mapper.xq" (variable $config). 
+In order to determine the UML classes to be selected, only consider UML classes from the namespace of the model. As an example, see the decisions for the [configuration](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/configurations/AIXM_DONLON.xml) of the [Donlon airport example](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/_example%20data/AIXM_DONLON.ttl) below.
+
+	Donlon airport									decisions for configuration file
+	<uuid:dd062d88-3e64-4a5d-bebd-89476db9ebea> a aixm:AirportHeliport; 	-->	<class>AirportHeliport</class>
+	s1:AHP_EADH a aixm:AirportHeliportTimeSlice;				-->	time slices are no UML classes
+	s1:vtnull0 a gml:TimePeriod;						-->	no aixm namespace
+	s1:ltnull0 a gml:TimePeriod;						-->	no aixm namespace
+	s1:ID_110 a aixm:City;							-->	<class>City</class>
+	s1:A-a72cfd3a a aixm:AirportHeliportResponsibilityOrganisation;		-->	<class>AirportHeliportResponsibiltyOrganisation</class>
+	<uuid:74efb6ba-a52a-46c0-a16b-03860d356882> a aixm:OrganisationAuthority -->	<class>OrganisationAuthority</class>
+	s1:elpoint1EADH a aixm:ElevatedPoint;					-->	<class>ElevatedPoint</class>
+	s1:AHY_EADH_PERMIT a aixm:AirportHeliportAvailability;			-->	<class>AirportHeliportAvailability</class>
+	s1:AHU_EADH_PERMIT a aixm:AirportHeliportUsage;				-->	<class>AirportHeliportUsage</class>
+	s1:agtayyat a aixm:ConditionCombination;				-->	<class>ConditionCombination</class>
+	s1:F_yastadyt a aixm:FlightCharacteristic;				-->	<class>FlightCharacteristic</class>
+	s1:n002 a aixm:Note;							-->	<class>Note</class>
+	s1:ln002 a aixm:LinguisticNote;						-->	<class>LinguisticNote</class>
+	s1:n003 a aixm:Note;							-->	already part of the configuration file
+	s1:ln003 a aixm:LinguisticNote;						--> 	already part of the configuration file
+	<uuid:1d713318-a022-4f0f-808a-8eea31b3e411> a event:Event;		-->	no aixm namespace
+	s2:IDE_ACT_22 a event:EventTimeSlice;					-->	no aixm namespace
+	s2:IDE_ACT_23 a gml:TimePeriod;						-->	no aixm namespace
+	s2:IDE_ACT_24 a gml:TimePeriod;						-->	no aixm namespace
+	s2:IDE_ACT_25 a event:NOTAM;						-->	no aixm namespace
+	s2:ID_ACT_11 a aixm:AirportHeliportTimeSlice;				-->	time slices are no UML classes
+	s2:ID_ACT_12 a gml:TimePeriod;						-->	no aixm namespace
+	s2:ID_ACT_13 a aixm:AirportHeliportAvailability;			-->	already part of the configuration file
+	s2:ID_ACT_14 a aixm:AirportHeliportUsage;				-->	already part of the configuration file
+	s2:ID_ACT_15 a aixm:ConditionCombination;				-->	already part of the configuration file
+	s2:ID_ACT_16 a aixm:ConditionCombination;				-->	already part of the configuration file
+	s2:ID_ACT_17 a aixm:FlightCharacteristic;				-->	already part of the configuration file
+	s2:ID_ACT_18 a aixm:ConditionCombination;				-->	already part of the configuration file
+	s2:ID_ACT_19 a aixm:FlightCharacteristic;				-->	already part of the configuration file
+	s2:ID_ACT_20 a aixm:ConditionCombination;				-->	already part of the configuration file
+	s2:ID_ACT_21 a aixm:FlightCharacteristic;				-->	already part of the configuration file
+	s2:ID_ACT_211 a event:AirportHeliportExtension;				-->	no aixm namespace
+
+Additional configuration files can be added without changing existing ones. However, the mapper can only consider one configuration file. Make sure that the reference to the to-be used configuration file is correctly set in the [mapper.xq](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/mapper.xq) (variable $config). 
 
 ## 3. Mapper
 
