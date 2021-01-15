@@ -1,0 +1,3228 @@
+@prefix aixm:  <http://www.aisa-project.eu/vocabulary/aixm_5-1-1#> .
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix sh:    <http://www.w3.org/ns/shacl#> .
+@prefix gml:   <http://www.opengis.net/gml/3.2#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+
+aixm:AirportHeliportResponsibilityOrganisation
+        a                rdfs:Class , sh:NodeShape ;
+        rdfs:subClassOf  aixm:PropertiesWithSchedule ;
+        sh:and           ( aixm:PropertiesWithSchedule ) ;
+        sh:property      [ sh:class     aixm:OrganisationAuthority ;
+                           sh:maxCount  1 ;
+                           sh:minCount  1 ;
+                           sh:path      aixm:theOrganisationAuthority
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      aixm:CodeAuthorityRoleType ;
+                           sh:path      aixm:role
+                         ] .
+
+aixm:DateMonthDayType
+        a            sh:NodeShape ;
+        sh:and       ( aixm:DateMonthDayBaseType ) ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:NilReasonEnumeration ;
+                       sh:path      aixm:nilReason
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:path      rdf:value
+                     ] ;
+        sh:xone      ( [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      rdf:value
+                                      ]
+                       ]
+                       [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      aixm:nilReason
+                                      ]
+                       ]
+                     ) .
+
+aixm:ElevatedPoint  a    rdfs:Class , sh:NodeShape ;
+        rdfs:subClassOf  aixm:Point ;
+        sh:and           ( aixm:Point ) ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      aixm:ValDistanceType ;
+                           sh:path      aixm:verticalAccuracy
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      aixm:CodeVerticalDatumType ;
+                           sh:path      aixm:verticalDatum
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      aixm:ValDistanceSignedType ;
+                           sh:path      aixm:geoidUndulation
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      aixm:ValDistanceVerticalType ;
+                           sh:path      aixm:elevation
+                         ] .
+
+gml:TimePrimitive  a  sh:NodeShape ;
+        sh:property  [ sh:datatype  xsd:string ;
+                       sh:in        [ rdf:rest  ( "after" "before" "now" "unknown" )
+                                    ] ;
+                       sh:maxCount  1 ;
+                       sh:path      gml:indeterminatePosition
+                     ] ;
+        sh:property  [ sh:datatype  xsd:dateTime ;
+                       sh:maxCount  1 ;
+                       sh:path      rdf:value
+                     ] ;
+        sh:xone      ( [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      rdf:value
+                                      ]
+                       ]
+                       [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      gml:indeterminatePosition
+                                      ]
+                       ]
+                     ) .
+
+aixm:LinguisticNote  a  rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:TextNoteType ;
+                       sh:path      aixm:note
+                     ] .
+
+aixm:CodeWakeTurbulenceBaseType
+        a            sh:NodeShape ;
+        sh:datatype  xsd:string ;
+        sh:in        [ rdf:rest  ( "LOW" "MEDIUM" "HIGH" "OTHER" )
+                     ] .
+
+aixm:Meteorology  a  rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:class     aixm:Note ;
+                       sh:minCount  0 ;
+                       sh:path      aixm:annotation
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:CodeValueInterpretationType ;
+                       sh:path      aixm:runwayVisualRangeInterpretation
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:ValDistanceType ;
+                       sh:path      aixm:runwayVisualRange
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:CodeValueInterpretationType ;
+                       sh:path      aixm:visibilityInterpretation
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:ValDistanceType ;
+                       sh:path      aixm:visibility
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:CodeMeteoConditionsType ;
+                       sh:path      aixm:flightConditions
+                     ] .
+
+aixm:UomDurationType  a  sh:NodeShape ;
+        sh:datatype  xsd:string ;
+        sh:in        [ rdf:rest  ( "HR" "MIN" "SEC" "OTHER" )
+                     ] .
+
+aixm:CodeEquipmentAntiCollisionType
+        a            sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:NilReasonEnumeration ;
+                       sh:path      aixm:nilReason
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:node      aixm:CodeEquipmentAntiCollisionBaseType ;
+                       sh:path      rdf:value
+                     ] ;
+        sh:xone      ( [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      rdf:value
+                                      ]
+                       ]
+                       [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      aixm:nilReason
+                                      ]
+                       ]
+                     ) .
+
+aixm:ValFrictionBaseType
+        a            sh:NodeShape ;
+        sh:property  [ sh:datatype  xsd:decimal ;
+                       sh:maxCount  1 ;
+                       sh:path      rdf:value ;
+                       sh:pattern   "^0\\.[0-9]{2}$"
+                     ] .
+
+aixm:TextPhoneBaseType
+        a            sh:NodeShape ;
+        sh:property  [ sh:datatype  xsd:string ;
+                       sh:maxCount  1 ;
+                       sh:path      rdf:value ;
+                       sh:pattern   "^(\\+)?[0-9\\s\\-\\(\\)]+$"
+                     ] .
+
+gml:TimePeriod  a    rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  1 ;
+                       sh:node      gml:TimePrimitive ;
+                       sh:path      gml:endPosition
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  1 ;
+                       sh:node      gml:TimePrimitive ;
+                       sh:path      gml:beginPosition
+                     ] .
+
+aixm:CodeAircraftWingspanClassType
+        a            sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:NilReasonEnumeration ;
+                       sh:path      aixm:nilReason
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:node      aixm:CodeAircraftWingspanClassBaseType ;
+                       sh:path      rdf:value
+                     ] ;
+        sh:xone      ( [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      rdf:value
+                                      ]
+                       ]
+                       [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      aixm:nilReason
+                                      ]
+                       ]
+                     ) .
+
+aixm:CodeFlightOriginBaseType
+        a            sh:NodeShape ;
+        sh:datatype  xsd:string ;
+        sh:in        [ rdf:rest  ( "NTL" "INTL" "ALL" "HOME_BASED" "OTHER" )
+                     ] .
+
+aixm:CodeAircraftICAOType
+        a            sh:NodeShape ;
+        sh:and       ( aixm:CodeAircraftICAOBaseType ) ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:NilReasonEnumeration ;
+                       sh:path      aixm:nilReason
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:path      rdf:value
+                     ] ;
+        sh:xone      ( [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      rdf:value
+                                      ]
+                       ]
+                       [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      aixm:nilReason
+                                      ]
+                       ]
+                     ) .
+
+aixm:CodeAircraftEngineNumberBaseType
+        a            sh:NodeShape ;
+        sh:datatype  xsd:string ;
+        sh:in        [ rdf:rest  ( "1" "2" "3" "4" "6" "8" "2C" "OTHER" )
+                     ] .
+
+aixm:AirportHeliportTimeSlice
+        a            sh:NodeShape , rdfs:Class ;
+        sh:and       ( aixm:AIXMTimeSlice ) ;
+        sh:property  [ sh:class     aixm:ElevatedSurface ;
+                       sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:path      aixm:aviationBoundary
+                     ] ;
+        sh:property  [ sh:class     aixm:AltimeterSource ;
+                       sh:minCount  0 ;
+                       sh:path      aixm:altimeterSource
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:CodeICAOType ;
+                       sh:path      aixm:locationIndicatorICAO
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:ValDistanceVerticalType ;
+                       sh:path      aixm:transitionAltitude
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:CodeMilitaryOperationsType ;
+                       sh:path      aixm:controlType
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:ValTemperatureType ;
+                       sh:path      aixm:referenceTemperature
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:CodeYesNoType ;
+                       sh:path      aixm:certifiedICAO
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:ValMagneticVariationChangeType ;
+                       sh:path      aixm:magneticVariationChange
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:CodeAirportHeliportType ;
+                       sh:path      aixm:type
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:ValAngleType ;
+                       sh:path      aixm:magneticVariationAccuracy
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:DateType ;
+                       sh:path      aixm:certificationExpirationDate
+                     ] ;
+        sh:property  [ sh:class     aixm:ElevatedPoint ;
+                       sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:path      aixm:ARP
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:ValDistanceVerticalType ;
+                       sh:path      aixm:fieldElevationAccuracy
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:CodeYesNoType ;
+                       sh:path      aixm:windDirectionIndicator
+                     ] ;
+        sh:property  [ sh:class     aixm:ContactInformation ;
+                       sh:minCount  0 ;
+                       sh:path      aixm:contact
+                     ] ;
+        sh:property  [ sh:class     aixm:AirportHeliportContamination ;
+                       sh:minCount  0 ;
+                       sh:path      aixm:contaminant
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:ValTemperatureType ;
+                       sh:path      aixm:lowestTemperature
+                     ] ;
+        sh:property  [ sh:class     aixm:City ;
+                       sh:minCount  0 ;
+                       sh:path      aixm:servedCity
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:CodeYesNoType ;
+                       sh:path      aixm:abandoned
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:ValDistanceVerticalType ;
+                       sh:path      aixm:fieldElevation
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:ValFLType ;
+                       sh:path      aixm:transitionLevel
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:CodeYesNoType ;
+                       sh:path      aixm:landingDirectionIndicator
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:CodeYesNoType ;
+                       sh:path      aixm:secondaryPowerSupply
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:DateType ;
+                       sh:path      aixm:certificationDate
+                     ] ;
+        sh:property  [ sh:class     aixm:AirportHeliportAvailability ;
+                       sh:minCount  0 ;
+                       sh:path      aixm:availability
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:CodeYesNoType ;
+                       sh:path      aixm:privateUse
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:ValMagneticVariationType ;
+                       sh:path      aixm:magneticVariation
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:CodeIATAType ;
+                       sh:path      aixm:designatorIATA
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:CodeVerticalDatumType ;
+                       sh:path      aixm:verticalDatum
+                     ] ;
+        sh:property  [ sh:class     aixm:AirportHeliportResponsibilityOrganisation ;
+                       sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:path      aixm:responsibleOrganisation
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:TextNameType ;
+                       sh:path      aixm:name
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:CodeYesNoType ;
+                       sh:path      aixm:altimeterCheckLocation
+                     ] ;
+        sh:property  [ sh:class     aixm:Note ;
+                       sh:minCount  0 ;
+                       sh:path      aixm:annotation
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:DateYearType ;
+                       sh:path      aixm:dateMagneticVariation
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:CodeAirportHeliportDesignatorType ;
+                       sh:path      aixm:designator
+                     ] .
+
+aixm:ValDistanceVerticalType
+        a            sh:NodeShape ;
+        sh:and       ( aixm:ValDistanceVerticalBaseType ) ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:NilReasonEnumeration ;
+                       sh:path      aixm:nilReason
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:UomDistanceVerticalType ;
+                       sh:path      aixm:uom
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:path      rdf:value
+                     ] ;
+        sh:xone      ( [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      rdf:value
+                                      ] ;
+                         sh:property  [ sh:path  aixm:uom ]
+                       ]
+                       [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      aixm:nilReason
+                                      ]
+                       ]
+                     ) .
+
+aixm:ValMagneticVariationChangeBaseType
+        a            sh:NodeShape ;
+        sh:property  [ sh:datatype      xsd:decimal ;
+                       sh:maxCount      1 ;
+                       sh:maxInclusive  180 ;
+                       sh:minInclusive  -180 ;
+                       sh:path          rdf:value
+                     ] .
+
+aixm:Note  a         rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:class     aixm:LinguisticNote ;
+                       sh:minCount  0 ;
+                       sh:path      aixm:translatedNote
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:CodeNotePurposeType ;
+                       sh:path      aixm:purpose
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:TextPropertyNameType ;
+                       sh:path      aixm:propertyName
+                     ] .
+
+aixm:CodeNotePurposeType
+        a            sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:NilReasonEnumeration ;
+                       sh:path      aixm:nilReason
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:node      aixm:CodeNotePurposeBaseType ;
+                       sh:path      rdf:value
+                     ] ;
+        sh:xone      ( [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      rdf:value
+                                      ]
+                       ]
+                       [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      aixm:nilReason
+                                      ]
+                       ]
+                     ) .
+
+aixm:CodeFlightRuleType
+        a            sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:NilReasonEnumeration ;
+                       sh:path      aixm:nilReason
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:node      aixm:CodeFlightRuleBaseType ;
+                       sh:path      rdf:value
+                     ] ;
+        sh:xone      ( [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      rdf:value
+                                      ]
+                       ]
+                       [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      aixm:nilReason
+                                      ]
+                       ]
+                     ) .
+
+aixm:CodeOrganisationDesignatorBaseType
+        a            sh:NodeShape ;
+        sh:and       ( aixm:Character1Type ) ;
+        sh:property  [ sh:maxCount   1 ;
+                       sh:maxLength  12 ;
+                       sh:minLength  1 ;
+                       sh:path       rdf:value
+                     ] .
+
+aixm:CodeAircraftICAOBaseType
+        a            sh:NodeShape ;
+        sh:and       ( aixm:AlphanumericType ) ;
+        sh:property  [ sh:maxCount   1 ;
+                       sh:maxLength  4 ;
+                       sh:minLength  1 ;
+                       sh:path       rdf:value
+                     ] .
+
+aixm:CodeUsageLimitationType
+        a            sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:NilReasonEnumeration ;
+                       sh:path      aixm:nilReason
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:node      aixm:CodeUsageLimitationBaseType ;
+                       sh:path      rdf:value
+                     ] ;
+        sh:xone      ( [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      rdf:value
+                                      ]
+                       ]
+                       [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      aixm:nilReason
+                                      ]
+                       ]
+                     ) .
+
+aixm:ValAngleType  a  sh:NodeShape ;
+        sh:and       ( aixm:ValAngleBaseType ) ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:NilReasonEnumeration ;
+                       sh:path      aixm:nilReason
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:path      rdf:value
+                     ] ;
+        sh:xone      ( [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      rdf:value
+                                      ]
+                       ]
+                       [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      aixm:nilReason
+                                      ]
+                       ]
+                     ) .
+
+aixm:Character3Type  a  sh:NodeShape ;
+        sh:property  [ sh:datatype  xsd:string ;
+                       sh:maxCount  1 ;
+                       sh:path      rdf:value ;
+                       sh:pattern   "^([A-Z]|[0-9]|[, !&quot;&amp;#$%'\\(\\)\\*\\+\\-\\./:;&lt;=>\\?@\\[\\\\\\]\\^_\\|\\{\\}])*$"
+                     ] .
+
+aixm:TextPhoneType  a  sh:NodeShape ;
+        sh:and       ( aixm:TextPhoneBaseType ) ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:NilReasonEnumeration ;
+                       sh:path      aixm:nilReason
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:path      rdf:value
+                     ] ;
+        sh:xone      ( [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      rdf:value
+                                      ]
+                       ]
+                       [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      aixm:nilReason
+                                      ]
+                       ]
+                     ) .
+
+aixm:ValFLBaseType  a  sh:NodeShape ;
+        sh:property  [ sh:datatype      xsd:unsignedInt ;
+                       sh:maxCount      1 ;
+                       sh:maxInclusive  999 ;
+                       sh:path          rdf:value
+                     ] .
+
+aixm:OrganisationAuthorityTimeSlice
+        a            rdfs:Class , sh:NodeShape ;
+        sh:and       ( aixm:AIXMTimeSlice ) ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:CodeOrganisationDesignatorType ;
+                       sh:path      aixm:designator
+                     ] ;
+        sh:property  [ sh:class     aixm:ContactInformation ;
+                       sh:minCount  0 ;
+                       sh:path      aixm:contact
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:CodeMilitaryOperationsType ;
+                       sh:path      aixm:military
+                     ] ;
+        sh:property  [ sh:class     aixm:Note ;
+                       sh:minCount  0 ;
+                       sh:path      aixm:annotation
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:TextNameType ;
+                       sh:path      aixm:name
+                     ] ;
+        sh:property  [ sh:class     aixm:OrganisationAuthorityAssociation ;
+                       sh:minCount  0 ;
+                       sh:path      aixm:relatedOrganisationAuthority
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:CodeOrganisationType ;
+                       sh:path      aixm:type
+                     ] .
+
+aixm:ValMagneticVariationChangeType
+        a            sh:NodeShape ;
+        sh:and       ( aixm:ValMagneticVariationChangeBaseType ) ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:NilReasonEnumeration ;
+                       sh:path      aixm:nilReason
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:path      rdf:value
+                     ] ;
+        sh:xone      ( [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      rdf:value
+                                      ]
+                       ]
+                       [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      aixm:nilReason
+                                      ]
+                       ]
+                     ) .
+
+aixm:CodeWakeTurbulenceType
+        a            sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:NilReasonEnumeration ;
+                       sh:path      aixm:nilReason
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:node      aixm:CodeWakeTurbulenceBaseType ;
+                       sh:path      rdf:value
+                     ] ;
+        sh:xone      ( [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      rdf:value
+                                      ]
+                       ]
+                       [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      aixm:nilReason
+                                      ]
+                       ]
+                     ) .
+
+aixm:AirportHeliportUsage
+        a                rdfs:Class , sh:NodeShape ;
+        rdfs:subClassOf  aixm:UsageCondition ;
+        sh:and           ( aixm:UsageCondition ) ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      aixm:CodeOperationAirportHeliportType ;
+                           sh:path      aixm:operation
+                         ] .
+
+aixm:CodeSideBaseType
+        a            sh:NodeShape ;
+        sh:datatype  xsd:string ;
+        sh:in        [ rdf:rest  ( "LEFT" "RIGHT" "BOTH" "OTHER" )
+                     ] .
+
+aixm:CodeTimeEventCombinationBaseType
+        a            sh:NodeShape ;
+        sh:datatype  xsd:string ;
+        sh:in        [ rdf:rest  ( "EARLIEST" "LATEST" "OTHER" )
+                     ] .
+
+aixm:NoSequenceBaseType
+        a            sh:NodeShape ;
+        sh:property  [ sh:datatype  xsd:unsignedInt ;
+                       sh:maxCount  1 ;
+                       sh:path      rdf:value
+                     ] .
+
+aixm:TextNoteBaseType
+        a            sh:NodeShape ;
+        sh:and       ( aixm:Character2Type ) ;
+        sh:property  [ sh:maxCount   1 ;
+                       sh:maxLength  10000 ;
+                       sh:minLength  1 ;
+                       sh:path       rdf:value
+                     ] .
+
+aixm:TextNoteType  a  sh:NodeShape ;
+        sh:and       ( aixm:TextNoteBaseType ) ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:language ;
+                       sh:path      aixm:lang
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:NilReasonEnumeration ;
+                       sh:path      aixm:nilReason
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:path      rdf:value
+                     ] ;
+        sh:xone      ( [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      rdf:value
+                                      ] ;
+                         sh:property  [ sh:path  aixm:lang ]
+                       ]
+                       [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      aixm:nilReason
+                                      ]
+                       ]
+                     ) .
+
+aixm:CodeFlightStatusBaseType
+        a            sh:NodeShape ;
+        sh:datatype  xsd:string ;
+        sh:in        [ rdf:rest  ( "HEAD" "STATE" "HUM" "HOSP" "SAR" "ALL" "EMERGENCY" "OTHER" )
+                     ] .
+
+aixm:CodeNavigationEquipmentType
+        a            sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:NilReasonEnumeration ;
+                       sh:path      aixm:nilReason
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:node      aixm:CodeNavigationEquipmentBaseType ;
+                       sh:path      rdf:value
+                     ] ;
+        sh:xone      ( [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      rdf:value
+                                      ]
+                       ]
+                       [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      aixm:nilReason
+                                      ]
+                       ]
+                     ) .
+
+aixm:DateTimeType  a  sh:NodeShape ;
+        sh:and       ( aixm:DateTimeBaseType ) ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:NilReasonEnumeration ;
+                       sh:path      aixm:nilReason
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:path      rdf:value
+                     ] ;
+        sh:xone      ( [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      rdf:value
+                                      ]
+                       ]
+                       [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      aixm:nilReason
+                                      ]
+                       ]
+                     ) .
+
+aixm:DateYearBaseType
+        a            sh:NodeShape ;
+        sh:property  [ sh:datatype  xsd:string ;
+                       sh:maxCount  1 ;
+                       sh:path      rdf:value ;
+                       sh:pattern   "^[1-9][0-9][0-9][0-9]$"
+                     ] .
+
+aixm:ValSpeedType  a  sh:NodeShape ;
+        sh:and       ( aixm:ValSpeedBaseType ) ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:NilReasonEnumeration ;
+                       sh:path      aixm:nilReason
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:UomSpeedType ;
+                       sh:path      aixm:uom
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:path      rdf:value
+                     ] ;
+        sh:xone      ( [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      rdf:value
+                                      ] ;
+                         sh:property  [ sh:path  aixm:uom ]
+                       ]
+                       [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      aixm:nilReason
+                                      ]
+                       ]
+                     ) .
+
+gml:Surface  a  rdfs:Class , sh:NodeShape .
+
+aixm:CodeTimeEventBaseType
+        a            sh:NodeShape ;
+        sh:datatype  xsd:string ;
+        sh:in        [ rdf:rest  ( "SR" "SS" "OTHER" )
+                     ] .
+
+aixm:ValDistanceBaseType
+        a            sh:NodeShape ;
+        sh:property  [ sh:datatype      xsd:decimal ;
+                       sh:maxCount      1 ;
+                       sh:minInclusive  0 ;
+                       sh:path          rdf:value
+                     ] .
+
+aixm:PropertiesWithSchedule
+        a            rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:class     aixm:Timesheet ;
+                       sh:minCount  0 ;
+                       sh:path      aixm:timeInterval
+                     ] ;
+        sh:property  [ sh:class     aixm:OrganisationAuthority ;
+                       sh:minCount  0 ;
+                       sh:path      aixm:specialDateAuthority
+                     ] ;
+        sh:property  [ sh:class     aixm:Note ;
+                       sh:minCount  0 ;
+                       sh:path      aixm:annotation
+                     ] .
+
+aixm:CodeFlightType  a  sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:NilReasonEnumeration ;
+                       sh:path      aixm:nilReason
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:node      aixm:CodeFlightBaseType ;
+                       sh:path      rdf:value
+                     ] ;
+        sh:xone      ( [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      rdf:value
+                                      ]
+                       ]
+                       [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      aixm:nilReason
+                                      ]
+                       ]
+                     ) .
+
+aixm:CodeAirportWarningType
+        a            sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:NilReasonEnumeration ;
+                       sh:path      aixm:nilReason
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:node      aixm:CodeAirportWarningBaseType ;
+                       sh:path      rdf:value
+                     ] ;
+        sh:xone      ( [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      rdf:value
+                                      ]
+                       ]
+                       [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      aixm:nilReason
+                                      ]
+                       ]
+                     ) .
+
+aixm:TimeType  a     sh:NodeShape ;
+        sh:and       ( aixm:TimeBaseType ) ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:NilReasonEnumeration ;
+                       sh:path      aixm:nilReason
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:path      rdf:value
+                     ] ;
+        sh:xone      ( [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      rdf:value
+                                      ]
+                       ]
+                       [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      aixm:nilReason
+                                      ]
+                       ]
+                     ) .
+
+aixm:CodeICAOType  a  sh:NodeShape ;
+        sh:and       ( aixm:CodeICAOBaseType ) ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:NilReasonEnumeration ;
+                       sh:path      aixm:nilReason
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:path      rdf:value
+                     ] ;
+        sh:xone      ( [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      rdf:value
+                                      ]
+                       ]
+                       [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      aixm:nilReason
+                                      ]
+                       ]
+                     ) .
+
+aixm:CodeTelecomNetworkBaseType
+        a            sh:NodeShape ;
+        sh:datatype  xsd:string ;
+        sh:in        [ rdf:rest  ( "AFTN" "AMHS" "INTERNET" "SITA" "ACARS" "ADNS" "OTHER" )
+                     ] .
+
+aixm:UomDistanceVerticalType
+        a            sh:NodeShape ;
+        sh:datatype  xsd:string ;
+        sh:in        [ rdf:rest  ( "FT" "M" "FL" "SM" "OTHER" )
+                     ] .
+
+aixm:CodeOrganisationHierarchyBaseType
+        a            sh:NodeShape ;
+        sh:datatype  xsd:string ;
+        sh:in        [ rdf:rest  ( "MEMBER" "OWNED_BY" "SUPERVISED_BY" "OTHER" )
+                     ] .
+
+aixm:CodeMilitaryOperationsBaseType
+        a            sh:NodeShape ;
+        sh:datatype  xsd:string ;
+        sh:in        [ rdf:rest  ( "CIVIL" "MIL" "JOINT" "OTHER" )
+                     ] .
+
+aixm:CodeFlightOriginType
+        a            sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:NilReasonEnumeration ;
+                       sh:path      aixm:nilReason
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:node      aixm:CodeFlightOriginBaseType ;
+                       sh:path      rdf:value
+                     ] ;
+        sh:xone      ( [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      rdf:value
+                                      ]
+                       ]
+                       [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      aixm:nilReason
+                                      ]
+                       ]
+                     ) .
+
+aixm:CodeFlightBaseType
+        a            sh:NodeShape ;
+        sh:datatype  xsd:string ;
+        sh:in        [ rdf:rest  ( "OAT" "GAT" "ALL" "OTHER" )
+                     ] .
+
+aixm:ValTemperatureType
+        a            sh:NodeShape ;
+        sh:and       ( aixm:ValTemperatureBaseType ) ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:NilReasonEnumeration ;
+                       sh:path      aixm:nilReason
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:UomTemperatureType ;
+                       sh:path      aixm:uom
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:path      rdf:value
+                     ] ;
+        sh:xone      ( [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      rdf:value
+                                      ] ;
+                         sh:property  [ sh:path  aixm:uom ]
+                       ]
+                       [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      aixm:nilReason
+                                      ]
+                       ]
+                     ) .
+
+aixm:CodeVerticalDatumBaseType
+        a            sh:NodeShape ;
+        sh:datatype  xsd:string ;
+        sh:in        [ rdf:rest  ( "EGM_96" "AHD" "NAVD88" "OTHER" )
+                     ] .
+
+aixm:Ridge  a        rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:class     aixm:Note ;
+                       sh:minCount  0 ;
+                       sh:path      aixm:annotation
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:ValDepthType ;
+                       sh:path      aixm:depth
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:ValDistanceType ;
+                       sh:path      aixm:distance
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:CodeSideType ;
+                       sh:path      aixm:side
+                     ] .
+
+aixm:CodeFlightPurposeBaseType
+        a            sh:NodeShape ;
+        sh:datatype  xsd:string ;
+        sh:in        [ rdf:rest  ( "SCHEDULED" "NON_SCHEDULED" "PRIVATE" "AIR_TRAINING" "AIR_WORK" "ALL" "PARTICIPANT" "OTHER" )
+                     ] .
+
+aixm:AirportHeliport  a  rdfs:Class , sh:NodeShape ;
+        sh:and       ( aixm:AIXMFeature ) ;
+        sh:property  [ sh:class  aixm:AirportHeliportTimeSlice ;
+                       sh:path   aixm:timeSlice
+                     ] .
+
+aixm:ValDepthType  a  sh:NodeShape ;
+        sh:and       ( aixm:ValDepthBaseType ) ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:NilReasonEnumeration ;
+                       sh:path      aixm:nilReason
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:UomDepthType ;
+                       sh:path      aixm:uom
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:path      rdf:value
+                     ] ;
+        sh:xone      ( [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      rdf:value
+                                      ] ;
+                         sh:property  [ sh:path  aixm:uom ]
+                       ]
+                       [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      aixm:nilReason
+                                      ]
+                       ]
+                     ) .
+
+aixm:OnlineContact  a    rdfs:Class , sh:NodeShape ;
+        rdfs:subClassOf  aixm:PropertiesWithSchedule ;
+        sh:and           ( aixm:PropertiesWithSchedule ) ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      aixm:TextAddressType ;
+                           sh:path      aixm:eMail
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      aixm:TextNameType ;
+                           sh:path      aixm:protocol
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      aixm:TextAddressType ;
+                           sh:path      aixm:linkage
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      aixm:CodeTelecomNetworkType ;
+                           sh:path      aixm:network
+                         ] .
+
+aixm:CodeTimeReferenceBaseType
+        a            sh:NodeShape ;
+        sh:datatype  xsd:string ;
+        sh:in        [ rdf:rest  ( "UTC" "UTC-12" "UTC-11" "UTC-10" "UTC-9" "UTC-8" "UTC-7" "UTC-6" "UTC-5" "UTC-4" "UTC-3" "UTC-2" "UTC-1" "UTC+1" "UTC+2" "UTC+3" "UTC+4" "UTC+5" "UTC+6" "UTC+7" "UTC+8" "UTC+9" "UTC+10" "UTC+11" "UTC+12" "UTC+13" "UTC+14" "OTHER" )
+                     ] .
+
+aixm:ValDistanceSignedBaseType
+        a            sh:NodeShape ;
+        sh:property  [ sh:datatype  xsd:decimal ;
+                       sh:maxCount  1 ;
+                       sh:path      rdf:value
+                     ] .
+
+aixm:ValDurationType  a  sh:NodeShape ;
+        sh:and       ( aixm:ValDurationBaseType ) ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:NilReasonEnumeration ;
+                       sh:path      aixm:nilReason
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:UomDurationType ;
+                       sh:path      aixm:uom
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:path      rdf:value
+                     ] ;
+        sh:xone      ( [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      rdf:value
+                                      ] ;
+                         sh:property  [ sh:path  aixm:uom ]
+                       ]
+                       [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      aixm:nilReason
+                                      ]
+                       ]
+                     ) .
+
+aixm:NoSequenceType  a  sh:NodeShape ;
+        sh:and       ( aixm:NoSequenceBaseType ) ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:NilReasonEnumeration ;
+                       sh:path      aixm:nilReason
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:path      rdf:value
+                     ] ;
+        sh:xone      ( [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      rdf:value
+                                      ]
+                       ]
+                       [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      aixm:nilReason
+                                      ]
+                       ]
+                     ) .
+
+aixm:SurfaceContaminationLayer
+        a            rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:class     aixm:Note ;
+                       sh:minCount  0 ;
+                       sh:path      aixm:annotation
+                     ] ;
+        sh:property  [ sh:class     aixm:ElevatedSurface ;
+                       sh:minCount  0 ;
+                       sh:path      aixm:extent
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:CodeContaminationType ;
+                       sh:path      aixm:type
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:NoSequenceType ;
+                       sh:path      aixm:layerOrder
+                     ] .
+
+aixm:CodeMeteoConditionsType
+        a            sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:NilReasonEnumeration ;
+                       sh:path      aixm:nilReason
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:node      aixm:CodeMeteoConditionsBaseType ;
+                       sh:path      rdf:value
+                     ] ;
+        sh:xone      ( [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      rdf:value
+                                      ]
+                       ]
+                       [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      aixm:nilReason
+                                      ]
+                       ]
+                     ) .
+
+aixm:CodeAirportWarningBaseType
+        a            sh:NodeShape ;
+        sh:datatype  xsd:string ;
+        sh:in        [ rdf:rest  ( "WIP" "EQUIP" "BIRD" "ANIMAL" "RUBBER_REMOVAL" "PARKED_ACFT" "RESURFACING" "PAVING" "PAINTING" "INSPECTION" "GRASS_CUTTING" "CALIBRATION" "OTHER" )
+                     ] .
+
+aixm:CodeOrganisationType
+        a            sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:NilReasonEnumeration ;
+                       sh:path      aixm:nilReason
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:node      aixm:CodeOrganisationBaseType ;
+                       sh:path      rdf:value
+                     ] ;
+        sh:xone      ( [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      rdf:value
+                                      ]
+                       ]
+                       [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      aixm:nilReason
+                                      ]
+                       ]
+                     ) .
+
+aixm:CodeCommunicationModeType
+        a            sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:NilReasonEnumeration ;
+                       sh:path      aixm:nilReason
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:node      aixm:CodeCommunicationModeBaseType ;
+                       sh:path      rdf:value
+                     ] ;
+        sh:xone      ( [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      rdf:value
+                                      ]
+                       ]
+                       [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      aixm:nilReason
+                                      ]
+                       ]
+                     ) .
+
+aixm:ValPercentBaseType
+        a            sh:NodeShape ;
+        sh:property  [ sh:datatype      xsd:decimal ;
+                       sh:maxCount      1 ;
+                       sh:maxInclusive  100 ;
+                       sh:minInclusive  0 ;
+                       sh:path          rdf:value
+                     ] .
+
+aixm:ValMagneticVariationBaseType
+        a            sh:NodeShape ;
+        sh:property  [ sh:datatype      xsd:decimal ;
+                       sh:maxCount      1 ;
+                       sh:maxInclusive  180 ;
+                       sh:minInclusive  -180 ;
+                       sh:path          rdf:value
+                     ] .
+
+gml:SurfacePatch  a  rdfs:Class , sh:NodeShape .
+
+aixm:ContactInformation
+        a            rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:class     aixm:TelephoneContact ;
+                       sh:minCount  0 ;
+                       sh:path      aixm:phoneFax
+                     ] ;
+        sh:property  [ sh:class     aixm:PostalAddress ;
+                       sh:minCount  0 ;
+                       sh:path      aixm:address
+                     ] ;
+        sh:property  [ sh:class     aixm:OnlineContact ;
+                       sh:minCount  0 ;
+                       sh:path      aixm:networkNode
+                     ] ;
+        sh:property  [ sh:class     aixm:Note ;
+                       sh:minCount  0 ;
+                       sh:path      aixm:annotation
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:TextNameType ;
+                       sh:path      aixm:title
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:TextNameType ;
+                       sh:path      aixm:name
+                     ] .
+
+aixm:AIXMFeature  a  sh:NodeShape ;
+        sh:property  [ sh:path  aixm:timeSlice ] .
+
+aixm:ValAngleBaseType
+        a            sh:NodeShape ;
+        sh:property  [ sh:datatype      xsd:decimal ;
+                       sh:maxCount      1 ;
+                       sh:maxInclusive  180 ;
+                       sh:minInclusive  -180 ;
+                       sh:path          rdf:value
+                     ] .
+
+aixm:CodeSideType  a  sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:NilReasonEnumeration ;
+                       sh:path      aixm:nilReason
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:node      aixm:CodeSideBaseType ;
+                       sh:path      rdf:value
+                     ] ;
+        sh:xone      ( [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      rdf:value
+                                      ]
+                       ]
+                       [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      aixm:nilReason
+                                      ]
+                       ]
+                     ) .
+
+aixm:CodeDayType  a  sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:NilReasonEnumeration ;
+                       sh:path      aixm:nilReason
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:node      aixm:CodeDayBaseType ;
+                       sh:path      rdf:value
+                     ] ;
+        sh:xone      ( [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      rdf:value
+                                      ]
+                       ]
+                       [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      aixm:nilReason
+                                      ]
+                       ]
+                     ) .
+
+aixm:CodeAircraftEngineBaseType
+        a            sh:NodeShape ;
+        sh:datatype  xsd:string ;
+        sh:in        [ rdf:rest  ( "JET" "PISTON" "TURBOPROP" "ELECTRIC" "ALL" "OTHER" )
+                     ] .
+
+aixm:ValWeightBaseType
+        a            sh:NodeShape ;
+        sh:property  [ sh:datatype      xsd:decimal ;
+                       sh:maxCount      1 ;
+                       sh:minInclusive  0 ;
+                       sh:path          rdf:value
+                     ] .
+
+aixm:CodeNavigationEquipmentBaseType
+        a            sh:NodeShape ;
+        sh:datatype  xsd:string ;
+        sh:in        [ rdf:rest  ( "DME" "VOR_DME" "DME_DME" "TACAN" "ILS" "MLS" "GNSS" "WAAS" "LORAN" "INS" "FMS" "OTHER" )
+                     ] .
+
+aixm:ValPercentType  a  sh:NodeShape ;
+        sh:and       ( aixm:ValPercentBaseType ) ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:NilReasonEnumeration ;
+                       sh:path      aixm:nilReason
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:path      rdf:value
+                     ] ;
+        sh:xone      ( [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      rdf:value
+                                      ]
+                       ]
+                       [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      aixm:nilReason
+                                      ]
+                       ]
+                     ) .
+
+aixm:CodeIATABaseType
+        a            sh:NodeShape ;
+        sh:and       ( aixm:AlphaType ) ;
+        sh:property  [ sh:maxCount   1 ;
+                       sh:maxLength  3 ;
+                       sh:minLength  3 ;
+                       sh:path       rdf:value
+                     ] .
+
+aixm:ValDistanceType  a  sh:NodeShape ;
+        sh:and       ( aixm:ValDistanceBaseType ) ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:NilReasonEnumeration ;
+                       sh:path      aixm:nilReason
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:UomDistanceType ;
+                       sh:path      aixm:uom
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:path      rdf:value
+                     ] ;
+        sh:xone      ( [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      rdf:value
+                                      ] ;
+                         sh:property  [ sh:path  aixm:uom ]
+                       ]
+                       [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      aixm:nilReason
+                                      ]
+                       ]
+                     ) .
+
+aixm:AirportHeliportAvailability
+        a                rdfs:Class , sh:NodeShape ;
+        rdfs:subClassOf  aixm:PropertiesWithSchedule ;
+        sh:and           ( aixm:PropertiesWithSchedule ) ;
+        sh:property      [ sh:class     aixm:AirportHeliportUsage ;
+                           sh:minCount  0 ;
+                           sh:path      aixm:usage
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      aixm:CodeAirportWarningType ;
+                           sh:path      aixm:warning
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      aixm:CodeStatusAirportType ;
+                           sh:path      aixm:operationalStatus
+                         ] .
+
+aixm:OrganisationAuthority
+        a            rdfs:Class , sh:NodeShape ;
+        sh:and       ( aixm:AIXMFeature ) ;
+        sh:property  [ sh:class  aixm:OrganisationAuthorityTimeSlice ;
+                       sh:path   aixm:timeSlice
+                     ] .
+
+aixm:CodeFlightStatusType
+        a            sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:NilReasonEnumeration ;
+                       sh:path      aixm:nilReason
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:node      aixm:CodeFlightStatusBaseType ;
+                       sh:path      rdf:value
+                     ] ;
+        sh:xone      ( [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      rdf:value
+                                      ]
+                       ]
+                       [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      aixm:nilReason
+                                      ]
+                       ]
+                     ) .
+
+aixm:TextNameBaseType
+        a            sh:NodeShape ;
+        sh:and       ( aixm:Character3Type ) ;
+        sh:property  [ sh:maxCount   1 ;
+                       sh:maxLength  60 ;
+                       sh:minLength  1 ;
+                       sh:path       rdf:value
+                     ] .
+
+aixm:ValMagneticVariationType
+        a            sh:NodeShape ;
+        sh:and       ( aixm:ValMagneticVariationBaseType ) ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:NilReasonEnumeration ;
+                       sh:path      aixm:nilReason
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:path      rdf:value
+                     ] ;
+        sh:xone      ( [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      rdf:value
+                                      ]
+                       ]
+                       [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      aixm:nilReason
+                                      ]
+                       ]
+                     ) .
+
+aixm:PostalAddress  a    rdfs:Class , sh:NodeShape ;
+        rdfs:subClassOf  aixm:PropertiesWithSchedule ;
+        sh:and           ( aixm:PropertiesWithSchedule ) ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      aixm:TextNameType ;
+                           sh:path      aixm:country
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      aixm:TextNameType ;
+                           sh:path      aixm:postalCode
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      aixm:TextNameType ;
+                           sh:path      aixm:administrativeArea
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      aixm:TextNameType ;
+                           sh:path      aixm:city
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      aixm:TextAddressType ;
+                           sh:path      aixm:deliveryPoint
+                         ] .
+
+aixm:UomTemperatureType
+        a            sh:NodeShape ;
+        sh:datatype  xsd:string ;
+        sh:in        [ rdf:rest  ( "C" "F" "K" "OTHER" )
+                     ] .
+
+aixm:ValDepthBaseType
+        a            sh:NodeShape ;
+        sh:property  [ sh:datatype  xsd:decimal ;
+                       sh:maxCount  1 ;
+                       sh:path      rdf:value
+                     ] .
+
+aixm:NilReasonEnumeration
+        a            sh:NodeShape ;
+        sh:datatype  xsd:string ;
+        sh:in        [ rdf:rest  ( "inapplicable" "missing" "template" "unknown" "withheld" "other" )
+                     ] .
+
+aixm:OrganisationAuthorityAssociation
+        a            rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:class     aixm:OrganisationAuthority ;
+                       sh:maxCount  1 ;
+                       sh:minCount  1 ;
+                       sh:path      aixm:theOrganisationAuthority
+                     ] ;
+        sh:property  [ sh:class     aixm:Note ;
+                       sh:minCount  0 ;
+                       sh:path      aixm:annotation
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:CodeOrganisationHierarchyType ;
+                       sh:path      aixm:type
+                     ] .
+
+aixm:TelephoneContact
+        a                rdfs:Class , sh:NodeShape ;
+        rdfs:subClassOf  aixm:PropertiesWithSchedule ;
+        sh:and           ( aixm:PropertiesWithSchedule ) ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      aixm:TextPhoneType ;
+                           sh:path      aixm:facsimile
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      aixm:TextPhoneType ;
+                           sh:path      aixm:voice
+                         ] .
+
+aixm:CodeAirportHeliportDesignatorType
+        a            sh:NodeShape ;
+        sh:and       ( aixm:CodeAirportHeliportDesignatorBaseType ) ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:NilReasonEnumeration ;
+                       sh:path      aixm:nilReason
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:path      rdf:value
+                     ] ;
+        sh:xone      ( [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      rdf:value
+                                      ]
+                       ]
+                       [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      aixm:nilReason
+                                      ]
+                       ]
+                     ) .
+
+aixm:CodeTransponderType
+        a            sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:NilReasonEnumeration ;
+                       sh:path      aixm:nilReason
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:node      aixm:CodeTransponderBaseType ;
+                       sh:path      rdf:value
+                     ] ;
+        sh:xone      ( [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      rdf:value
+                                      ]
+                       ]
+                       [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      aixm:nilReason
+                                      ]
+                       ]
+                     ) .
+
+aixm:AltimeterSourceTimeSlice
+        a            rdfs:Class , sh:NodeShape ;
+        sh:and       ( aixm:AIXMTimeSlice ) ;
+        sh:property  [ sh:class     aixm:Note ;
+                       sh:minCount  0 ;
+                       sh:path      aixm:annotation
+                     ] ;
+        sh:property  [ sh:class     aixm:AltimeterSourceStatus ;
+                       sh:minCount  0 ;
+                       sh:path      aixm:availability
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:CodeYesNoType ;
+                       sh:path      aixm:isPrimary
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:CodeYesNoType ;
+                       sh:path      aixm:isRemote
+                     ] .
+
+aixm:CodeYesNoType  a  sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:NilReasonEnumeration ;
+                       sh:path      aixm:nilReason
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:node      aixm:CodeYesNoBaseType ;
+                       sh:path      rdf:value
+                     ] ;
+        sh:xone      ( [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      rdf:value
+                                      ]
+                       ]
+                       [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      aixm:nilReason
+                                      ]
+                       ]
+                     ) .
+
+aixm:CodeAirportHeliportBaseType
+        a            sh:NodeShape ;
+        sh:datatype  xsd:string ;
+        sh:in        [ rdf:rest  ( "AD" "AH" "HP" "LS" "OTHER" )
+                     ] .
+
+aixm:CodeYesNoBaseType
+        a            sh:NodeShape ;
+        sh:datatype  xsd:string ;
+        sh:in        [ rdf:rest  ( "YES" "NO" "OTHER" )
+                     ] .
+
+aixm:NoNumberType  a  sh:NodeShape ;
+        sh:and       ( aixm:NoNumberBaseType ) ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:NilReasonEnumeration ;
+                       sh:path      aixm:nilReason
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:path      rdf:value
+                     ] ;
+        sh:property  [ sh:datatype  xsd:unsignedInt ;
+                       sh:maxCount  1 ;
+                       sh:minCount  1 ;
+                       sh:path      rdf:value
+                     ] ;
+        sh:xone      ( [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      rdf:value
+                                      ]
+                       ]
+                       [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      aixm:nilReason
+                                      ]
+                       ]
+                     ) .
+
+aixm:ValDistanceVerticalBaseType
+        a            sh:NodeShape ;
+        sh:property  [ sh:datatype  xsd:string ;
+                       sh:maxCount  1 ;
+                       sh:path      rdf:value ;
+                       sh:pattern   "^((\\+|\\-){0,1}[0-9]{1,8}(\\.[0-9]{1,4}){0,1})|UNL|GND|FLOOR|CEILING$"
+                     ] .
+
+aixm:CodeAirportHeliportDesignatorBaseType
+        a            sh:NodeShape ;
+        sh:and       ( aixm:AlphanumericType ) ;
+        sh:property  [ sh:maxCount   1 ;
+                       sh:maxLength  6 ;
+                       sh:minLength  3 ;
+                       sh:path       rdf:value
+                     ] .
+
+aixm:CodeFlightRuleBaseType
+        a            sh:NodeShape ;
+        sh:datatype  xsd:string ;
+        sh:in        [ rdf:rest  ( "IFR" "VFR" "ALL" "OTHER" )
+                     ] .
+
+aixm:Character2Type  a  sh:NodeShape ;
+        sh:property  [ sh:datatype  xsd:string ;
+                       sh:maxCount  1 ;
+                       sh:path      rdf:value
+                     ] .
+
+aixm:CodeStatusOperationsType
+        a            sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:NilReasonEnumeration ;
+                       sh:path      aixm:nilReason
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:node      aixm:CodeStatusOperationsBaseType ;
+                       sh:path      rdf:value
+                     ] ;
+        sh:xone      ( [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      rdf:value
+                                      ]
+                       ]
+                       [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      aixm:nilReason
+                                      ]
+                       ]
+                     ) .
+
+aixm:CodeFrictionEstimateBaseType
+        a            sh:NodeShape ;
+        sh:datatype  xsd:string ;
+        sh:in        [ rdf:rest  ( "GOOD" "MEDIUM_GOOD" "MEDIUM" "MEDIUM_POOR" "POOR" "UNRELIABLE" "OTHER" )
+                     ] .
+
+aixm:Character1Type  a  sh:NodeShape ;
+        sh:property  [ sh:datatype  xsd:string ;
+                       sh:maxCount  1 ;
+                       sh:path      rdf:value ;
+                       sh:pattern   "^([A-Z]|[0-9])+([ \\+\\-/]*([A-Z]|[0-9])+)*$"
+                     ] .
+
+aixm:CodeNavigationSpecificationBaseType
+        a            sh:NodeShape ;
+        sh:datatype  xsd:string ;
+        sh:in        [ rdf:rest  ( "RNAV_10" "RNAV_5" "RNAV_2" "RNAV_1" "RNP_4" "RNP_2" "BASIC_RNP_1" "ADVANCED_RNP_1" "RNP_APCH" "RNP_AR_APCH" "OTHER" )
+                     ] .
+
+aixm:CodeOrganisationHierarchyType
+        a            sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:NilReasonEnumeration ;
+                       sh:path      aixm:nilReason
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:node      aixm:CodeOrganisationHierarchyBaseType ;
+                       sh:path      rdf:value
+                     ] ;
+        sh:xone      ( [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      rdf:value
+                                      ]
+                       ]
+                       [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      aixm:nilReason
+                                      ]
+                       ]
+                     ) .
+
+aixm:CodeStatusAirportBaseType
+        a            sh:NodeShape ;
+        sh:datatype  xsd:string ;
+        sh:in        [ rdf:rest  ( "NORMAL" "LIMITED" "CLOSED" "OTHER" )
+                     ] .
+
+aixm:CodeRVSMType  a  sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:NilReasonEnumeration ;
+                       sh:path      aixm:nilReason
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:node      aixm:CodeRVSMBaseType ;
+                       sh:path      rdf:value
+                     ] ;
+        sh:xone      ( [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      rdf:value
+                                      ]
+                       ]
+                       [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      aixm:nilReason
+                                      ]
+                       ]
+                     ) .
+
+aixm:CodeICAOBaseType
+        a            sh:NodeShape ;
+        sh:and       ( aixm:AlphaType ) ;
+        sh:property  [ sh:maxCount   1 ;
+                       sh:maxLength  4 ;
+                       sh:minLength  4 ;
+                       sh:path       rdf:value
+                     ] .
+
+aixm:NoNumberBaseType
+        a            sh:NodeShape ;
+        sh:property  [ sh:datatype  xsd:unsignedInt ;
+                       sh:maxCount  1 ;
+                       sh:path      rdf:value
+                     ] .
+
+aixm:CodeAircraftType
+        a            sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:NilReasonEnumeration ;
+                       sh:path      aixm:nilReason
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:node      aixm:CodeAircraftBaseType ;
+                       sh:path      rdf:value
+                     ] ;
+        sh:xone      ( [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      rdf:value
+                                      ]
+                       ]
+                       [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      aixm:nilReason
+                                      ]
+                       ]
+                     ) .
+
+aixm:CodeContaminationBaseType
+        a            sh:NodeShape ;
+        sh:datatype  xsd:string ;
+        sh:in        [ rdf:rest  ( "NONE" "DAMP" "WATER" "FROST" "DRY_SNOW" "WET_SNOW" "SLUSH" "ICE" "COMPACT_SNOW" "RUT" "ASH" "SAND" "OIL" "RUBBER" "GRAS" "OTHER" )
+                     ] .
+
+aixm:CodeTimeReferenceType
+        a            sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:NilReasonEnumeration ;
+                       sh:path      aixm:nilReason
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:node      aixm:CodeTimeReferenceBaseType ;
+                       sh:path      rdf:value
+                     ] ;
+        sh:xone      ( [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      rdf:value
+                                      ]
+                       ]
+                       [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      aixm:nilReason
+                                      ]
+                       ]
+                     ) .
+
+aixm:CodeIATAType  a  sh:NodeShape ;
+        sh:and       ( aixm:CodeIATABaseType ) ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:NilReasonEnumeration ;
+                       sh:path      aixm:nilReason
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:path      rdf:value
+                     ] ;
+        sh:xone      ( [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      rdf:value
+                                      ]
+                       ]
+                       [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      aixm:nilReason
+                                      ]
+                       ]
+                     ) .
+
+aixm:CodeAircraftWingspanClassBaseType
+        a       sh:NodeShape ;
+        sh:in   [ rdf:rest  ( "I" "II" "III" "IV" "V" "VI" "OTHER" )
+                ] .
+
+aixm:ValFrictionType  a  sh:NodeShape ;
+        sh:and       ( aixm:ValFrictionBaseType ) ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:NilReasonEnumeration ;
+                       sh:path      aixm:nilReason
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:path      rdf:value
+                     ] ;
+        sh:xone      ( [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      rdf:value
+                                      ]
+                       ]
+                       [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      aixm:nilReason
+                                      ]
+                       ]
+                     ) .
+
+aixm:FlightCharacteristic
+        a            rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:class     aixm:Note ;
+                       sh:minCount  0 ;
+                       sh:path      aixm:annotation
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:CodeFlightPurposeType ;
+                       sh:path      aixm:purpose
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:CodeFlightOriginType ;
+                       sh:path      aixm:origin
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:CodeMilitaryStatusType ;
+                       sh:path      aixm:military
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:CodeFlightStatusType ;
+                       sh:path      aixm:status
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:CodeFlightRuleType ;
+                       sh:path      aixm:rule
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:CodeFlightType ;
+                       sh:path      aixm:type
+                     ] .
+
+aixm:ValFLType  a    sh:NodeShape ;
+        sh:and       ( aixm:ValFLBaseType ) ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:NilReasonEnumeration ;
+                       sh:path      aixm:nilReason
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:UomFLType ;
+                       sh:path      aixm:uom
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:path      rdf:value
+                     ] ;
+        sh:xone      ( [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      rdf:value
+                                      ] ;
+                         sh:property  [ sh:path  aixm:uom ]
+                       ]
+                       [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      aixm:nilReason
+                                      ]
+                       ]
+                     ) .
+
+aixm:AlphaType  a    sh:NodeShape ;
+        sh:property  [ sh:datatype  xsd:string ;
+                       sh:maxCount  1 ;
+                       sh:path      rdf:value ;
+                       sh:pattern   "^[A-Z]*$"
+                     ] .
+
+aixm:CodeValueInterpretationBaseType
+        a            sh:NodeShape ;
+        sh:datatype  xsd:string ;
+        sh:in        [ rdf:rest  ( "ABOVE" "AT_OR_ABOVE" "AT_OR_BELOW" "BELOW" "OTHER" )
+                     ] .
+
+aixm:UsageCondition  a  rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:class     aixm:ContactInformation ;
+                       sh:minCount  0 ;
+                       sh:path      aixm:contact
+                     ] ;
+        sh:property  [ sh:class     aixm:Note ;
+                       sh:minCount  0 ;
+                       sh:path      aixm:annotation
+                     ] ;
+        sh:property  [ sh:class     aixm:ConditionCombination ;
+                       sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:path      aixm:selection
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:ValDurationType ;
+                       sh:path      aixm:priorPermission
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:CodeUsageLimitationType ;
+                       sh:path      aixm:type
+                     ] .
+
+aixm:CodeAircraftEngineType
+        a            sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:NilReasonEnumeration ;
+                       sh:path      aixm:nilReason
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:node      aixm:CodeAircraftEngineBaseType ;
+                       sh:path      rdf:value
+                     ] ;
+        sh:xone      ( [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      rdf:value
+                                      ]
+                       ]
+                       [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      aixm:nilReason
+                                      ]
+                       ]
+                     ) .
+
+aixm:CodeOrganisationBaseType
+        a            sh:NodeShape ;
+        sh:datatype  xsd:string ;
+        sh:in        [ rdf:rest  ( "STATE" "STATE_GROUP" "ORG" "INTL_ORG" "ACFT_OPR" "HANDLING_AGENCY" "NTL_AUTH" "ATS" "COMMERCIAL" "OTHER" )
+                     ] .
+
+aixm:UomDistanceType  a  sh:NodeShape ;
+        sh:datatype  xsd:string ;
+        sh:in        [ rdf:rest  ( "NM" "KM" "M" "FT" "MI" "CM" "OTHER" )
+                     ] .
+
+aixm:TimeSliceInterpretationType
+        a            sh:NodeShape ;
+        sh:property  [ sh:datatype  xsd:string ;
+                       sh:in        [ rdf:rest  ( "BASELINE" "TEMPDELTA" )
+                                    ] ;
+                       sh:maxCount  1 ;
+                       sh:minCount  1 ;
+                       sh:path      rdf:value
+                     ] .
+
+aixm:CodeAuthorityRoleType
+        a            sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:NilReasonEnumeration ;
+                       sh:path      aixm:nilReason
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:node      aixm:CodeAuthorityRoleBaseType ;
+                       sh:path      rdf:value
+                     ] ;
+        sh:xone      ( [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      rdf:value
+                                      ]
+                       ]
+                       [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      aixm:nilReason
+                                      ]
+                       ]
+                     ) .
+
+aixm:DateMonthDayBaseType
+        a            sh:NodeShape ;
+        sh:property  [ sh:datatype  xsd:string ;
+                       sh:maxCount  1 ;
+                       sh:path      rdf:value ;
+                       sh:pattern   "^(((0[1-9])|(1[0-9])|(2[0-9]))\\-((0[1-9])|10|11|12))|(30\\-(01|03|04|05|06|07|08|09|10|11|12))|(31\\-(01|03|05|07|08|10|12))|SDLST|EDLST$"
+                     ] .
+
+aixm:CodeValueInterpretationType
+        a            sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:NilReasonEnumeration ;
+                       sh:path      aixm:nilReason
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:node      aixm:CodeValueInterpretationBaseType ;
+                       sh:path      rdf:value
+                     ] ;
+        sh:xone      ( [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      rdf:value
+                                      ]
+                       ]
+                       [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      aixm:nilReason
+                                      ]
+                       ]
+                     ) .
+
+aixm:AIXMTimeSlice  a  sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  1 ;
+                       sh:node      aixm:NoNumberType ;
+                       sh:path      aixm:correctionNumber
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  1 ;
+                       sh:node      aixm:NoNumberType ;
+                       sh:path      aixm:sequenceNumber
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  1 ;
+                       sh:node      aixm:TimeSliceInterpretationType ;
+                       sh:path      aixm:interpretation
+                     ] ;
+        sh:property  [ sh:class     gml:TimePeriod ;
+                       sh:maxCount  1 ;
+                       sh:minCount  1 ;
+                       sh:path      gml:validTime
+                     ] .
+
+aixm:ValDistanceSignedType
+        a            sh:NodeShape ;
+        sh:and       ( aixm:ValDistanceSignedBaseType ) ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:NilReasonEnumeration ;
+                       sh:path      aixm:nilReason
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:UomDistanceType ;
+                       sh:path      aixm:uom
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:path      rdf:value
+                     ] ;
+        sh:xone      ( [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      rdf:value
+                                      ] ;
+                         sh:property  [ sh:path  aixm:uom ]
+                       ]
+                       [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      aixm:nilReason
+                                      ]
+                       ]
+                     ) .
+
+aixm:AirportHeliportContamination
+        a                rdfs:Class , sh:NodeShape ;
+        rdfs:subClassOf  aixm:SurfaceContamination ;
+        sh:and           ( aixm:SurfaceContamination ) .
+
+aixm:CodeMilitaryStatusType
+        a            sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:NilReasonEnumeration ;
+                       sh:path      aixm:nilReason
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:node      aixm:CodeMilitaryStatusBaseType ;
+                       sh:path      rdf:value
+                     ] ;
+        sh:xone      ( [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      rdf:value
+                                      ]
+                       ]
+                       [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      aixm:nilReason
+                                      ]
+                       ]
+                     ) .
+
+aixm:CodeOperationAirportHeliportBaseType
+        a            sh:NodeShape ;
+        sh:datatype  xsd:string ;
+        sh:in        [ rdf:rest  ( "LANDING" "TAKEOFF" "TOUCHGO" "TRAIN_APPROACH" "ALTN_LANDING" "AIRSHOW" "ALL" "OTHER" )
+                     ] .
+
+aixm:CodeUsageLimitationBaseType
+        a            sh:NodeShape ;
+        sh:datatype  xsd:string ;
+        sh:in        [ rdf:rest  ( "PERMIT" "CONDITIONAL" "FORBID" "RESERV" "OTHER" )
+                     ] .
+
+aixm:UomWeightType  a  sh:NodeShape ;
+        sh:datatype  xsd:string ;
+        sh:in        [ rdf:rest  ( "KG" "T" "LB" "TON" "OTHER" )
+                     ] .
+
+aixm:DateYearType  a  sh:NodeShape ;
+        sh:and       ( aixm:DateYearBaseType ) ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:NilReasonEnumeration ;
+                       sh:path      aixm:nilReason
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:path      rdf:value
+                     ] ;
+        sh:xone      ( [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      rdf:value
+                                      ]
+                       ]
+                       [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      aixm:nilReason
+                                      ]
+                       ]
+                     ) .
+
+aixm:CodeStatusOperationsBaseType
+        a            sh:NodeShape ;
+        sh:datatype  xsd:string ;
+        sh:in        [ rdf:rest  ( "NORMAL" "DOWNGRADED" "UNSERVICEABLE" "WORK_IN_PROGRESS" "OTHER" )
+                     ] .
+
+aixm:CodeStatusAirportType
+        a            sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:NilReasonEnumeration ;
+                       sh:path      aixm:nilReason
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:node      aixm:CodeStatusAirportBaseType ;
+                       sh:path      rdf:value
+                     ] ;
+        sh:xone      ( [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      rdf:value
+                                      ]
+                       ]
+                       [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      aixm:nilReason
+                                      ]
+                       ]
+                     ) .
+
+aixm:CodeMilitaryOperationsType
+        a            sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:NilReasonEnumeration ;
+                       sh:path      aixm:nilReason
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:node      aixm:CodeMilitaryOperationsBaseType ;
+                       sh:path      rdf:value
+                     ] ;
+        sh:xone      ( [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      rdf:value
+                                      ]
+                       ]
+                       [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      aixm:nilReason
+                                      ]
+                       ]
+                     ) .
+
+aixm:CodeAircraftCategoryBaseType
+        a            sh:NodeShape ;
+        sh:datatype  xsd:string ;
+        sh:in        [ rdf:rest  ( "A" "B" "C" "D" "E" "H" "ALL" "OTHER" )
+                     ] .
+
+aixm:AltimeterSourceStatus
+        a                rdfs:Class , sh:NodeShape ;
+        rdfs:subClassOf  aixm:PropertiesWithSchedule ;
+        sh:and           ( aixm:PropertiesWithSchedule ) ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      aixm:CodeStatusOperationsType ;
+                           sh:path      aixm:operationalStatus
+                         ] .
+
+aixm:CodeEquipmentAntiCollisionBaseType
+        a            sh:NodeShape ;
+        sh:datatype  xsd:string ;
+        sh:in        [ rdf:rest  ( "ACAS_I" "ACAS_II" "GPWS" "OTHER" )
+                     ] .
+
+aixm:SurfaceContamination
+        a            rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:DateTimeType ;
+                       sh:path      aixm:nextObservationTime
+                     ] ;
+        sh:property  [ sh:class     aixm:Note ;
+                       sh:minCount  0 ;
+                       sh:path      aixm:annotation
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:ValFrictionType ;
+                       sh:path      aixm:frictionCoefficient
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:ValDepthType ;
+                       sh:path      aixm:depth
+                     ] ;
+        sh:property  [ sh:class     aixm:Ridge ;
+                       sh:minCount  0 ;
+                       sh:path      aixm:criticalRidge
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:CodeFrictionEstimateType ;
+                       sh:path      aixm:frictionEstimation
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:CodeYesNoType ;
+                       sh:path      aixm:furtherTotalClearance
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:TimeType ;
+                       sh:path      aixm:furtherClearanceTime
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:DateTimeType ;
+                       sh:path      aixm:observationTime
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:ValPercentType ;
+                       sh:path      aixm:proportion
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:CodeFrictionDeviceType ;
+                       sh:path      aixm:frictionDevice
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:CodeYesNoType ;
+                       sh:path      aixm:obscuredLights
+                     ] ;
+        sh:property  [ sh:class     aixm:SurfaceContaminationLayer ;
+                       sh:minCount  0 ;
+                       sh:path      aixm:layer
+                     ] .
+
+aixm:CodeOperationAirportHeliportType
+        a            sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:NilReasonEnumeration ;
+                       sh:path      aixm:nilReason
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:node      aixm:CodeOperationAirportHeliportBaseType ;
+                       sh:path      rdf:value
+                     ] ;
+        sh:xone      ( [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      rdf:value
+                                      ]
+                       ]
+                       [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      aixm:nilReason
+                                      ]
+                       ]
+                     ) .
+
+aixm:CodeOrganisationDesignatorType
+        a            sh:NodeShape ;
+        sh:and       ( aixm:CodeOrganisationDesignatorBaseType ) ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:NilReasonEnumeration ;
+                       sh:path      aixm:nilReason
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:path      rdf:value
+                     ] ;
+        sh:xone      ( [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      rdf:value
+                                      ]
+                       ]
+                       [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      aixm:nilReason
+                                      ]
+                       ]
+                     ) .
+
+aixm:CodeAirportHeliportType
+        a            sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:NilReasonEnumeration ;
+                       sh:path      aixm:nilReason
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:node      aixm:CodeAirportHeliportBaseType ;
+                       sh:path      rdf:value
+                     ] ;
+        sh:xone      ( [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      rdf:value
+                                      ]
+                       ]
+                       [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      aixm:nilReason
+                                      ]
+                       ]
+                     ) .
+
+aixm:CodeTransponderBaseType
+        a            sh:NodeShape ;
+        sh:datatype  xsd:string ;
+        sh:in        [ rdf:rest  ( "MODE_1" "MODE_2" "MODE_3A" "MODE_4" "MODE_5" "MODE_C" "MODE_S" "OTHER" )
+                     ] .
+
+aixm:ElevatedSurface  a  rdfs:Class , sh:NodeShape ;
+        rdfs:subClassOf  aixm:Surface ;
+        sh:and           ( aixm:Surface ) ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      aixm:ValDistanceType ;
+                           sh:path      aixm:verticalAccuracy
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      aixm:CodeVerticalDatumType ;
+                           sh:path      aixm:verticalDatum
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      aixm:ValDistanceSignedType ;
+                           sh:path      aixm:geoidUndulation
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      aixm:ValDistanceVerticalType ;
+                           sh:path      aixm:elevation
+                         ] .
+
+aixm:CodeFrictionDeviceType
+        a            sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:NilReasonEnumeration ;
+                       sh:path      aixm:nilReason
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:node      aixm:CodeFrictionDeviceBaseType ;
+                       sh:path      rdf:value
+                     ] ;
+        sh:xone      ( [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      rdf:value
+                                      ]
+                       ]
+                       [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      aixm:nilReason
+                                      ]
+                       ]
+                     ) .
+
+aixm:CodeRVSMBaseType
+        a            sh:NodeShape ;
+        sh:datatype  xsd:string ;
+        sh:in        [ rdf:rest  ( "RVSM" "NON_RVSM" "OTHER" )
+                     ] .
+
+aixm:CodeAircraftBaseType
+        a            sh:NodeShape ;
+        sh:datatype  xsd:string ;
+        sh:in        [ rdf:rest  ( "LANDPLANE" "SEAPLANE" "AMPHIBIAN" "HELICOPTER" "GYROCOPTER" "TILT_WING" "STOL" "GLIDER" "HANGGLIDER" "PARAGLIDER" "ULTRA_LIGHT" "BALLOON" "UAV" "ALL" "OTHER" )
+                     ] .
+
+gml:Point  a    rdfs:Class , sh:NodeShape .
+
+aixm:CodeAircraftCategoryType
+        a            sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:NilReasonEnumeration ;
+                       sh:path      aixm:nilReason
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:node      aixm:CodeAircraftCategoryBaseType ;
+                       sh:path      rdf:value
+                     ] ;
+        sh:xone      ( [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      rdf:value
+                                      ]
+                       ]
+                       [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      aixm:nilReason
+                                      ]
+                       ]
+                     ) .
+
+aixm:Point  a            rdfs:Class , sh:NodeShape ;
+        rdfs:subClassOf  gml:Point ;
+        sh:and           ( gml:Point ) ;
+        sh:property      [ sh:class     aixm:Note ;
+                           sh:minCount  0 ;
+                           sh:path      aixm:annotation
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      aixm:ValDistanceType ;
+                           sh:path      aixm:horizontalAccuracy
+                         ] .
+
+aixm:UomSpeedType  a  sh:NodeShape ;
+        sh:datatype  xsd:string ;
+        sh:in        [ rdf:rest  ( "KM_H" "KT" "MACH" "M_MIN" "FT_MIN" "M_SEC" "FT_SEC" "MPH" "OTHER" )
+                     ] .
+
+aixm:CodeAuthorityRoleBaseType
+        a            sh:NodeShape ;
+        sh:datatype  xsd:string ;
+        sh:in        [ rdf:rest  ( "OWN" "OPERATE" "SUPERVISE" "OTHER" )
+                     ] .
+
+aixm:CodeFlightPurposeType
+        a            sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:NilReasonEnumeration ;
+                       sh:path      aixm:nilReason
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:node      aixm:CodeFlightPurposeBaseType ;
+                       sh:path      rdf:value
+                     ] ;
+        sh:xone      ( [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      rdf:value
+                                      ]
+                       ]
+                       [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      aixm:nilReason
+                                      ]
+                       ]
+                     ) .
+
+aixm:AltimeterSource  a  rdfs:Class , sh:NodeShape ;
+        sh:and       ( aixm:AIXMFeature ) ;
+        sh:property  [ sh:class  aixm:AltimeterSourceTimeSlice ;
+                       sh:path   aixm:timeSlice
+                     ] .
+
+aixm:Surface  a          rdfs:Class , sh:NodeShape ;
+        rdfs:subClassOf  gml:Surface ;
+        sh:and           ( gml:Surface ) ;
+        sh:property      [ sh:class     aixm:Note ;
+                           sh:minCount  0 ;
+                           sh:path      aixm:annotation
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      aixm:ValDistanceType ;
+                           sh:path      aixm:horizontalAccuracy
+                         ] .
+
+aixm:City  a         rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:class     aixm:Note ;
+                       sh:minCount  0 ;
+                       sh:path      aixm:annotation
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:TextNameType ;
+                       sh:path      aixm:name
+                     ] .
+
+aixm:TextAddressType  a  sh:NodeShape ;
+        sh:and       ( aixm:TextAddressBaseType ) ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:NilReasonEnumeration ;
+                       sh:path      aixm:nilReason
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:path      rdf:value
+                     ] ;
+        sh:xone      ( [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      rdf:value
+                                      ]
+                       ]
+                       [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      aixm:nilReason
+                                      ]
+                       ]
+                     ) .
+
+aixm:CodeLogicalOperatorBaseType
+        a            sh:NodeShape ;
+        sh:datatype  xsd:string ;
+        sh:in        [ rdf:rest  ( "AND" "OR" "NOT" "NONE" "OTHER" )
+                     ] .
+
+aixm:UomFLType  a    sh:NodeShape ;
+        sh:datatype  xsd:string ;
+        sh:in        [ rdf:rest  ( "FL" "SM" "OTHER" )
+                     ] .
+
+aixm:ConditionCombination
+        a                rdfs:Class , sh:NodeShape ;
+        rdfs:subClassOf  aixm:PropertiesWithSchedule ;
+        sh:and           ( aixm:PropertiesWithSchedule ) ;
+        sh:property      [ sh:class     aixm:ConditionCombination ;
+                           sh:minCount  0 ;
+                           sh:path      aixm:subCondition
+                         ] ;
+        sh:property      [ sh:class     aixm:Meteorology ;
+                           sh:minCount  0 ;
+                           sh:path      aixm:weather
+                         ] ;
+        sh:property      [ sh:class     aixm:AircraftCharacteristic ;
+                           sh:minCount  0 ;
+                           sh:path      aixm:aircraft
+                         ] ;
+        sh:property      [ sh:class     aixm:FlightCharacteristic ;
+                           sh:minCount  0 ;
+                           sh:path      aixm:flight
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:minCount  0 ;
+                           sh:node      aixm:CodeLogicalOperatorType ;
+                           sh:path      aixm:logicalOperator
+                         ] .
+
+aixm:CodeVerticalDatumType
+        a            sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:NilReasonEnumeration ;
+                       sh:path      aixm:nilReason
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:node      aixm:CodeVerticalDatumBaseType ;
+                       sh:path      rdf:value
+                     ] ;
+        sh:xone      ( [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      rdf:value
+                                      ]
+                       ]
+                       [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      aixm:nilReason
+                                      ]
+                       ]
+                     ) .
+
+aixm:Timesheet  a    sh:NodeShape , rdfs:Class ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:CodeTimeEventCombinationType ;
+                       sh:path      aixm:startEventInterpretation
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:TimeType ;
+                       sh:path      aixm:startTime
+                     ] ;
+        sh:property  [ sh:class     aixm:Note ;
+                       sh:minCount  0 ;
+                       sh:path      aixm:annotation
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:DateMonthDayType ;
+                       sh:path      aixm:endDate
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:CodeYesNoType ;
+                       sh:path      aixm:daylightSavingAdjust
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:CodeTimeEventType ;
+                       sh:path      aixm:endEvent
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:CodeYesNoType ;
+                       sh:path      aixm:excluded
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:CodeTimeEventType ;
+                       sh:path      aixm:startEvent
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:CodeTimeReferenceType ;
+                       sh:path      aixm:timeReference
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:DateMonthDayType ;
+                       sh:path      aixm:startDate
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:TimeType ;
+                       sh:path      aixm:endTime
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:CodeTimeEventCombinationType ;
+                       sh:path      aixm:endEventInterpretation
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:CodeDayType ;
+                       sh:path      aixm:dayTil
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:CodeDayType ;
+                       sh:path      aixm:day
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:ValDurationType ;
+                       sh:path      aixm:startTimeRelativeEvent
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:ValDurationType ;
+                       sh:path      aixm:endTimeRelativeEvent
+                     ] .
+
+aixm:CodeTimeEventType
+        a            sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:NilReasonEnumeration ;
+                       sh:path      aixm:nilReason
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:node      aixm:CodeTimeEventBaseType ;
+                       sh:path      rdf:value
+                     ] ;
+        sh:xone      ( [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      rdf:value
+                                      ]
+                       ]
+                       [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      aixm:nilReason
+                                      ]
+                       ]
+                     ) .
+
+aixm:ValSpeedBaseType
+        a            sh:NodeShape ;
+        sh:property  [ sh:datatype      xsd:decimal ;
+                       sh:maxCount      1 ;
+                       sh:minInclusive  0 ;
+                       sh:path          rdf:value
+                     ] .
+
+aixm:CodeNotePurposeBaseType
+        a            sh:NodeShape ;
+        sh:datatype  xsd:string ;
+        sh:in        [ rdf:rest  ( "DESCRIPTION" "REMARK" "WARNING" "DISCLAIMER" "OTHER" )
+                     ] .
+
+aixm:DateTimeBaseType
+        a            sh:NodeShape ;
+        sh:property  [ sh:datatype  xsd:dateTime ;
+                       sh:maxCount  1 ;
+                       sh:path      rdf:value
+                     ] .
+
+aixm:CodeFrictionDeviceBaseType
+        a            sh:NodeShape ;
+        sh:datatype  xsd:string ;
+        sh:in        [ rdf:rest  ( "BRD" "GRT" "MUM" "RFT" "SFH" "SFL" "SKH" "SKL" "TAP" "OTHER" )
+                     ] .
+
+aixm:CodeMeteoConditionsBaseType
+        a            sh:NodeShape ;
+        sh:datatype  xsd:string ;
+        sh:in        [ rdf:rest  ( "IMC" "VMC" "ALL" "OTHER" )
+                     ] .
+
+aixm:CodeFrictionEstimateType
+        a            sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:NilReasonEnumeration ;
+                       sh:path      aixm:nilReason
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:node      aixm:CodeFrictionEstimateBaseType ;
+                       sh:path      rdf:value
+                     ] ;
+        sh:xone      ( [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      rdf:value
+                                      ]
+                       ]
+                       [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      aixm:nilReason
+                                      ]
+                       ]
+                     ) .
+
+aixm:AircraftCharacteristic
+        a            rdfs:Class , sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:ValWeightType ;
+                       sh:path      aixm:weight
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:CodeNavigationEquipmentType ;
+                       sh:path      aixm:navigationEquipment
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:CodeAircraftCategoryType ;
+                       sh:path      aixm:aircraftLandingCategory
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:CodeWakeTurbulenceType ;
+                       sh:path      aixm:wakeTurbulence
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:CodeValueInterpretationType ;
+                       sh:path      aixm:speedInterpretation
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:CodeNavigationSpecificationType ;
+                       sh:path      aixm:navigationSpecification
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:NoNumberType ;
+                       sh:path      aixm:passengers
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:CodeAircraftWingspanClassType ;
+                       sh:path      aixm:classWingSpan
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:CodeValueInterpretationType ;
+                       sh:path      aixm:weightInterpretation
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:CodeAircraftEngineNumberType ;
+                       sh:path      aixm:numberEngine
+                     ] ;
+        sh:property  [ sh:class     aixm:Note ;
+                       sh:minCount  0 ;
+                       sh:path      aixm:annotation
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:CodeValueInterpretationType ;
+                       sh:path      aixm:passengersInterpretation
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:CodeAircraftEngineType ;
+                       sh:path      aixm:engine
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:CodeCommunicationModeType ;
+                       sh:path      aixm:communicationEquipment
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:CodeRVSMType ;
+                       sh:path      aixm:verticalSeparationCapability
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:CodeAircraftType ;
+                       sh:path      aixm:type
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:ValDistanceType ;
+                       sh:path      aixm:wingSpan
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:CodeAircraftICAOType ;
+                       sh:path      aixm:typeAircraftICAO
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:CodeEquipmentAntiCollisionType ;
+                       sh:path      aixm:antiCollisionAndSeparationEquipment
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:CodeValueInterpretationType ;
+                       sh:path      aixm:wingSpanInterpretation
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:CodeTransponderType ;
+                       sh:path      aixm:surveillanceEquipment
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:ValSpeedType ;
+                       sh:path      aixm:speed
+                     ] .
+
+aixm:DateBaseType  a  sh:NodeShape ;
+        sh:property  [ sh:datatype  xsd:date ;
+                       sh:maxCount  1 ;
+                       sh:path      rdf:value
+                     ] .
+
+aixm:TextNameType  a  sh:NodeShape ;
+        sh:and       ( aixm:TextNameBaseType ) ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:NilReasonEnumeration ;
+                       sh:path      aixm:nilReason
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:path      rdf:value
+                     ] ;
+        sh:xone      ( [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      rdf:value
+                                      ]
+                       ]
+                       [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      aixm:nilReason
+                                      ]
+                       ]
+                     ) .
+
+aixm:CodeLogicalOperatorType
+        a            sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:NilReasonEnumeration ;
+                       sh:path      aixm:nilReason
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:node      aixm:CodeLogicalOperatorBaseType ;
+                       sh:path      rdf:value
+                     ] ;
+        sh:xone      ( [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      rdf:value
+                                      ]
+                       ]
+                       [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      aixm:nilReason
+                                      ]
+                       ]
+                     ) .
+
+aixm:TimeBaseType  a  sh:NodeShape ;
+        sh:property  [ sh:datatype  xsd:string ;
+                       sh:maxCount  1 ;
+                       sh:path      rdf:value ;
+                       sh:pattern   "^(([0-1][0-9]|2[0-3]):[0-5][0-9])|(24:00)$"
+                     ] .
+
+aixm:ValDurationBaseType
+        a            sh:NodeShape ;
+        sh:property  [ sh:datatype  xsd:decimal ;
+                       sh:maxCount  1 ;
+                       sh:path      rdf:value
+                     ] .
+
+aixm:DateType  a     sh:NodeShape ;
+        sh:and       ( aixm:DateBaseType ) ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:NilReasonEnumeration ;
+                       sh:path      aixm:nilReason
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:path      rdf:value
+                     ] ;
+        sh:xone      ( [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      rdf:value
+                                      ]
+                       ]
+                       [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      aixm:nilReason
+                                      ]
+                       ]
+                     ) .
+
+aixm:CodeTelecomNetworkType
+        a            sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:NilReasonEnumeration ;
+                       sh:path      aixm:nilReason
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:node      aixm:CodeTelecomNetworkBaseType ;
+                       sh:path      rdf:value
+                     ] ;
+        sh:xone      ( [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      rdf:value
+                                      ]
+                       ]
+                       [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      aixm:nilReason
+                                      ]
+                       ]
+                     ) .
+
+aixm:UomDepthType  a  sh:NodeShape ;
+        sh:datatype  xsd:string ;
+        sh:in        [ rdf:rest  ( "MM" "CM" "IN" "FT" "OTHER" )
+                     ] .
+
+aixm:CodeTimeEventCombinationType
+        a            sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:NilReasonEnumeration ;
+                       sh:path      aixm:nilReason
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:node      aixm:CodeTimeEventCombinationBaseType ;
+                       sh:path      rdf:value
+                     ] ;
+        sh:xone      ( [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      rdf:value
+                                      ]
+                       ]
+                       [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      aixm:nilReason
+                                      ]
+                       ]
+                     ) .
+
+aixm:CodeDayBaseType  a  sh:NodeShape ;
+        sh:datatype  xsd:string ;
+        sh:in        [ rdf:rest  ( "MON" "TUE" "WED" "THU" "FRI" "SAT" "SUN" "WORK_DAY" "BEF_WORK_DAY" "AFT_WORK_DAY" "HOL" "BEF_HOL" "AFT_HOL" "ANY" "BUSY_FRI" "OTHER" )
+                     ] .
+
+aixm:ValWeightType  a  sh:NodeShape ;
+        sh:and       ( aixm:ValWeightBaseType ) ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:NilReasonEnumeration ;
+                       sh:path      aixm:nilReason
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:UomWeightType ;
+                       sh:path      aixm:uom
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:path      rdf:value
+                     ] ;
+        sh:xone      ( [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      rdf:value
+                                      ] ;
+                         sh:property  [ sh:path  aixm:uom ]
+                       ]
+                       [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      aixm:nilReason
+                                      ]
+                       ]
+                     ) .
+
+aixm:CodeCommunicationModeBaseType
+        a            sh:NodeShape ;
+        sh:datatype  xsd:string ;
+        sh:in        [ rdf:rest  ( "HF" "VHF" "VDL1" "VDL2" "VDL4" "AMSS" "ADS_B" "ADS_B_VDL" "HFDL" "VHF_833" "UHF" "OTHER" )
+                     ] .
+
+aixm:TextAddressBaseType
+        a            sh:NodeShape ;
+        sh:and       ( aixm:Character2Type ) ;
+        sh:property  [ sh:maxCount   1 ;
+                       sh:maxLength  500 ;
+                       sh:minLength  1 ;
+                       sh:path       rdf:value
+                     ] .
+
+aixm:AlphanumericType
+        a            sh:NodeShape ;
+        sh:property  [ sh:datatype  xsd:string ;
+                       sh:maxCount  1 ;
+                       sh:path      rdf:value ;
+                       sh:pattern   "^([A-Z]|\\d)*$"
+                     ] .
+
+aixm:TextPropertyNameType
+        a            sh:NodeShape ;
+        sh:and       ( aixm:TextPropertyNameBaseType ) ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:NilReasonEnumeration ;
+                       sh:path      aixm:nilReason
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:path      rdf:value
+                     ] ;
+        sh:xone      ( [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      rdf:value
+                                      ]
+                       ]
+                       [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      aixm:nilReason
+                                      ]
+                       ]
+                     ) .
+
+aixm:CodeNavigationSpecificationType
+        a            sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:NilReasonEnumeration ;
+                       sh:path      aixm:nilReason
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:node      aixm:CodeNavigationSpecificationBaseType ;
+                       sh:path      rdf:value
+                     ] ;
+        sh:xone      ( [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      rdf:value
+                                      ]
+                       ]
+                       [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      aixm:nilReason
+                                      ]
+                       ]
+                     ) .
+
+aixm:CodeContaminationType
+        a            sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:NilReasonEnumeration ;
+                       sh:path      aixm:nilReason
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:node      aixm:CodeContaminationBaseType ;
+                       sh:path      rdf:value
+                     ] ;
+        sh:xone      ( [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      rdf:value
+                                      ]
+                       ]
+                       [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      aixm:nilReason
+                                      ]
+                       ]
+                     ) .
+
+aixm:ValTemperatureBaseType
+        a            sh:NodeShape ;
+        sh:property  [ sh:datatype  xsd:decimal ;
+                       sh:maxCount  1 ;
+                       sh:path      rdf:value
+                     ] .
+
+aixm:CodeAircraftEngineNumberType
+        a            sh:NodeShape ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:minCount  0 ;
+                       sh:node      aixm:NilReasonEnumeration ;
+                       sh:path      aixm:nilReason
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:node      aixm:CodeAircraftEngineNumberBaseType ;
+                       sh:path      rdf:value
+                     ] ;
+        sh:xone      ( [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      rdf:value
+                                      ]
+                       ]
+                       [ sh:property  [ sh:minCount  1 ;
+                                        sh:path      aixm:nilReason
+                                      ]
+                       ]
+                     ) .
+
+aixm:TextPropertyNameBaseType
+        a            sh:NodeShape ;
+        sh:property  [ sh:datatype   xsd:string ;
+                       sh:maxCount   1 ;
+                       sh:maxLength  60 ;
+                       sh:minLength  1 ;
+                       sh:path       rdf:value ;
+                       sh:pattern    "^[A-Za-z\\-_]*$"
+                     ] .
+
+aixm:CodeMilitaryStatusBaseType
+        a            sh:NodeShape ;
+        sh:datatype  xsd:string ;
+        sh:in        [ rdf:rest  ( "MIL" "CIVIL" "ALL" "OTHER" )
+                     ] .

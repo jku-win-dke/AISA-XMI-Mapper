@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-import org.apache.commons.io.FileUtils;
 import org.basex.core.Context;
 import org.basex.query.QueryException;
 import org.basex.query.QueryProcessor;
@@ -15,6 +14,7 @@ public class RunMapper {
 
 		// adjust path to configuration file
 		String configFile = "../../configurations/FIXM_EDDF-VHHH.xml";
+		//String configFile = "../../configurations/AIXM_DONLON.xml";
 
 		// adjust path to mapper.xq
 		String query = Files.readString(Paths.get("../../mapper.xq"));

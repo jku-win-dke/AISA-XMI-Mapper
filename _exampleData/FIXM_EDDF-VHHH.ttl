@@ -167,7 +167,7 @@ s1:ID_023
 s1:ID_024 
 	a fixm:EfplPoint4D ;
 	fixm:srsName [ rdf:value "urn:ogc:def:crs:EPSG::4326" ] ;
-	fixm:pos [ rdf:value "50.03330555555556 8.570455555555556" ] ;
+	fixm:pos [ rdf:value 50.03330555555556, 8.570455555555556 ] ;
 	fixm:flightLevel s1:ID_025 .
 	
 s1:ID_025

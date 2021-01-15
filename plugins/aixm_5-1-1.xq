@@ -216,7 +216,7 @@ declare %private function aixm_5-1-1:mapDataType(
           else if($attribute/@name/string()="maxExclusive") then
             <sh:maxExclusive rdf:datatype="{$aixm_5-1-1:xsd}integer">{$attribute/initial/@body/string()}</sh:maxExclusive>
           else if($attribute/@name/string()="pattern") then
-            <sh:pattern rdf:datatype="{$aixm_5-1-1:xsd}string">{fn:normalize-space($attribute/initial/@body/string())}</sh:pattern>
+            <sh:pattern rdf:datatype="{$aixm_5-1-1:xsd}string">^{fn:normalize-space($attribute/initial/@body/string())}$</sh:pattern>
       }
     </sh:property>
     { aixm_5-1-1:mapAttributes($element, "XSDfacet") }

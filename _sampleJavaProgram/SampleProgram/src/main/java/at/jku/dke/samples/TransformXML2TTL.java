@@ -15,10 +15,12 @@ public class TransformXML2TTL {
 			
 			// adjust path to RDFS/SHACL file 
 			Graph shapesGraph = RDFDataMgr.loadGraph("../../output/FIXM_EDDF-VHHH.xml");
+			//Graph shapesGraph = RDFDataMgr.loadGraph("../../output/AIXM_DONLON.xml");
 			Shapes shapes = Shapes.parse(shapesGraph);
 			
 			// adjust path for output file 
 			FileOutputStream out = new FileOutputStream("../../output/FIXM_EDDF-VHHH.ttl");
+			//FileOutputStream out = new FileOutputStream("../../output/AIXM_DONLON.ttl");
 			RDFDataMgr.write(out, shapes.getGraph(), Lang.TTL);
 			
 			out.close();

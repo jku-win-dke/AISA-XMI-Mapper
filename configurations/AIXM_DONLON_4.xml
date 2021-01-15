@@ -1,0 +1,15 @@
+ <configuration>
+	<selection>
+		<models>
+			<model input="input/AIXM_5.1.1.xmi" type="aixm_5-1-1" output="output/AIXM_DONLON_4.xml">
+				<classes connectorLevel="n">
+					<class>RouteSegment</class>
+					<class>EnRouteSegmentPoint</class>
+					<class>Curve</class>
+					<class>Note</class>
+					<class>LinguisticNote</class>
+				</classes>
+			</model>
+		</models>
+	</selection>
+ </configuration>

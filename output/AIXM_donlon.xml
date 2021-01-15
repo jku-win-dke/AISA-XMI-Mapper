@@ -116,7 +116,7 @@
       <sh:path rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#value"/>
       <sh:maxCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:maxCount>
       <sh:datatype rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-      <sh:pattern rdf:datatype="http://www.w3.org/2001/XMLSchema#string">[A-Z]*</sh:pattern>
+      <sh:pattern rdf:datatype="http://www.w3.org/2001/XMLSchema#string">^[A-Z]*$</sh:pattern>
     </sh:property>
   </sh:NodeShape>
   <sh:NodeShape rdf:about="http://www.aisa-project.eu/vocabulary/aixm_5-1-1#AlphanumericType">
@@ -124,7 +124,7 @@
       <sh:path rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#value"/>
       <sh:maxCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:maxCount>
       <sh:datatype rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-      <sh:pattern rdf:datatype="http://www.w3.org/2001/XMLSchema#string">([A-Z]|\d)*</sh:pattern>
+      <sh:pattern rdf:datatype="http://www.w3.org/2001/XMLSchema#string">^([A-Z]|\d)*$</sh:pattern>
     </sh:property>
   </sh:NodeShape>
   <sh:NodeShape rdf:about="http://www.aisa-project.eu/vocabulary/aixm_5-1-1#Character1Type">
@@ -132,7 +132,7 @@
       <sh:path rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#value"/>
       <sh:maxCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:maxCount>
       <sh:datatype rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-      <sh:pattern rdf:datatype="http://www.w3.org/2001/XMLSchema#string">([A-Z]|[0-9])+([ \+\-/]*([A-Z]|[0-9])+)*</sh:pattern>
+      <sh:pattern rdf:datatype="http://www.w3.org/2001/XMLSchema#string">^([A-Z]|[0-9])+([ \+\-/]*([A-Z]|[0-9])+)*$</sh:pattern>
     </sh:property>
   </sh:NodeShape>
   <sh:NodeShape rdf:about="http://www.aisa-project.eu/vocabulary/aixm_5-1-1#Character2Type">
@@ -147,7 +147,7 @@
       <sh:path rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#value"/>
       <sh:maxCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:maxCount>
       <sh:datatype rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-      <sh:pattern rdf:datatype="http://www.w3.org/2001/XMLSchema#string">([A-Z]|[0-9]|[, !&amp;quot;&amp;amp;#$%'\(\)\*\+\-\./:;&amp;lt;=&gt;\?@\[\\\]\^_\|\{\}])*</sh:pattern>
+      <sh:pattern rdf:datatype="http://www.w3.org/2001/XMLSchema#string">^([A-Z]|[0-9]|[, !&amp;quot;&amp;amp;#$%'\(\)\*\+\-\./:;&amp;lt;=&gt;\?@\[\\\]\^_\|\{\}])*$</sh:pattern>
     </sh:property>
   </sh:NodeShape>
   <sh:NodeShape rdf:about="http://www.aisa-project.eu/vocabulary/aixm_5-1-1#CodeAircraftBaseType">
@@ -2719,7 +2719,7 @@
       <sh:path rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#value"/>
       <sh:maxCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:maxCount>
       <sh:datatype rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-      <sh:pattern rdf:datatype="http://www.w3.org/2001/XMLSchema#string">(((0[1-9])|(1[0-9])|(2[0-9]))\-((0[1-9])|10|11|12))|(30\-(01|03|04|05|06|07|08|09|10|11|12))|(31\-(01|03|05|07|08|10|12))|SDLST|EDLST</sh:pattern>
+      <sh:pattern rdf:datatype="http://www.w3.org/2001/XMLSchema#string">^(((0[1-9])|(1[0-9])|(2[0-9]))\-((0[1-9])|10|11|12))|(30\-(01|03|04|05|06|07|08|09|10|11|12))|(31\-(01|03|05|07|08|10|12))|SDLST|EDLST$</sh:pattern>
     </sh:property>
   </sh:NodeShape>
   <sh:NodeShape rdf:about="http://www.aisa-project.eu/vocabulary/aixm_5-1-1#DateMonthDayType">
@@ -2821,7 +2821,7 @@
       <sh:path rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#value"/>
       <sh:maxCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:maxCount>
       <sh:datatype rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-      <sh:pattern rdf:datatype="http://www.w3.org/2001/XMLSchema#string">[1-9][0-9][0-9][0-9]</sh:pattern>
+      <sh:pattern rdf:datatype="http://www.w3.org/2001/XMLSchema#string">^[1-9][0-9][0-9][0-9]$</sh:pattern>
     </sh:property>
   </sh:NodeShape>
   <sh:NodeShape rdf:about="http://www.aisa-project.eu/vocabulary/aixm_5-1-1#DateYearType">
@@ -3059,7 +3059,7 @@
       <sh:path rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#value"/>
       <sh:maxCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:maxCount>
       <sh:datatype rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-      <sh:pattern rdf:datatype="http://www.w3.org/2001/XMLSchema#string">(\+)?[0-9\s\-\(\)]+</sh:pattern>
+      <sh:pattern rdf:datatype="http://www.w3.org/2001/XMLSchema#string">^(\+)?[0-9\s\-\(\)]+$</sh:pattern>
     </sh:property>
   </sh:NodeShape>
   <sh:NodeShape rdf:about="http://www.aisa-project.eu/vocabulary/aixm_5-1-1#TextPhoneType">
@@ -3098,7 +3098,7 @@
       <sh:datatype rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
       <sh:maxLength rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">60</sh:maxLength>
       <sh:minLength rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:minLength>
-      <sh:pattern rdf:datatype="http://www.w3.org/2001/XMLSchema#string">[A-Za-z\-_]*</sh:pattern>
+      <sh:pattern rdf:datatype="http://www.w3.org/2001/XMLSchema#string">^[A-Za-z\-_]*$</sh:pattern>
     </sh:property>
   </sh:NodeShape>
   <sh:NodeShape rdf:about="http://www.aisa-project.eu/vocabulary/aixm_5-1-1#TextPropertyNameType">
@@ -3135,7 +3135,7 @@
       <sh:path rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#value"/>
       <sh:maxCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:maxCount>
       <sh:datatype rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-      <sh:pattern rdf:datatype="http://www.w3.org/2001/XMLSchema#string">(([0-1][0-9]|2[0-3]):[0-5][0-9])|(24:00)</sh:pattern>
+      <sh:pattern rdf:datatype="http://www.w3.org/2001/XMLSchema#string">^(([0-1][0-9]|2[0-3]):[0-5][0-9])|(24:00)$</sh:pattern>
     </sh:property>
   </sh:NodeShape>
   <sh:NodeShape rdf:about="http://www.aisa-project.eu/vocabulary/aixm_5-1-1#TimeType">
@@ -3520,7 +3520,7 @@
       <sh:path rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#value"/>
       <sh:maxCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:maxCount>
       <sh:datatype rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-      <sh:pattern rdf:datatype="http://www.w3.org/2001/XMLSchema#string">((\+|\-){0,1}[0-9]{1,8}(\.[0-9]{1,4}){0,1})|UNL|GND|FLOOR|CEILING</sh:pattern>
+      <sh:pattern rdf:datatype="http://www.w3.org/2001/XMLSchema#string">^((\+|\-){0,1}[0-9]{1,8}(\.[0-9]{1,4}){0,1})|UNL|GND|FLOOR|CEILING$</sh:pattern>
     </sh:property>
   </sh:NodeShape>
   <sh:NodeShape rdf:about="http://www.aisa-project.eu/vocabulary/aixm_5-1-1#ValDistanceVerticalType">
@@ -3657,7 +3657,7 @@
       <sh:path rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#value"/>
       <sh:maxCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:maxCount>
       <sh:datatype rdf:resource="http://www.w3.org/2001/XMLSchema#decimal"/>
-      <sh:pattern rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0\.[0-9]{2}</sh:pattern>
+      <sh:pattern rdf:datatype="http://www.w3.org/2001/XMLSchema#string">^0\.[0-9]{2}$</sh:pattern>
     </sh:property>
   </sh:NodeShape>
   <sh:NodeShape rdf:about="http://www.aisa-project.eu/vocabulary/aixm_5-1-1#ValFrictionType">
