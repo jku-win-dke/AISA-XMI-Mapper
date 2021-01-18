@@ -404,7 +404,7 @@ Now after introducing the basic mapping methods, the mapping of elements based o
 				sh:path rdf:value ;
 				sh:pattern "^((\\+|\\-){0,1}[0-9]{1,8}(\\.[0-9]{1,4}){0,1})|UNL|GND|FLOOR|CEILING$"
 			] .
-5. Stereotype **"choice"**: There is no direct mapping into SHACL shape or RDFS class. UML classes with stereotype "choice" are mapped by classes which target the "choice" class with a connection. In this case, a SHACL property shape is added to the class which targets the "choice" class. The property shape has the connection name to the choice class as sh:path but no sh:class constraint. Instead, the sh:class is determined by an additional sh:xone constraint which provides the classes connected to the "choice" class by outgoing connections.
+5. Stereotype **"choice"**: There is no direct mapping into SHACL shape or RDFS class. UML classes with stereotype "choice" are mapped by classes which target the "choice" class with a connection. In this case, a SHACL property shape is added to the class which targets the "choice" class. The property shape has the connection name to the choice class as sh:path but no sh:class constraint. Instead, the sh:class is determined by an additional sh:xone constraint which provides the classes connected to the "choice" class by outgoing connections. Example aixm:SegmentPoint with property aixm:pointChoice targeting the choice aixm:SignificantPoint:
 
 		aixm:SegmentPoint
 			a rdfs:Class , sh:NodeShape ;
@@ -443,7 +443,7 @@ The [fixm_3-0-1_sesar.xq](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/p
 
 UML classes of FIXM 3.0.1 SESAR are mapped based on their stereotype:
 
-1. Stereotype **"enumeration"**: For each UML class with stereotype "enumeration" a SHACL shape is generated. It has a single mandatory (sh:minCount 1) property with the sh:path depending on the name of the UML class. In case of the name containing "Measure" the sh:path is fixm:uom, otherwise it is rdf:value. The class's attribute names are allowed values and therefore mapped as a SHACL list into sh:in. Example: 
+1. Stereotype **"enumeration"**: For each UML class with stereotype "enumeration" a SHACL shape is generated. It has a single mandatory (sh:minCount 1) property with the sh:path depending on the name of the UML class. In case of the name containing "Measure" the sh:path is fixm:uom, otherwise it is rdf:value. The class's attribute names are allowed values and therefore mapped as a SHACL list into sh:in. Example fixm:AbrogationReasonCode and fixm:TemperatureMeasure: 
 		
 		fixm:AbrogationReasonCode
 			a sh:NodeShape ;
@@ -459,6 +459,9 @@ UML classes of FIXM 3.0.1 SESAR are mapped based on their stereotype:
 				sh:minCount 1 ;
 				sh:path fixm:uom
 			] .
+2. Stereotype **"choice"**: There is no direct mapping into SHACL shapes or RDFS classes. In case a UML class with stereotype "choice" has outgoing connections, it is mapped in the targeting UML class, i.e. similar to the mapping in AIXM the "choice" class is resolved in the class targeting the "choice" class. In case a UML with stereotype "choice" has no outgoing connections, it is mapped as if it would have no stereotype (see below).
+
+3. **No** stereotype:
 
 ### 3.3.4. plain.xq
 
