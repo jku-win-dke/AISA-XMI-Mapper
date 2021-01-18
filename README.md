@@ -459,7 +459,20 @@ UML classes of FIXM 3.0.1 SESAR are mapped based on their stereotype:
 				sh:minCount 1 ;
 				sh:path fixm:uom
 			] .
-2. Stereotype **"choice"**: There is no direct mapping into SHACL shapes or RDFS classes. In case a UML class with stereotype "choice" has outgoing connections, it is mapped in the targeting UML class, i.e. similar to the mapping in AIXM the "choice" class is resolved in the class targeting the "choice" class. In case a UML with stereotype "choice" has no outgoing connections, it is mapped as if it would have no stereotype (see below).
+2. Stereotype **"choice"**: There is no direct mapping into SHACL shapes or RDFS classes. In case a UML class with stereotype "choice" has outgoing connections, it is mapped in the targeting UML class, i.e. similar to the mapping in AIXM the "choice" class is resolved in the class targeting the "choice" class. In case a UML with stereotype "choice" has no outgoing connections, it is mapped as if it would have no stereotype (see below). Example fixm:AircraftType (no outgoing connections):
+
+		fixm:AircraftType
+			a rdfs:Class , sh:NodeShape ;
+			sh:property [ 
+				sh:maxCount 1 ;
+				sh:node fixm:FreeText ;
+				sh:path fixm:otherModelData
+			] ;
+			sh:property [ 
+				sh:maxCount 1 ;
+				sh:node fixm:IcaoAircraftIdentifier ;
+				sh:path fixm:icaoModelIdentifier
+			] .
 
 3. **No** stereotype:
 
