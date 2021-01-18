@@ -10,6 +10,7 @@ For feedback or issues contact: sebastian.gruber@jku.at
 	3. [Architecture](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/README.md#13-architecture)
 	4. [How to run the Mapper](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/README.md#14-how-to-run-the-mapper)
 	5. [How to validate data graphs](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/README.md#15-how-to-validate-data-graphs)
+	6. [Performance](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/README.md#16-performance)
 2. [Configuration File](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/README.md#2-configuration-file)
 	1. [Structure of the configuration file](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/README.md#21-structure-of-the-configuration-file)
 	2. [How to write a configuration file](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/README.md#22-how-to-write-a-configuration-file)
@@ -19,9 +20,11 @@ For feedback or issues contact: sebastian.gruber@jku.at
 	3. [Plugins](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/README.md#33-plugins)
 		1. [utilities.xq](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/README.md#331-utilitiesxq)
 		2. [aixm_5-1-1.xq](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/README.md#332-aixm_5-1-1xq)
-			1. [GML basic elements for AIXM features](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/README.md#3321-gml-basic-elements-for-aixm-features)
-			2. [Mapping of Elements](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/README.md#3322-mapping-of-elements)
+			1. [GML basic classes for AIXM features](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/README.md#3321-gml-basic-classes-for-aixm-features)
+			2. [Basic Mapping Methods](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/README.md#3322-basic-mapping-methods)
+			3. [Mapping of UML classes](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/README.md#3323-mapping-of-uml-classes)
 		3. [fixm_3-0-1_sesar.xq](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/README.md#333-fixm_3-0-1_sesarxq)
+			1. [Mapping of UML classes](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/README.md#3331-mapping-of-uml-classes)
 		4. [plain.xq](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/README.md#334-plainxq)
 4. [RDFS/SHACL Document](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/README.md#4-rdfsshacl-document)
 
@@ -67,6 +70,10 @@ The SampleProgram provides two classes which can utilize generated RDFS/SHACL do
 
 Attention! Be cautious that data graphs use the same namespaces as the generated RDFS/SHACL dcouments!
 Example: Instead of using "http://www.aixm.aero/schema/5.1.1#" for AIXM, we use "http://www.aisa-project.eu/vocabulary/aixm_5-1-1#".
+
+### 1.6. Performance
+
+TBD.
 
 ## 2. Configuration File
 
@@ -175,9 +182,9 @@ The [utilities.xq](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/plugins/
 
 ### 3.3.2. aixm_5-1-1.xq
 
-The [aixm_5-1-1.xq](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/plugins/aixm_5-1-1.xq) targets models based on [AIXM 5.1.1](http://www.aixm.aero/page/aixm-511-specification). First, GML basic elements may be added, then element by element of the extracted model subset is mapped.
+The [aixm_5-1-1.xq](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/plugins/aixm_5-1-1.xq) targets models which are based on [AIXM 5.1.1](http://www.aixm.aero/page/aixm-511-specification). First, GML basic elements may be added, then element by element of the extracted model subset is mapped.
 
-#### 3.3.2.1. GML basic elements for AIXM features
+#### 3.3.2.1. GML basic Classes for AIXM features
 
 If the extracted model subset contains an element with stereotype "feature", the following basic elements are added to the result:
 
@@ -279,7 +286,7 @@ If the extracted model subset contains an element with stereotype "feature", the
 
 These basic elements are not part of the AIXM 5.1.1 XMI file and therefore added manually. Other GML constructs like gml:pos inherited through gml:Point are also not part of the AIXM 5.1.1 XMI file either and not considered. A generated AIXM RDFS/SHACL document could be combined with a GML RDFS/SHACL document for a complete validation of the data.
 
-#### 3.3.2.2. Mapping of Elements
+#### 3.3.2.2. Basic Mapping Methods
 
 UML classes of AIXM 5.1.1 are mapped based on their stereotype. But before diving into the details of the AIXM plugin, let's introduce a few basic mapping methods, i.e. mapping of attributes, connectors and association classes:
 
@@ -312,7 +319,7 @@ UML classes of AIXM 5.1.1 are mapped based on their stereotype. But before divin
 				sh:minCount 1 ;
 				sh:path aixm:theOrganisationAuthority
                          ] .
-
+#### 3.3.2.3. Mapping of UML classes
 Now after introducing the basic mapping methods, the mapping of elements based on their stereotype is presented:
 
 1. Stereotype **"feature"**: For each UML class with stereotype "feature" two SHACL shapes / RDFS classes are generated. The first SHACL shape / RDFS class extends the aixm:AIXMFeature shape and has only one property named aixm:timeSlice. The second SHACL shape / RDFS class extends the aixm:AIXMTimeSlice shape and is named like the UML class with the phrase "TimeSlice" added at the end. For each super class of the feature, a rdfs:subClassOf and sh:and statement are added to the TimeSlice. Furthermore, the TimeSlice holds all attributes and connections of the corresponding feature. The three basic methods explained above are used for mapping attributes and connections of a feature into its TimeSlice. Example feature aixm:AirportHeliport with aixm:AirportHeliportTimeSlice:
@@ -430,7 +437,28 @@ Now after introducing the basic mapping methods, the mapping of elements based o
 
 ### 3.3.3. fixm_3-0-1_sesar.xq
 
-The [fixm_3-0-1_sesar.xq](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/plugins/fixm_3-0-1_sesar.xq) ...
+The [fixm_3-0-1_sesar.xq](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/plugins/fixm_3-0-1_sesar.xq) target models which are based on [FIXM 3.0.1 SESAR](https://www.fixm.aero/release.pl?rel=SESAR_Ext-1.0). 
+
+#### 3.3.3.1. Mapping of UML classes
+
+UML classes of FIXM 3.0.1 SESAR are mapped based on their stereotype:
+
+1. Stereotype **"enumeration"**: For each UML class with stereotype "enumeration" a SHACL shape is generated. It has a single mandatory (sh:minCount 1) property with the sh:path depending on the name of the UML class. In case of the name containing "Measure" the sh:path is fixm:uom, otherwise it is rdf:value. The class's attribute names are allowed values and therefore mapped as a SHACL list into sh:in. Example: 
+		
+		fixm:AbrogationReasonCode
+			a sh:NodeShape ;
+			sh:property [ 
+				sh:in ( "TFL" "ROUTE" "CANCELLATION" "DELAY" "HOLD" ) ;
+				sh:minCount 1 ;
+				sh:path rdf:value
+			] .
+		fixm:TemperatureMeasure
+			a sh:NodeShape ;
+			sh:property [
+				sh:in ( "FARENHEIT" "CELSIUS" "KELVIN" ) ;
+				sh:minCount 1 ;
+				sh:path fixm:uom
+			] .
 
 ### 3.3.4. plain.xq
 
