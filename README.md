@@ -20,7 +20,7 @@ For feedback or issues contact: sebastian.gruber@jku.at
 	3. [Plugins](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/README.md#33-plugins)
 		1. [utilities.xq](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/README.md#331-utilitiesxq)
 		2. [aixm_5-1-1.xq](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/README.md#332-aixm_5-1-1xq)
-			1. [GML basic classes for AIXM features](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/README.md#3321-gml-basic-classes-for-aixm-features)
+			1. [Basic classes for AIXM features](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/README.md#3321-basic-classes-for-aixm-features)
 			2. [Basic Mapping Methods](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/README.md#3322-basic-mapping-methods)
 			3. [Mapping of UML classes](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/README.md#3323-mapping-of-uml-classes)
 		3. [fixm_3-0-1_sesar.xq](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/README.md#333-fixm_3-0-1_sesarxq)
@@ -183,9 +183,9 @@ The [utilities.xq](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/plugins/
 
 ### 3.3.2. aixm_5-1-1.xq
 
-The [aixm_5-1-1.xq](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/plugins/aixm_5-1-1.xq) targets models which are based on [AIXM 5.1.1](http://www.aixm.aero/page/aixm-511-specification). First, GML basic elements may be added, then element by element of the extracted model subset is mapped.
+The [aixm_5-1-1.xq](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/plugins/aixm_5-1-1.xq) targets models which are based on [AIXM 5.1.1](http://www.aixm.aero/page/aixm-511-specification). First, basic elements are added, afterwards element by element of the extracted model subset is mapped.
 
-#### 3.3.2.1. GML basic Classes for AIXM features
+#### 3.3.2.1. Basic Classes for AIXM features
 
 If the extracted model subset contains an element with stereotype "feature", the following basic elements are added to the result:
 
