@@ -1196,18 +1196,24 @@
   </sh:NodeShape>
   <sh:NodeShape rdf:about="http://www.aisa-project.eu/vocabulary/fixm_3-0-1_sesar#AircraftType">
     <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
-    <sh:property rdf:parseType="Resource">
-      <sh:path rdf:resource="http://www.aisa-project.eu/vocabulary/fixm_3-0-1_sesar#icaoModelIdentifier"/>
-      <sh:minCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</sh:minCount>
-      <sh:node rdf:resource="http://www.aisa-project.eu/vocabulary/fixm_3-0-1_sesar#IcaoAircraftIdentifier"/>
-      <sh:maxCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:maxCount>
-    </sh:property>
-    <sh:property rdf:parseType="Resource">
-      <sh:path rdf:resource="http://www.aisa-project.eu/vocabulary/fixm_3-0-1_sesar#otherModelData"/>
-      <sh:minCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</sh:minCount>
-      <sh:node rdf:resource="http://www.aisa-project.eu/vocabulary/fixm_3-0-1_sesar#FreeText"/>
-      <sh:maxCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:maxCount>
-    </sh:property>
+    <sh:xone rdf:parseType="Collection">
+      <rdf:Description>
+        <sh:property rdf:parseType="Resource">
+          <sh:path rdf:resource="http://www.aisa-project.eu/vocabulary/fixm_3-0-1_sesar#icaoModelIdentifier"/>
+          <sh:minCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:minCount>
+          <sh:maxCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:maxCount>
+          <sh:node rdf:resource="http://www.aisa-project.eu/vocabulary/fixm_3-0-1_sesar#IcaoAircraftIdentifier"/>
+        </sh:property>
+      </rdf:Description>
+      <rdf:Description>
+        <sh:property rdf:parseType="Resource">
+          <sh:path rdf:resource="http://www.aisa-project.eu/vocabulary/fixm_3-0-1_sesar#otherModelData"/>
+          <sh:minCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:minCount>
+          <sh:maxCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:maxCount>
+          <sh:node rdf:resource="http://www.aisa-project.eu/vocabulary/fixm_3-0-1_sesar#FreeText"/>
+        </sh:property>
+      </rdf:Description>
+    </sh:xone>
   </sh:NodeShape>
   <sh:NodeShape rdf:about="http://www.aisa-project.eu/vocabulary/fixm_3-0-1_sesar#EngineType">
     <sh:property rdf:parseType="Resource">
@@ -4140,18 +4146,24 @@
   </sh:NodeShape>
   <sh:NodeShape rdf:about="http://www.aisa-project.eu/vocabulary/fixm_3-0-1_sesar#Originator">
     <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
-    <sh:property rdf:parseType="Resource">
-      <sh:path rdf:resource="http://www.aisa-project.eu/vocabulary/fixm_3-0-1_sesar#aftnAddress"/>
-      <sh:minCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</sh:minCount>
-      <sh:node rdf:resource="http://www.aisa-project.eu/vocabulary/fixm_3-0-1_sesar#AftnAddress"/>
-      <sh:maxCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:maxCount>
-    </sh:property>
-    <sh:property rdf:parseType="Resource">
-      <sh:path rdf:resource="http://www.aisa-project.eu/vocabulary/fixm_3-0-1_sesar#flightOriginator"/>
-      <sh:minCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</sh:minCount>
-      <sh:node rdf:resource="http://www.aisa-project.eu/vocabulary/fixm_3-0-1_sesar#FreeText"/>
-      <sh:maxCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:maxCount>
-    </sh:property>
+    <sh:xone rdf:parseType="Collection">
+      <rdf:Description>
+        <sh:property rdf:parseType="Resource">
+          <sh:path rdf:resource="http://www.aisa-project.eu/vocabulary/fixm_3-0-1_sesar#aftnAddress"/>
+          <sh:minCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:minCount>
+          <sh:maxCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:maxCount>
+          <sh:node rdf:resource="http://www.aisa-project.eu/vocabulary/fixm_3-0-1_sesar#AftnAddress"/>
+        </sh:property>
+      </rdf:Description>
+      <rdf:Description>
+        <sh:property rdf:parseType="Resource">
+          <sh:path rdf:resource="http://www.aisa-project.eu/vocabulary/fixm_3-0-1_sesar#flightOriginator"/>
+          <sh:minCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:minCount>
+          <sh:maxCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:maxCount>
+          <sh:node rdf:resource="http://www.aisa-project.eu/vocabulary/fixm_3-0-1_sesar#FreeText"/>
+        </sh:property>
+      </rdf:Description>
+    </sh:xone>
   </sh:NodeShape>
   <sh:NodeShape rdf:about="http://www.aisa-project.eu/vocabulary/fixm_3-0-1_sesar#SpecialHandlingCode">
     <sh:property rdf:parseType="Resource">
@@ -4326,24 +4338,32 @@
   </sh:NodeShape>
   <sh:NodeShape rdf:about="http://www.aisa-project.eu/vocabulary/fixm_3-0-1_sesar#ElapsedTimeLocation">
     <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
-    <sh:property rdf:parseType="Resource">
-      <sh:path rdf:resource="http://www.aisa-project.eu/vocabulary/fixm_3-0-1_sesar#longitude"/>
-      <sh:minCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</sh:minCount>
-      <sh:node rdf:resource="http://www.aisa-project.eu/vocabulary/fixm_3-0-1_sesar#Longitude"/>
-      <sh:maxCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:maxCount>
-    </sh:property>
-    <sh:property rdf:parseType="Resource">
-      <sh:path rdf:resource="http://www.aisa-project.eu/vocabulary/fixm_3-0-1_sesar#point"/>
-      <sh:minCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</sh:minCount>
-      <sh:class rdf:resource="http://www.aisa-project.eu/vocabulary/fixm_3-0-1_sesar#SignificantPoint"/>
-      <sh:maxCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:maxCount>
-    </sh:property>
-    <sh:property rdf:parseType="Resource">
-      <sh:path rdf:resource="http://www.aisa-project.eu/vocabulary/fixm_3-0-1_sesar#region"/>
-      <sh:minCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">0</sh:minCount>
-      <sh:node rdf:resource="http://www.aisa-project.eu/vocabulary/fixm_3-0-1_sesar#UnitSectorAirspace"/>
-      <sh:maxCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:maxCount>
-    </sh:property>
+    <sh:xone rdf:parseType="Collection">
+      <rdf:Description>
+        <sh:property rdf:parseType="Resource">
+          <sh:path rdf:resource="http://www.aisa-project.eu/vocabulary/fixm_3-0-1_sesar#longitude"/>
+          <sh:minCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:minCount>
+          <sh:maxCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:maxCount>
+          <sh:node rdf:resource="http://www.aisa-project.eu/vocabulary/fixm_3-0-1_sesar#Longitude"/>
+        </sh:property>
+      </rdf:Description>
+      <rdf:Description>
+        <sh:property rdf:parseType="Resource">
+          <sh:path rdf:resource="http://www.aisa-project.eu/vocabulary/fixm_3-0-1_sesar#point"/>
+          <sh:minCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:minCount>
+          <sh:maxCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:maxCount>
+          <sh:class rdf:resource="http://www.aisa-project.eu/vocabulary/fixm_3-0-1_sesar#SignificantPoint"/>
+        </sh:property>
+      </rdf:Description>
+      <rdf:Description>
+        <sh:property rdf:parseType="Resource">
+          <sh:path rdf:resource="http://www.aisa-project.eu/vocabulary/fixm_3-0-1_sesar#region"/>
+          <sh:minCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:minCount>
+          <sh:maxCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:maxCount>
+          <sh:node rdf:resource="http://www.aisa-project.eu/vocabulary/fixm_3-0-1_sesar#UnitSectorAirspace"/>
+        </sh:property>
+      </rdf:Description>
+    </sh:xone>
   </sh:NodeShape>
   <sh:NodeShape rdf:about="http://www.aisa-project.eu/vocabulary/fixm_3-0-1_sesar#EstimatedElapsedTime">
     <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>

@@ -11,8 +11,7 @@ public class TransformXML2TTL {
 
 	public static void main(String[] args) {
 		
-		try {
-			
+		try {			
 			// adjust path to RDFS/SHACL file 
 			Graph shapesGraph = RDFDataMgr.loadGraph("../../output/FIXM_EDDF-VHHH.xml");
 			//Graph shapesGraph = RDFDataMgr.loadGraph("../../output/AIXM_DONLON.xml");

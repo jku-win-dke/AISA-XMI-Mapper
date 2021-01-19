@@ -303,7 +303,6 @@ declare %private function aixm_5-1-1:mapAttributes(
     <sh:property rdf:parseType="Resource">
       <sh:path rdf:resource="{$aixm_5-1-1:namespace}{$attribute/@name/string()}" />
       <sh:node rdf:resource="{$aixm_5-1-1:namespace}{$attribute/properties/@type/string()}" />
-      <sh:minCount rdf:datatype="{$aixm_5-1-1:xsd}integer">0</sh:minCount>
       {
         let $maxCount:=$attribute/bounds/@upper/string()
         return if($maxCount!="*") then
@@ -354,11 +353,6 @@ declare %private function aixm_5-1-1:mapConnectors(
         <sh:property rdf:parseType="Resource">
           <sh:path rdf:resource="{$aixm_5-1-1:namespace}{$pathName}" />
           {
-            let $minCount:=fn:substring-before($connector/target/type/@multiplicity, "..")
-            return if(fn:exists($minCount) and $minCount!="*") then
-              <sh:minCount rdf:datatype="{$aixm_5-1-1:xsd}integer">{$minCount}</sh:minCount>
-          }
-          {
             let $maxCount:=fn:substring-after($connector/target/type/@multiplicity, "..")
             return if(fn:exists($maxCount) and $maxCount!="*") then
               <sh:maxCount rdf:datatype="{$aixm_5-1-1:xsd}integer">{$maxCount}</sh:maxCount> 
@@ -384,7 +378,14 @@ declare %private function aixm_5-1-1:mapConnectors(
               <rdf:Description>
                 <sh:property rdf:parseType="Resource">
                   <sh:path rdf:resource="{$aixm_5-1-1:namespace}{$pathName}" />
-                  <sh:minCount rdf:datatype="{$aixm_5-1-1:xsd}integer">1</sh:minCount>
+                  {
+                    let $minCount:=fn:substring-before($connector/target/type/@multiplicity, "..")
+                    return 
+                      if(fn:exists($minCount) and $minCount!="*" and $minCount!="0") then
+                        <sh:minCount rdf:datatype="{$aixm_5-1-1:xsd}integer">{$minCount}</sh:minCount>
+                      else
+                        <sh:minCount rdf:datatype="{$aixm_5-1-1:xsd}integer">1</sh:minCount>
+                  }
                   <sh:class rdf:resource="{$aixm_5-1-1:namespace}{$targetElementTargetName}" />
                 </sh:property>
               </rdf:Description>
@@ -397,7 +398,7 @@ declare %private function aixm_5-1-1:mapConnectors(
           <sh:class rdf:resource="{$aixm_5-1-1:namespace}{$targetElement/@name/string()}" />
           {
             let $minCount:=fn:substring-before($cardinality, "..")
-            return if(fn:exists($minCount) and $minCount!="*") then
+            return if(fn:exists($minCount) and $minCount!="*" and $minCount!="0") then
               <sh:minCount rdf:datatype="{$aixm_5-1-1:xsd}integer">{$minCount}</sh:minCount>
           }
           {

@@ -48,7 +48,7 @@ declare function plain:map(
             return 
               <sh:property rdf:parseType="Resource">
                 <sh:path rdf:resource="{$plain:namespace}{$attribute/@name/string()}" />
-                <sh:class rdf:resource="{$plain:namespace}{$attribute/properties/@type/string()}" />
+                <sh:node rdf:resource="{$plain:namespace}{$attribute/properties/@type/string()}" />
                 <sh:minCount rdf:datatype="{$plain:xsd}integer">0</sh:minCount>
                 {
                   let $maxCount:=$attribute/bounds/@upper/string()

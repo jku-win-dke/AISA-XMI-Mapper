@@ -30,7 +30,7 @@ declare function fixm_3-0-1_sesar:map(
         else if($element/properties[@stereotype="choice"]) then
           fixm_3-0-1_sesar:mapChoice($element, $modelSubset)
         else
-          fixm_3-0-1_sesar:mapPlain($element, $modelSubset)
+          fixm_3-0-1_sesar:mapPlain($element, $modelSubset, false())
     }
   </rdf:RDF>
 };
@@ -59,12 +59,13 @@ declare %private function fixm_3-0-1_sesar:mapChoice(
   $modelSubset as element()
 )as element()* {
   if(fn:exists($modelSubset/connectors/connector/source[@xmi:idref=$element/@xmi:idref])=false()) then
-    fixm_3-0-1_sesar:mapPlain($element, $modelSubset)
+    fixm_3-0-1_sesar:mapPlain($element, $modelSubset, true())
 } ;
 
 declare %private function fixm_3-0-1_sesar:mapPlain(
   $element as element(),
-  $modelSubset as element()
+  $modelSubset as element(),
+  $choice as xs:boolean
 ) as element() {
   let $superElements:=utilities:getSuperElements($element, $modelSubset, ())
   return
@@ -118,10 +119,74 @@ declare %private function fixm_3-0-1_sesar:mapPlain(
             }
         </sh:property>
       }
-      { fixm_3-0-1_sesar:mapAttributes($element, $modelSubset) }
-      { fixm_3-0-1_sesar:mapConnectors($element, $modelSubset) }
+      { if($choice=false()) then fixm_3-0-1_sesar:mapAttributes($element, $modelSubset) }
+      { if($choice=false()) then fixm_3-0-1_sesar:mapConnectors($element, $modelSubset) }
+      { if($choice) then fixm_3-0-1_sesar:mapXone($element, $modelSubset)}
     </sh:NodeShape>
  } ;
+ 
+declare %private function fixm_3-0-1_sesar:mapXone(
+  $element as element(),
+  $modelSubset as element()
+) as element(){
+  <sh:xone rdf:parseType="Collection">
+    {
+      for $attribute in $element/attributes/attribute
+      let $attributeElement:=$modelSubset/elements/element[@name=$attribute/properties/@type]
+      return
+        <rdf:Description>
+          <sh:property rdf:parseType="Resource">
+            <sh:path rdf:resource="{$fixm_3-0-1_sesar:namespace}{$attribute/@name/string()}" />
+            <sh:minCount rdf:datatype="{$fixm_3-0-1_sesar:xsd}integer">1</sh:minCount>
+            {
+              let $maxCount:=$attribute/bounds/@upper/string()
+              return if($maxCount!="*") then
+                <sh:maxCount rdf:datatype="{$fixm_3-0-1_sesar:xsd}integer">{$maxCount}</sh:maxCount>
+            }
+            {
+              if(fn:exists($attributeElement)=false()
+                or fn:exists($attributeElement/properties/@genlinks)
+                or fn:exists(utilities:getSuperElements($attributeElement, $modelSubset, ())/properties/@genlinks)
+                or $attributeElement/properties[@stereotype="enumeration"]
+                or $attributeElement/extendedProperties/@package_name="Measures") then
+                <sh:node rdf:resource="{$fixm_3-0-1_sesar:namespace}{$attribute/properties/@type/string()}" />  
+              else
+                <sh:class rdf:resource="{$fixm_3-0-1_sesar:namespace}{$attribute/properties/@type/string()}" />  
+            }
+          </sh:property>
+        </rdf:Description>
+    }
+    {
+      for $connector in $modelSubset/connectors/connector[source/@xmi:idref=$element/@xmi:idref][properties/@ea_type!="Generalization"]
+      let $targetElement:=$modelSubset/elements/element[@xmi:idref=$connector/target/@xmi:idref]
+      let $pathName:=
+        if(fn:exists($connector/@name)) then $connector/@name/string()
+        else
+          fn:lower-case(fn:substring($connector/target/model/@name/string(), 1, 1))
+          ||fn:substring($connector/target/model/@name/string(), 2)
+      return 
+        <rdf:Description>
+          <sh:property rdf:parseType="Resource">
+            <sh:path rdf:resource="{$fixm_3-0-1_sesar:namespace}{$pathName}" />
+            <sh:minCount rdf:datatype="{$fixm_3-0-1_sesar:xsd}integer">1</sh:minCount>
+            {
+              let $maxCount:=fn:substring-after($connector/target/type/@multiplicity, "..")
+              return if(fn:exists($maxCount) and $maxCount!="*") then
+                <sh:maxCount rdf:datatype="{$fixm_3-0-1_sesar:xsd}integer">{$maxCount}</sh:maxCount> 
+            }
+            {
+              if(fn:exists($targetElement/properties/@genlinks)
+                or fn:exists(utilities:getSuperElements($targetElement, $modelSubset, ())/properties/@genlinks)
+                or $targetElement/properties[@stereotype="enumeration"]) then
+                <sh:node rdf:resource="{$fixm_3-0-1_sesar:namespace}{$connector/target/model/@name/string()}" />
+              else
+                <sh:class rdf:resource="{$fixm_3-0-1_sesar:namespace}{$connector/target/model/@name/string()}" />
+            }
+          </sh:property>
+        </rdf:Description>
+    }
+  </sh:xone>
+};
  
 declare %private function fixm_3-0-1_sesar:mapConstraints(
   $constraints as element()*

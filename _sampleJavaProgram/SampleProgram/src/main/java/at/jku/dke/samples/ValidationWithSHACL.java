@@ -14,7 +14,6 @@ public class ValidationWithSHACL {
 	public static void main(String[] args) {
 
 		try {
-			
 			// adjust path to RDFS/SHACL file 
 			Model schema = RDFDataMgr.loadModel("../../output/FIXM_EDDF-VHHH.xml");
 			//Model schema = RDFDataMgr.loadModel("../../output/AIXM_DONLON.xml");
