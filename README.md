@@ -83,7 +83,7 @@ In the configuration file subsets of UML classes of models to-be mapped can be s
 1. input: The path to the model's XMI file.
 2. type: The type of the model determines the plugin used for mapping, i.e. type can be "aixm_5-1-1", "fixm_3-0-1_sesar", "plain".
 3. output: The path of the to-be generated RDFS/SHACL document.
-4. connectorLevel: For each connector level, the subset is increased by another level of outgoing connectors from selected classes to other classes and resolving attributes of classes. The connectorLevel can be "1", "2", ..., "n". It is recommended to use "n" to include not visible classes (especially from stereotype "choice" in AIXM and FIXM) of a data graph.
+4. connectorLevel: For each connector level, the subset is increased by another level of outgoing connectors from selected classes to other classes and resolving attributes of classes. The connectorLevel can be "1", "2", ..., "n". It is recommended to use "n" to include not visible classes (especially from stereotype "choice" in AIXM and FIXM) of a data graph. If "n" is not used, then the connector level should be choosen in a way that i resolves necessary datatypes, e.g. in AIXM a minimum of connector level 4 would be necessary.
 The example below shows that the the classes "AirportHeliport" and "City" of the model at "input/AIXM_5.1.1.xmi" should be mapped by the plugin with the name "aixm_5-1-1".
 
 		<configuration>
