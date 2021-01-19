@@ -299,7 +299,7 @@ Before diving into the details of the AIXM plugin, let's introduce a few basic m
 				sh:node aixm:TextNameType ;
 				sh:maxCount 1 ;
 			] .
-2. **Connections** to other UML classes are mapped into property shapes with the sh:minCount and sh:maxCount representing the cardinality of the relationship. The target class is specified by the sh:class constraint. If a role name is provided, this name is used for sh:path. Otherwise, the sh:path name is the combination of "the" plus the target class name. There is an exception of mapping connections: association classes. If an association class for a connection exists, the property of the UML class targets the association class and not the initial target class. Furthermore, the association class has a property added for the connection to the target class. Example of a normal connection to the class aixm:City and a connection with an association class to aixm:OrganisationAuthority of aixm:AirportHeliport:
+2. **Connections** to other UML classes are mapped into property shapes with the sh:minCount and sh:maxCount representing the cardinality of the relationship. The target class is specified by the sh:class constraint. If a role name is provided, this name is used for sh:path. Otherwise, the sh:path is the combination of "the" plus the target class name. There is an exception of mapping connections: association classes. If an association class for a connection exists, the property of the UML class targets the association class and not the initial target class. Furthermore, the association class has a property added for the connection to the target class. Example of a normal connection to the class aixm:City and a connection with an association class to aixm:OrganisationAuthority of aixm:AirportHeliport:
 
 		aixm:AirportHeliportTimeSlice
 			sh:property [ 
@@ -484,18 +484,7 @@ Before diving into the details of the FIXM plugin, let's introduce a few basic m
 					sh:node fixm:Distance ;
 					sh:path fixm:runwayVisualRange
 				] .
-2. **Connections** to other UML classes are mapped into property shapes with the sh:minCount and sh:maxCount representing the cardinality of the relationship. The target class is specified by the sh:class constraint. If a role name is provided, this name is used for sh:path. Otherwise, the sh:path name is the combination of "the" plus the target class name. There is an exception of mapping connections: association classes. If an association class for a connection exists, the property of the UML class targets the association class and not the initial target class. Furthermore, the association class has a property added for the connection to the target class. Example of a normal connection to the class aixm:City and a connection with an association class to aixm:OrganisationAuthority of aixm:AirportHeliport:
-
-		aixm:AirportHeliportTimeSlice
-			sh:property [ 
-				sh:class aixm:City ;
-				sh:path aixm:servedCity
-			] ;
-			sh:property  [ 
-				sh:class aixm:AirportHeliportResponsibilityOrganisation ;
-				sh:maxCount 1 ;
-				sh:path aixm:responsibleOrganisation
-			] .
+2. **Connections** to other UML classes are mapped into property shapes with the sh:minCount and sh:maxCount representing the cardinality of the relationship. The target class is specified by the sh:class constraint. If a role name (connector name) is provided, this name is used for sh:path. Otherwise, the sh:path is the target class name with the first letter in lower case. ...
 
 #### 3.3.3.2. Mapping of UML classes
 
