@@ -24,7 +24,8 @@ For feedback or issues contact: sebastian.gruber@jku.at
 			2. [Basic Mapping Methods](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/README.md#3322-basic-mapping-methods)
 			3. [Mapping of UML classes](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/README.md#3323-mapping-of-uml-classes)
 		3. [fixm_3-0-1_sesar.xq](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/README.md#333-fixm_3-0-1_sesarxq)
-			1. [Mapping of UML classes](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/README.md#3331-mapping-of-uml-classes)
+			1. [Basic Mapping Methods](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/README.md#3331-basic-mapping-methods)
+			1. [Mapping of UML classes](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/README.md#3332-mapping-of-uml-classes)
 		4. [plain.xq](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/README.md#334-plainxq)
 4. [RDFS/SHACL Document](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/README.md#4-rdfsshacl-document)
 
@@ -288,7 +289,7 @@ These basic elements are not part of the AIXM 5.1.1 XMI file and therefore added
 
 #### 3.3.2.2. Basic Mapping Methods
 
-UML classes of AIXM 5.1.1 are mapped based on their stereotype. But before diving into the details of the AIXM plugin, let's introduce a few basic mapping methods, i.e. mapping of attributes, connectors and association classes:
+Before diving into the details of the AIXM plugin, let's introduce a few basic mapping methods, i.e. mapping of attributes, connectors and association classes:
 
 1. **Attributes** of a UML class are mapped into optional (i.e. sh:minCount 0) property shapes with the attribute type being the target node. Example attribute aixm:name of aixm:AirportHeliport:
 
@@ -439,7 +440,64 @@ Now after introducing the basic mapping methods, the mapping of elements based o
 
 The [fixm_3-0-1_sesar.xq](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/plugins/fixm_3-0-1_sesar.xq) target models which are based on [FIXM 3.0.1 SESAR](https://www.fixm.aero/release.pl?rel=SESAR_Ext-1.0). 
 
-#### 3.3.3.1. Mapping of UML classes
+#### 3.3.3.1. Basic Mapping Methods
+
+Before diving into the details of the FIXM plugin, let's introduce a few basic mapping methods, i.e. mapping of attributes and connectors (there are no association classes in FIXM):
+
+1. **Attributes** of a UML class are mapped into optional (i.e. sh:minCount 0) property shapes. If an attribute targets a "choice" class with outgoing connectors, a simple property shape with the attribute name as path is generated. In addition, a sh:or providing all connectors of that "choice" class is added. If an attribute directly targets an XSD datatype, a blank SHACL shape is added as target node of the property shape with the target datatype in order to preserve the rdf:value-structure of attribute values. In all other cases, a simple property shape with an sh:node or sh:class (depending if the RDFS class exists) is generated. Example fixm:operatingOrganization in fixm:AircraftOperator (attribute targets "choice" class with outgoing connectors),  fixm:replacementFlightPlanIndicator in fixm:OtherInformation (attribute targets XSD datatype) and fixm:runwayVisualRange in fixm:OtherInformation (other case):
+
+		fixm:AircraftOperator
+			a rdfs:Class , sh:NodeShape ;
+			sh:or ( 
+				[ 
+					sh:property [ 
+						sh:class fixm:Organization ;
+						sh:path fixm:operatingOrganization
+					]
+				]
+				[ 
+					sh:property [ 
+						sh:class fixm:Person ;
+						sh:path fixm:operatingOrganization
+					]
+				]
+			) ;
+			sh:property [ 
+				sh:maxCount 1 ;
+				sh:path fixm:operatingOrganization
+			] .
+			fixm:OtherInformation
+				a rdfs:Class , sh:NodeShape ;
+				sh:property [ 
+					sh:maxCount 1 ;
+					sh:node [ 
+						a sh:NodeShape ;
+						sh:property [ 
+							sh:datatype xsd:integer ;
+							sh:path rdf:value
+						]
+					] ;
+					sh:path fixm:replacementFlightPlanIndicator
+				] ;
+				sh:property [ 
+					sh:maxCount 1 ;
+					sh:node fixm:Distance ;
+					sh:path fixm:runwayVisualRange
+				] .
+2. **Connections** to other UML classes are mapped into property shapes with the sh:minCount and sh:maxCount representing the cardinality of the relationship. The target class is specified by the sh:class constraint. If a role name is provided, this name is used for sh:path. Otherwise, the sh:path name is the combination of "the" plus the target class name. There is an exception of mapping connections: association classes. If an association class for a connection exists, the property of the UML class targets the association class and not the initial target class. Furthermore, the association class has a property added for the connection to the target class. Example of a normal connection to the class aixm:City and a connection with an association class to aixm:OrganisationAuthority of aixm:AirportHeliport:
+
+		aixm:AirportHeliportTimeSlice
+			sh:property [ 
+				sh:class aixm:City ;
+				sh:path aixm:servedCity
+			] ;
+			sh:property  [ 
+				sh:class aixm:AirportHeliportResponsibilityOrganisation ;
+				sh:maxCount 1 ;
+				sh:path aixm:responsibleOrganisation
+			] .
+
+#### 3.3.3.2. Mapping of UML classes
 
 UML classes of FIXM 3.0.1 SESAR are mapped based on their stereotype:
 
@@ -459,22 +517,59 @@ UML classes of FIXM 3.0.1 SESAR are mapped based on their stereotype:
 				sh:minCount 1 ;
 				sh:path fixm:uom
 			] .
-2. Stereotype **"choice"**: There is no direct mapping into SHACL shapes or RDFS classes. In case a UML class with stereotype "choice" has outgoing connections, it is mapped in the targeting UML class, i.e. similar to the mapping in AIXM the "choice" class is resolved in the class targeting the "choice" class. In case a UML with stereotype "choice" has no outgoing connections, it is mapped as if it would have no stereotype (see below). Example fixm:AircraftType (no outgoing connections):
+2. Stereotype **"choice"**: There is no direct mapping into SHACL shapes or RDFS classes. In case a UML class with stereotype "choice" has outgoing connections, it is mapped in the targeting UML class, i.e. similar to the mapping in AIXM, the "choice" class is resolved in the class targeting the "choice" class. In case a UML class with stereotype "choice" has no outgoing connections, it is mapped as if it would have no stereotype (see below) but its attributes are mapped into a sh:xone. Example fixm:AircraftType (no outgoing connections) and fixm:PersonOrOrganization (outgoing connections) resolved in fixm:AircraftOperator:
 
-		fixm:AircraftType
+		fixm:AircraftType 
 			a rdfs:Class , sh:NodeShape ;
+        		sh:xone ( 
+				[ 
+					sh:property [ 
+						sh:maxCount 1 ;
+						sh:minCount 1 ;
+						sh:node fixm:IcaoAircraftIdentifier ;
+						sh:path fixm:icaoModelIdentifier
+					]
+				]
+				[ 
+					sh:property [ 
+						sh:maxCount 1 ;
+						sh:minCount 1 ;
+						sh:node fixm:FreeText ;
+						sh:path fixm:otherModelData
+					]
+				]
+			) .
+		fixm:AircraftOperator
+			a rdfs:Class , sh:NodeShape ;
+			sh:or ( 
+				[ 
+					sh:property [ 
+						sh:class fixm:Organization ;
+						sh:path fixm:operatingOrganization
+					]
+				]
+				[ 
+					sh:property [ 
+						sh:class fixm:Person ;
+						sh:path fixm:operatingOrganization
+					]
+				]
+			) ;
 			sh:property [ 
 				sh:maxCount 1 ;
-				sh:node fixm:FreeText ;
-				sh:path fixm:otherModelData
-			] ;
-			sh:property [ 
-				sh:maxCount 1 ;
-				sh:node fixm:IcaoAircraftIdentifier ;
-				sh:path fixm:icaoModelIdentifier
+				sh:path fixm:operatingOrganization
 			] .
+3. **No** stereotype: For each UML class with no stereotype (and with stereotype "choice with no outgoing connections) a SHACL shape is generated. If the class or its super class is not connected to an XSD datatype, it is also an RDFS class. In addition, super classes are added as rdfs:subClassOf and sh:and statements. In case, there is an attribute called "uom", an sh:and statements needs to include the SHACL shape of that attribute. If the element (or one of its super elements) is connected to an XSD datatype, a SHACL property with sh:path rdf:value is added (together with its constraints and datatype). If it is an UML class with no stereotype attributes and connectors are mapped using the basic mapping methods, otherwise only its attributes are mapped into sh:xone (see mapping of "choice" above). Example fixm:Aircraft:
 
-3. **No** stereotype:
+		fixm:Aircraft 
+			a rdfs:Class , sh:NodeShape ;
+			rdfs:subClassOf fixm:Feature ;
+			sh:and ( fixm:Feature ) ;
+			sh:property [ 
+				sh:class fixm:AircraftType ;
+				sh:maxCount 1 ;
+				sh:path fixm:aircraftType
+			] ... .
 
 ### 3.3.4. plain.xq
 
