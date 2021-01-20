@@ -4075,9 +4075,9 @@
     </sh:property>
     <sh:property rdf:parseType="Resource">
       <sh:path rdf:resource="http://www.aisa-project.eu/vocabulary/aixm_5-1-1#theOrganisationAuthority"/>
-      <sh:class rdf:resource="http://www.aisa-project.eu/vocabulary/aixm_5-1-1#OrganisationAuthority"/>
       <sh:minCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:minCount>
       <sh:maxCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:maxCount>
+      <sh:class rdf:resource="http://www.aisa-project.eu/vocabulary/aixm_5-1-1#OrganisationAuthority"/>
     </sh:property>
   </sh:NodeShape>
   <sh:NodeShape rdf:about="http://www.aisa-project.eu/vocabulary/aixm_5-1-1#AirportHeliportUsage">
@@ -4491,9 +4491,9 @@
     </sh:property>
     <sh:property rdf:parseType="Resource">
       <sh:path rdf:resource="http://www.aisa-project.eu/vocabulary/aixm_5-1-1#theOrganisationAuthority"/>
-      <sh:class rdf:resource="http://www.aisa-project.eu/vocabulary/aixm_5-1-1#OrganisationAuthority"/>
       <sh:minCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:minCount>
       <sh:maxCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:maxCount>
+      <sh:class rdf:resource="http://www.aisa-project.eu/vocabulary/aixm_5-1-1#OrganisationAuthority"/>
     </sh:property>
   </sh:NodeShape>
   <sh:NodeShape rdf:about="http://www.aisa-project.eu/vocabulary/aixm_5-1-1#ContactInformation">
@@ -4884,6 +4884,15 @@
   </sh:NodeShape>
   <sh:NodeShape rdf:about="http://www.opengis.net/gml/3.2#Surface">
     <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>
+    <rdfs:subClassOf rdf:resource="http://www.opengis.net/gml/3.2#SurfacePatch"/>
+    <sh:and rdf:parseType="Collection">
+      <sh:NodeShape rdf:about="http://www.opengis.net/gml/3.2#SurfacePatch"/>
+    </sh:and>
+    <sh:property rdf:parseType="Resource">
+      <sh:path rdf:resource="http://www.aisa-project.eu/vocabulary/aixm_5-1-1#patch"/>
+      <sh:class rdf:resource="http://www.opengis.net/gml/3.2#SurfacePatch"/>
+      <sh:minCount rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1</sh:minCount>
+    </sh:property>
   </sh:NodeShape>
   <sh:NodeShape rdf:about="http://www.opengis.net/gml/3.2#SurfacePatch">
     <rdf:type rdf:resource="http://www.w3.org/2000/01/rdf-schema#Class"/>

@@ -226,27 +226,8 @@ aixm:AirportHeliportTimeSlice
         a            sh:NodeShape , rdfs:Class ;
         sh:and       ( aixm:AIXMTimeSlice ) ;
         sh:property  [ sh:maxCount  1 ;
-                       sh:node      aixm:CodeICAOType ;
-                       sh:path      aixm:locationIndicatorICAO
-                     ] ;
-        sh:property  [ sh:maxCount  1 ;
-                       sh:node      aixm:CodeYesNoType ;
-                       sh:path      aixm:certifiedICAO
-                     ] ;
-        sh:property  [ sh:class  aixm:Note ;
-                       sh:path   aixm:annotation
-                     ] ;
-        sh:property  [ sh:maxCount  1 ;
-                       sh:node      aixm:CodeYesNoType ;
-                       sh:path      aixm:abandoned
-                     ] ;
-        sh:property  [ sh:maxCount  1 ;
-                       sh:node      aixm:ValDistanceVerticalType ;
-                       sh:path      aixm:fieldElevationAccuracy
-                     ] ;
-        sh:property  [ sh:class     aixm:AirportHeliportResponsibilityOrganisation ;
-                       sh:maxCount  1 ;
-                       sh:path      aixm:responsibleOrganisation
+                       sh:node      aixm:ValTemperatureType ;
+                       sh:path      aixm:referenceTemperature
                      ] ;
         sh:property  [ sh:class  aixm:ContactInformation ;
                        sh:path   aixm:contact
@@ -256,92 +237,20 @@ aixm:AirportHeliportTimeSlice
                        sh:path      aixm:windDirectionIndicator
                      ] ;
         sh:property  [ sh:maxCount  1 ;
-                       sh:node      aixm:ValTemperatureType ;
-                       sh:path      aixm:referenceTemperature
+                       sh:node      aixm:ValAngleType ;
+                       sh:path      aixm:magneticVariationAccuracy
                      ] ;
-        sh:property  [ sh:maxCount  1 ;
-                       sh:node      aixm:CodeAirportHeliportDesignatorType ;
-                       sh:path      aixm:designator
-                     ] ;
-        sh:property  [ sh:maxCount  1 ;
-                       sh:node      aixm:DateType ;
-                       sh:path      aixm:certificationDate
+        sh:property  [ sh:class     aixm:AirportHeliportResponsibilityOrganisation ;
+                       sh:maxCount  1 ;
+                       sh:path      aixm:responsibleOrganisation
                      ] ;
         sh:property  [ sh:maxCount  1 ;
                        sh:node      aixm:ValFLType ;
                        sh:path      aixm:transitionLevel
                      ] ;
         sh:property  [ sh:maxCount  1 ;
-                       sh:node      aixm:ValDistanceVerticalType ;
-                       sh:path      aixm:fieldElevation
-                     ] ;
-        sh:property  [ sh:maxCount  1 ;
-                       sh:node      aixm:ValDistanceVerticalType ;
-                       sh:path      aixm:transitionAltitude
-                     ] ;
-        sh:property  [ sh:maxCount  1 ;
-                       sh:node      aixm:DateYearType ;
-                       sh:path      aixm:dateMagneticVariation
-                     ] ;
-        sh:property  [ sh:maxCount  1 ;
-                       sh:node      aixm:ValMagneticVariationChangeType ;
-                       sh:path      aixm:magneticVariationChange
-                     ] ;
-        sh:property  [ sh:class  aixm:City ;
-                       sh:path   aixm:servedCity
-                     ] ;
-        sh:property  [ sh:maxCount  1 ;
-                       sh:node      aixm:CodeAirportHeliportType ;
-                       sh:path      aixm:type
-                     ] ;
-        sh:property  [ sh:maxCount  1 ;
-                       sh:node      aixm:CodeYesNoType ;
-                       sh:path      aixm:landingDirectionIndicator
-                     ] ;
-        sh:property  [ sh:maxCount  1 ;
-                       sh:node      aixm:ValAngleType ;
-                       sh:path      aixm:magneticVariationAccuracy
-                     ] ;
-        sh:property  [ sh:class     aixm:ElevatedSurface ;
-                       sh:maxCount  1 ;
-                       sh:path      aixm:aviationBoundary
-                     ] ;
-        sh:property  [ sh:class  aixm:AirportHeliportAvailability ;
-                       sh:path   aixm:availability
-                     ] ;
-        sh:property  [ sh:class  aixm:AltimeterSource ;
-                       sh:path   aixm:altimeterSource
-                     ] ;
-        sh:property  [ sh:maxCount  1 ;
-                       sh:node      aixm:TextNameType ;
-                       sh:path      aixm:name
-                     ] ;
-        sh:property  [ sh:class     aixm:ElevatedPoint ;
-                       sh:maxCount  1 ;
-                       sh:path      aixm:ARP
-                     ] ;
-        sh:property  [ sh:maxCount  1 ;
-                       sh:node      aixm:ValTemperatureType ;
-                       sh:path      aixm:lowestTemperature
-                     ] ;
-        sh:property  [ sh:class  aixm:AirportHeliportContamination ;
-                       sh:path   aixm:contaminant
-                     ] ;
-        sh:property  [ sh:maxCount  1 ;
                        sh:node      aixm:CodeYesNoType ;
                        sh:path      aixm:secondaryPowerSupply
-                     ] ;
-        sh:property  [ sh:maxCount  1 ;
-                       sh:node      aixm:CodeIATAType ;
-                       sh:path      aixm:designatorIATA
-                     ] ;
-        sh:property  [ sh:maxCount  1 ;
-                       sh:node      aixm:CodeYesNoType ;
-                       sh:path      aixm:altimeterCheckLocation
-                     ] ;
-        sh:property  [ sh:maxCount  1 ;
-                       sh:node      aixm:CodeVerticalDatumType ;
-                       sh:path      aixm:verticalDatum
                      ] ;
         sh:property  [ sh:maxCount  1 ;
                        sh:node      aixm:CodeYesNoType ;
@@ -351,13 +260,104 @@ aixm:AirportHeliportTimeSlice
                        sh:node      aixm:CodeMilitaryOperationsType ;
                        sh:path      aixm:controlType
                      ] ;
+        sh:property  [ sh:class     aixm:ElevatedSurface ;
+                       sh:maxCount  1 ;
+                       sh:path      aixm:aviationBoundary
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:node      aixm:CodeYesNoType ;
+                       sh:path      aixm:abandoned
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:node      aixm:ValMagneticVariationType ;
+                       sh:path      aixm:magneticVariation
+                     ] ;
+        sh:property  [ sh:class  aixm:Note ;
+                       sh:path   aixm:annotation
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:node      aixm:ValMagneticVariationChangeType ;
+                       sh:path      aixm:magneticVariationChange
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:node      aixm:CodeAirportHeliportType ;
+                       sh:path      aixm:type
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:node      aixm:CodeAirportHeliportDesignatorType ;
+                       sh:path      aixm:designator
+                     ] ;
+        sh:property  [ sh:class  aixm:AltimeterSource ;
+                       sh:path   aixm:altimeterSource
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:node      aixm:CodeYesNoType ;
+                       sh:path      aixm:landingDirectionIndicator
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:node      aixm:CodeICAOType ;
+                       sh:path      aixm:locationIndicatorICAO
+                     ] ;
         sh:property  [ sh:maxCount  1 ;
                        sh:node      aixm:DateType ;
                        sh:path      aixm:certificationExpirationDate
                      ] ;
         sh:property  [ sh:maxCount  1 ;
-                       sh:node      aixm:ValMagneticVariationType ;
-                       sh:path      aixm:magneticVariation
+                       sh:node      aixm:CodeVerticalDatumType ;
+                       sh:path      aixm:verticalDatum
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:node      aixm:DateType ;
+                       sh:path      aixm:certificationDate
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:node      aixm:ValDistanceVerticalType ;
+                       sh:path      aixm:fieldElevation
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:node      aixm:CodeYesNoType ;
+                       sh:path      aixm:altimeterCheckLocation
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:node      aixm:ValDistanceVerticalType ;
+                       sh:path      aixm:fieldElevationAccuracy
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:node      aixm:TextNameType ;
+                       sh:path      aixm:name
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:node      aixm:CodeIATAType ;
+                       sh:path      aixm:designatorIATA
+                     ] ;
+        sh:property  [ sh:class  aixm:AirportHeliportContamination ;
+                       sh:path   aixm:contaminant
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:node      aixm:ValTemperatureType ;
+                       sh:path      aixm:lowestTemperature
+                     ] ;
+        sh:property  [ sh:class     aixm:ElevatedPoint ;
+                       sh:maxCount  1 ;
+                       sh:path      aixm:ARP
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:node      aixm:CodeYesNoType ;
+                       sh:path      aixm:certifiedICAO
+                     ] ;
+        sh:property  [ sh:class  aixm:AirportHeliportAvailability ;
+                       sh:path   aixm:availability
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:node      aixm:ValDistanceVerticalType ;
+                       sh:path      aixm:transitionAltitude
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:node      aixm:DateYearType ;
+                       sh:path      aixm:dateMagneticVariation
+                     ] ;
+        sh:property  [ sh:class  aixm:City ;
+                       sh:path   aixm:servedCity
                      ] .
 
 aixm:ValDistanceVerticalType
@@ -541,19 +541,12 @@ aixm:OrganisationAuthorityTimeSlice
         a            rdfs:Class , sh:NodeShape ;
         sh:and       ( aixm:AIXMTimeSlice ) ;
         sh:property  [ sh:maxCount  1 ;
-                       sh:node      aixm:CodeMilitaryOperationsType ;
-                       sh:path      aixm:military
+                       sh:node      aixm:CodeOrganisationType ;
+                       sh:path      aixm:type
                      ] ;
         sh:property  [ sh:maxCount  1 ;
                        sh:node      aixm:TextNameType ;
                        sh:path      aixm:name
-                     ] ;
-        sh:property  [ sh:class  aixm:ContactInformation ;
-                       sh:path   aixm:contact
-                     ] ;
-        sh:property  [ sh:maxCount  1 ;
-                       sh:node      aixm:CodeOrganisationType ;
-                       sh:path      aixm:type
                      ] ;
         sh:property  [ sh:maxCount  1 ;
                        sh:node      aixm:CodeOrganisationDesignatorType ;
@@ -562,8 +555,15 @@ aixm:OrganisationAuthorityTimeSlice
         sh:property  [ sh:class  aixm:OrganisationAuthorityAssociation ;
                        sh:path   aixm:relatedOrganisationAuthority
                      ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:node      aixm:CodeMilitaryOperationsType ;
+                       sh:path      aixm:military
+                     ] ;
         sh:property  [ sh:class  aixm:Note ;
                        sh:path   aixm:annotation
+                     ] ;
+        sh:property  [ sh:class  aixm:ContactInformation ;
+                       sh:path   aixm:contact
                      ] .
 
 aixm:ValMagneticVariationChangeType
@@ -744,7 +744,13 @@ aixm:ValSpeedType  a  sh:NodeShape ;
                        ]
                      ) .
 
-gml:Surface  a  rdfs:Class , sh:NodeShape .
+gml:Surface  a           rdfs:Class , sh:NodeShape ;
+        rdfs:subClassOf  gml:SurfacePatch ;
+        sh:and           ( gml:SurfacePatch ) ;
+        sh:property      [ sh:class     gml:SurfacePatch ;
+                           sh:minCount  1 ;
+                           sh:path      aixm:patch
+                         ] .
 
 aixm:CodeTimeEventBaseType
         a            sh:NodeShape ;
@@ -1003,17 +1009,17 @@ aixm:OnlineContact  a    rdfs:Class , sh:NodeShape ;
                            sh:path      aixm:network
                          ] .
 
+aixm:CodeTimeReferenceBaseType
+        a            sh:NodeShape ;
+        sh:datatype  xsd:string ;
+        sh:in        [ rdf:rest  ( "UTC" "UTC-12" "UTC-11" "UTC-10" "UTC-9" "UTC-8" "UTC-7" "UTC-6" "UTC-5" "UTC-4" "UTC-3" "UTC-2" "UTC-1" "UTC+1" "UTC+2" "UTC+3" "UTC+4" "UTC+5" "UTC+6" "UTC+7" "UTC+8" "UTC+9" "UTC+10" "UTC+11" "UTC+12" "UTC+13" "UTC+14" "OTHER" )
+                     ] .
+
 aixm:ValDistanceSignedBaseType
         a            sh:NodeShape ;
         sh:property  [ sh:datatype  xsd:decimal ;
                        sh:maxCount  1 ;
                        sh:path      rdf:value
-                     ] .
-
-aixm:CodeTimeReferenceBaseType
-        a            sh:NodeShape ;
-        sh:datatype  xsd:string ;
-        sh:in        [ rdf:rest  ( "UTC" "UTC-12" "UTC-11" "UTC-10" "UTC-9" "UTC-8" "UTC-7" "UTC-6" "UTC-5" "UTC-4" "UTC-3" "UTC-2" "UTC-1" "UTC+1" "UTC+2" "UTC+3" "UTC+4" "UTC+5" "UTC+6" "UTC+7" "UTC+8" "UTC+9" "UTC+10" "UTC+11" "UTC+12" "UTC+13" "UTC+14" "OTHER" )
                      ] .
 
 aixm:ValDurationType  a  sh:NodeShape ;
@@ -2134,54 +2140,54 @@ aixm:CodeEquipmentAntiCollisionBaseType
 
 aixm:SurfaceContamination
         a            rdfs:Class , sh:NodeShape ;
-        sh:property  [ sh:class  aixm:SurfaceContaminationLayer ;
-                       sh:path   aixm:layer
-                     ] ;
-        sh:property  [ sh:maxCount  1 ;
-                       sh:node      aixm:CodeFrictionEstimateType ;
-                       sh:path      aixm:frictionEstimation
-                     ] ;
-        sh:property  [ sh:maxCount  1 ;
-                       sh:node      aixm:ValFrictionType ;
-                       sh:path      aixm:frictionCoefficient
-                     ] ;
-        sh:property  [ sh:class  aixm:Note ;
-                       sh:path   aixm:annotation
-                     ] ;
-        sh:property  [ sh:maxCount  1 ;
-                       sh:node      aixm:ValPercentType ;
-                       sh:path      aixm:proportion
-                     ] ;
-        sh:property  [ sh:maxCount  1 ;
-                       sh:node      aixm:ValDepthType ;
-                       sh:path      aixm:depth
-                     ] ;
-        sh:property  [ sh:maxCount  1 ;
-                       sh:node      aixm:DateTimeType ;
-                       sh:path      aixm:nextObservationTime
-                     ] ;
-        sh:property  [ sh:maxCount  1 ;
-                       sh:node      aixm:TimeType ;
-                       sh:path      aixm:furtherClearanceTime
-                     ] ;
-        sh:property  [ sh:class  aixm:Ridge ;
-                       sh:path   aixm:criticalRidge
-                     ] ;
         sh:property  [ sh:maxCount  1 ;
                        sh:node      aixm:CodeFrictionDeviceType ;
                        sh:path      aixm:frictionDevice
                      ] ;
         sh:property  [ sh:maxCount  1 ;
-                       sh:node      aixm:CodeYesNoType ;
-                       sh:path      aixm:obscuredLights
+                       sh:node      aixm:ValFrictionType ;
+                       sh:path      aixm:frictionCoefficient
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:node      aixm:DateTimeType ;
+                       sh:path      aixm:observationTime
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:node      aixm:ValDepthType ;
+                       sh:path      aixm:depth
+                     ] ;
+        sh:property  [ sh:class  aixm:Ridge ;
+                       sh:path   aixm:criticalRidge
                      ] ;
         sh:property  [ sh:maxCount  1 ;
                        sh:node      aixm:CodeYesNoType ;
                        sh:path      aixm:furtherTotalClearance
                      ] ;
         sh:property  [ sh:maxCount  1 ;
+                       sh:node      aixm:CodeYesNoType ;
+                       sh:path      aixm:obscuredLights
+                     ] ;
+        sh:property  [ sh:class  aixm:Note ;
+                       sh:path   aixm:annotation
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:node      aixm:TimeType ;
+                       sh:path      aixm:furtherClearanceTime
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:node      aixm:CodeFrictionEstimateType ;
+                       sh:path      aixm:frictionEstimation
+                     ] ;
+        sh:property  [ sh:class  aixm:SurfaceContaminationLayer ;
+                       sh:path   aixm:layer
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
                        sh:node      aixm:DateTimeType ;
-                       sh:path      aixm:observationTime
+                       sh:path      aixm:nextObservationTime
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:node      aixm:ValPercentType ;
+                       sh:path      aixm:proportion
                      ] .
 
 aixm:CodeOperationAirportHeliportType
@@ -2304,17 +2310,6 @@ aixm:CodeAircraftBaseType
 
 gml:Point  a    rdfs:Class , sh:NodeShape .
 
-aixm:Point  a            rdfs:Class , sh:NodeShape ;
-        rdfs:subClassOf  gml:Point ;
-        sh:and           ( gml:Point ) ;
-        sh:property      [ sh:class  aixm:Note ;
-                           sh:path   aixm:annotation
-                         ] ;
-        sh:property      [ sh:maxCount  1 ;
-                           sh:node      aixm:ValDistanceType ;
-                           sh:path      aixm:horizontalAccuracy
-                         ] .
-
 aixm:CodeAircraftCategoryType
         a            sh:NodeShape ;
         sh:property  [ sh:maxCount  1 ;
@@ -2334,6 +2329,17 @@ aixm:CodeAircraftCategoryType
                                       ]
                        ]
                      ) .
+
+aixm:Point  a            rdfs:Class , sh:NodeShape ;
+        rdfs:subClassOf  gml:Point ;
+        sh:and           ( gml:Point ) ;
+        sh:property      [ sh:class  aixm:Note ;
+                           sh:path   aixm:annotation
+                         ] ;
+        sh:property      [ sh:maxCount  1 ;
+                           sh:node      aixm:ValDistanceType ;
+                           sh:path      aixm:horizontalAccuracy
+                         ] .
 
 aixm:UomSpeedType  a  sh:NodeShape ;
         sh:datatype  xsd:string ;
@@ -2473,59 +2479,59 @@ aixm:Timesheet  a    sh:NodeShape , rdfs:Class ;
                        sh:path      aixm:startTime
                      ] ;
         sh:property  [ sh:maxCount  1 ;
-                       sh:node      aixm:CodeYesNoType ;
-                       sh:path      aixm:daylightSavingAdjust
-                     ] ;
-        sh:property  [ sh:maxCount  1 ;
-                       sh:node      aixm:CodeTimeEventCombinationType ;
-                       sh:path      aixm:endEventInterpretation
-                     ] ;
-        sh:property  [ sh:maxCount  1 ;
-                       sh:node      aixm:DateMonthDayType ;
-                       sh:path      aixm:endDate
-                     ] ;
-        sh:property  [ sh:maxCount  1 ;
-                       sh:node      aixm:CodeDayType ;
-                       sh:path      aixm:day
+                       sh:node      aixm:CodeTimeEventType ;
+                       sh:path      aixm:endEvent
                      ] ;
         sh:property  [ sh:maxCount  1 ;
                        sh:node      aixm:CodeDayType ;
                        sh:path      aixm:dayTil
                      ] ;
         sh:property  [ sh:maxCount  1 ;
-                       sh:node      aixm:DateMonthDayType ;
-                       sh:path      aixm:startDate
+                       sh:node      aixm:CodeYesNoType ;
+                       sh:path      aixm:daylightSavingAdjust
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:node      aixm:CodeTimeEventCombinationType ;
+                       sh:path      aixm:startEventInterpretation
+                     ] ;
+        sh:property  [ sh:class  aixm:Note ;
+                       sh:path   aixm:annotation
                      ] ;
         sh:property  [ sh:maxCount  1 ;
                        sh:node      aixm:CodeYesNoType ;
                        sh:path      aixm:excluded
                      ] ;
         sh:property  [ sh:maxCount  1 ;
-                       sh:node      aixm:CodeTimeEventCombinationType ;
-                       sh:path      aixm:startEventInterpretation
+                       sh:node      aixm:DateMonthDayType ;
+                       sh:path      aixm:endDate
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:node      aixm:DateMonthDayType ;
+                       sh:path      aixm:startDate
                      ] ;
         sh:property  [ sh:maxCount  1 ;
                        sh:node      aixm:TimeType ;
                        sh:path      aixm:endTime
                      ] ;
-        sh:property  [ sh:class  aixm:Note ;
-                       sh:path   aixm:annotation
+        sh:property  [ sh:maxCount  1 ;
+                       sh:node      aixm:CodeTimeReferenceType ;
+                       sh:path      aixm:timeReference
                      ] ;
         sh:property  [ sh:maxCount  1 ;
                        sh:node      aixm:ValDurationType ;
                        sh:path      aixm:endTimeRelativeEvent
                      ] ;
         sh:property  [ sh:maxCount  1 ;
-                       sh:node      aixm:CodeTimeEventType ;
-                       sh:path      aixm:endEvent
+                       sh:node      aixm:CodeTimeEventCombinationType ;
+                       sh:path      aixm:endEventInterpretation
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:node      aixm:CodeDayType ;
+                       sh:path      aixm:day
                      ] ;
         sh:property  [ sh:maxCount  1 ;
                        sh:node      aixm:CodeTimeEventType ;
                        sh:path      aixm:startEvent
-                     ] ;
-        sh:property  [ sh:maxCount  1 ;
-                       sh:node      aixm:CodeTimeReferenceType ;
-                       sh:path      aixm:timeReference
                      ] .
 
 aixm:CodeTimeEventType
@@ -2604,56 +2610,60 @@ aixm:CodeFrictionEstimateType
 aixm:AircraftCharacteristic
         a            rdfs:Class , sh:NodeShape ;
         sh:property  [ sh:maxCount  1 ;
-                       sh:node      aixm:NoNumberType ;
-                       sh:path      aixm:passengers
-                     ] ;
-        sh:property  [ sh:maxCount  1 ;
-                       sh:node      aixm:CodeValueInterpretationType ;
-                       sh:path      aixm:passengersInterpretation
-                     ] ;
-        sh:property  [ sh:maxCount  1 ;
-                       sh:node      aixm:CodeAircraftEngineType ;
-                       sh:path      aixm:engine
-                     ] ;
-        sh:property  [ sh:maxCount  1 ;
-                       sh:node      aixm:CodeAircraftCategoryType ;
-                       sh:path      aixm:aircraftLandingCategory
-                     ] ;
-        sh:property  [ sh:maxCount  1 ;
-                       sh:node      aixm:CodeEquipmentAntiCollisionType ;
-                       sh:path      aixm:antiCollisionAndSeparationEquipment
-                     ] ;
-        sh:property  [ sh:maxCount  1 ;
                        sh:node      aixm:ValDistanceType ;
                        sh:path      aixm:wingSpan
                      ] ;
         sh:property  [ sh:maxCount  1 ;
-                       sh:node      aixm:CodeRVSMType ;
-                       sh:path      aixm:verticalSeparationCapability
+                       sh:node      aixm:CodeCommunicationModeType ;
+                       sh:path      aixm:communicationEquipment
                      ] ;
         sh:property  [ sh:maxCount  1 ;
-                       sh:node      aixm:CodeAircraftICAOType ;
-                       sh:path      aixm:typeAircraftICAO
-                     ] ;
-        sh:property  [ sh:maxCount  1 ;
-                       sh:node      aixm:ValWeightType ;
-                       sh:path      aixm:weight
-                     ] ;
-        sh:property  [ sh:maxCount  1 ;
-                       sh:node      aixm:CodeAircraftWingspanClassType ;
-                       sh:path      aixm:classWingSpan
-                     ] ;
-        sh:property  [ sh:maxCount  1 ;
-                       sh:node      aixm:CodeValueInterpretationType ;
-                       sh:path      aixm:wingSpanInterpretation
+                       sh:node      aixm:ValSpeedType ;
+                       sh:path      aixm:speed
                      ] ;
         sh:property  [ sh:maxCount  1 ;
                        sh:node      aixm:CodeNavigationSpecificationType ;
                        sh:path      aixm:navigationSpecification
                      ] ;
         sh:property  [ sh:maxCount  1 ;
+                       sh:node      aixm:CodeAircraftWingspanClassType ;
+                       sh:path      aixm:classWingSpan
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:node      aixm:CodeEquipmentAntiCollisionType ;
+                       sh:path      aixm:antiCollisionAndSeparationEquipment
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:node      aixm:CodeRVSMType ;
+                       sh:path      aixm:verticalSeparationCapability
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:node      aixm:CodeAircraftCategoryType ;
+                       sh:path      aixm:aircraftLandingCategory
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:node      aixm:CodeNavigationEquipmentType ;
+                       sh:path      aixm:navigationEquipment
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:node      aixm:CodeAircraftICAOType ;
+                       sh:path      aixm:typeAircraftICAO
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:node      aixm:CodeAircraftEngineNumberType ;
+                       sh:path      aixm:numberEngine
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
                        sh:node      aixm:CodeValueInterpretationType ;
-                       sh:path      aixm:weightInterpretation
+                       sh:path      aixm:speedInterpretation
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:node      aixm:CodeAircraftEngineType ;
+                       sh:path      aixm:engine
+                     ] ;
+        sh:property  [ sh:maxCount  1 ;
+                       sh:node      aixm:CodeWakeTurbulenceType ;
+                       sh:path      aixm:wakeTurbulence
                      ] ;
         sh:property  [ sh:maxCount  1 ;
                        sh:node      aixm:CodeTransponderType ;
@@ -2661,34 +2671,30 @@ aixm:AircraftCharacteristic
                      ] ;
         sh:property  [ sh:maxCount  1 ;
                        sh:node      aixm:CodeValueInterpretationType ;
-                       sh:path      aixm:speedInterpretation
+                       sh:path      aixm:wingSpanInterpretation
                      ] ;
         sh:property  [ sh:maxCount  1 ;
-                       sh:node      aixm:CodeAircraftEngineNumberType ;
-                       sh:path      aixm:numberEngine
+                       sh:node      aixm:CodeValueInterpretationType ;
+                       sh:path      aixm:weightInterpretation
                      ] ;
         sh:property  [ sh:maxCount  1 ;
-                       sh:node      aixm:CodeCommunicationModeType ;
-                       sh:path      aixm:communicationEquipment
+                       sh:node      aixm:NoNumberType ;
+                       sh:path      aixm:passengers
+                     ] ;
+        sh:property  [ sh:class  aixm:Note ;
+                       sh:path   aixm:annotation
                      ] ;
         sh:property  [ sh:maxCount  1 ;
-                       sh:node      aixm:CodeWakeTurbulenceType ;
-                       sh:path      aixm:wakeTurbulence
+                       sh:node      aixm:ValWeightType ;
+                       sh:path      aixm:weight
                      ] ;
         sh:property  [ sh:maxCount  1 ;
                        sh:node      aixm:CodeAircraftType ;
                        sh:path      aixm:type
                      ] ;
         sh:property  [ sh:maxCount  1 ;
-                       sh:node      aixm:ValSpeedType ;
-                       sh:path      aixm:speed
-                     ] ;
-        sh:property  [ sh:maxCount  1 ;
-                       sh:node      aixm:CodeNavigationEquipmentType ;
-                       sh:path      aixm:navigationEquipment
-                     ] ;
-        sh:property  [ sh:class  aixm:Note ;
-                       sh:path   aixm:annotation
+                       sh:node      aixm:CodeValueInterpretationType ;
+                       sh:path      aixm:passengersInterpretation
                      ] .
 
 aixm:DateBaseType  a  sh:NodeShape ;

@@ -13,12 +13,14 @@ declare variable $config external;
 declare variable $configuration:=fn:doc($config)/configuration;
 
 for $model in $configuration/selection/models/model
+(: run extractor :)
 let $modelSubset:=extractor:getModelSubset($model)
+(: run mapping plugin :)
 let $mappedModel:=
-  if($model/@type/string()="aixm_5-1-1") then
-    aixm_5-1-1:map($modelSubset)
-  else if($model/@type/string()="fixm_3-0-1_sesar") then
-    fixm_3-0-1_sesar:map($modelSubset)
-  else
-    plain:map($modelSubset)
+  if($model/@type/string()="aixm_5-1-1")
+  then aixm_5-1-1:map($modelSubset)
+  else if($model/@type/string()="fixm_3-0-1_sesar") 
+  then fixm_3-0-1_sesar:map($modelSubset)
+  else plain:map($modelSubset)
+(: write mapped model to file :)
 return file:write($model/@output, $mappedModel)

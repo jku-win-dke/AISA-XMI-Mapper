@@ -186,10 +186,10 @@ s1:ID_027
 					
 s1:ID_028				
 	a fixm:TrajectoryPointRole ;
-	fixm:bottomOfClimb [ rdf:value xsd:false ] ;
-	fixm:bottomOfDescent [ rdf:value xsd:false ] ;
-	fixm:topOfClimb [ rdf:value xsd:false ] ;
-	fixm:topOfDescent [ rdf:value xsd:false ] .
+	fixm:bottomOfClimb [ rdf:value false ] ;
+	fixm:bottomOfDescent [ rdf:value false ] ;
+	fixm:topOfClimb [ rdf:value false ] ;
+	fixm:topOfDescent [ rdf:value false ] .
 	
 s1:ID_009 
 	a fixm:FlightPerformanceData ;

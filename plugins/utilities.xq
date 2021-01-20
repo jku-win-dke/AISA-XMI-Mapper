@@ -22,7 +22,8 @@ declare function utilities:getCollection(
 declare function utilities:getSuperElements(
   $element as element(),
   $modelSubset as element(),
-  $stereotype as xs:string?
+  $stereotype as xs:string?,
+  $recursive as xs:boolean
 ) as element()* {
   for $connector in $modelSubset/connectors/connector
   where $connector/properties[@ea_type="Generalization"]
@@ -48,5 +49,7 @@ declare function utilities:getSuperElements(
       and $superElement/properties[@stereotype=$stereotype]
     ) or fn:exists($stereotype)=false()
   )
-  return $superElement
+  return 
+    if($recursive) then ($superElement, utilities:getSuperElements($superElement, $modelSubset, $stereotype, true()))
+    else $superElement
 };

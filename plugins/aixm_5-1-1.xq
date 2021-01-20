@@ -26,28 +26,29 @@ declare function aixm_5-1-1:map(
     xmlns:gml="http://www.opengis.net/gml/3.2#"
     xmlns:aixm="http://www.aisa-project.eu/vocabulary/aixm_5-1-1#">
     {
-      if(fn:exists($modelSubset/elements/element/properties[@stereotype="feature"])) then
-        aixm_5-1-1:getBasisElements()
+      (: if necessary basic elements are added :)
+      if(fn:exists($modelSubset/elements/element/properties[@stereotype="feature"])) 
+      then aixm_5-1-1:getBasicElements()
     }
     {
+      (: mapping of classes based on their stereotype :)
       for $element in $modelSubset/elements/element
       return 
-        if($element/properties[@stereotype="feature"]) then
-          aixm_5-1-1:mapFeature($element, $modelSubset)
-        else if($element/properties[@stereotype="object"]) then
-          aixm_5-1-1:mapObject($element, $modelSubset)
-        else if($element/properties[@stereotype="choice"]) then
-          aixm_5-1-1:mapChoice($element, $modelSubset)
-        else if($element/properties[@stereotype="CodeList"]) then
-          aixm_5-1-1:mapCodeList($element, $modelSubset)
-        else if($element/properties[@stereotype="DataType"]) then
-          aixm_5-1-1:mapDataType($element, $modelSubset)
-        else if($element/properties[@stereotype="XSDsimpleType"]) then
-          aixm_5-1-1:mapXSDsimpleType($element, $modelSubset)
-        else if($element/properties[@stereotype="XSDcomplexType"]) then
-          aixm_5-1-1:mapXSDcomplexType($element, $modelSubset)
-        else
-          aixm_5-1-1:mapPlain($element, $modelSubset)
+        if($element/properties[@stereotype="feature"]) 
+        then aixm_5-1-1:mapFeature($element, $modelSubset)
+        else if($element/properties[@stereotype="object"])
+        then aixm_5-1-1:mapObject($element, $modelSubset)
+        else if($element/properties[@stereotype="choice"]) 
+        then aixm_5-1-1:mapChoice($element, $modelSubset)
+        else if($element/properties[@stereotype="CodeList"])
+        then aixm_5-1-1:mapCodeList($element, $modelSubset)
+        else if($element/properties[@stereotype="DataType"]) 
+        then aixm_5-1-1:mapDataType($element, $modelSubset)
+        else if($element/properties[@stereotype="XSDsimpleType"]) 
+        then aixm_5-1-1:mapXSDsimpleType($element, $modelSubset)
+        else if($element/properties[@stereotype="XSDcomplexType"]) 
+        then aixm_5-1-1:mapXSDcomplexType($element, $modelSubset)
+        else aixm_5-1-1:mapPlain($element, $modelSubset)
     }
   </rdf:RDF>
 };
@@ -55,7 +56,7 @@ declare function aixm_5-1-1:map(
 declare %private function aixm_5-1-1:mapFeature(
   $element as element(),
   $modelSubset as element()
-) as element()* {
+) as element()+ {
   <sh:NodeShape rdf:about="{$aixm_5-1-1:namespace}{$element/@name/string()}">
     <rdf:type rdf:resource="{$aixm_5-1-1:rdfs}Class" />
     <sh:and rdf:parseType="Collection">
@@ -69,26 +70,16 @@ declare %private function aixm_5-1-1:mapFeature(
   <sh:NodeShape rdf:about="{$aixm_5-1-1:namespace}{$element/@name/string()}TimeSlice">
     <rdf:type rdf:resource="{$aixm_5-1-1:rdfs}Class" />
     {
-      for $superElement in utilities:getSuperElements($element, $modelSubset, ())
-      return 
-        if(fn:starts-with($superElement/@name/string(), "GM_")) then
-          let $name:=fn:replace($superElement/@name/string(), "GM_", "")
-          return 
-            <rdfs:subClassOf rdf:resource="{$aixm_5-1-1:gml}{$name}" />
-        else
-          <rdfs:subClassOf rdf:resource="{$aixm_5-1-1:namespace}{$superElement/@name/string()}" />
+      (: map super classes into rdfs:subClassOf :)
+      for $superElement in utilities:getSuperElements($element, $modelSubset, (), false())
+      return <rdfs:subClassOf rdf:resource="{aixm_5-1-1:getIRI($superElement/@name/string())}" />
     }
     <sh:and rdf:parseType="Collection">
       <sh:NodeShape rdf:about="{$aixm_5-1-1:namespace}AIXMTimeSlice" />
       {
-        for $superElement in utilities:getSuperElements($element, $modelSubset, ())
-        return
-          if(fn:starts-with($superElement/@name/string(), "GM_")) then
-            let $name:=fn:replace($superElement/@name/string(), "GM_", "")
-            return 
-              <sh:NodeShape rdf:about="{$aixm_5-1-1:gml}{$name}" />
-          else
-            <sh:NodeShape rdf:about="{$aixm_5-1-1:namespace}{$superElement/@name/string()}" />
+        (: map super classes into sh:and :)
+        for $superElement in utilities:getSuperElements($element, $modelSubset, (), false())
+        return <sh:NodeShape rdf:about="{aixm_5-1-1:getIRI($superElement/@name/string())}" />
       }
     </sh:and>
     { aixm_5-1-1:mapAttributes($element, ()) }
@@ -101,33 +92,25 @@ declare %private function aixm_5-1-1:mapObject(
   $element as element(),
   $modelSubset as element()
 ) as element() {
-  <sh:NodeShape rdf:about="{$aixm_5-1-1:namespace}{$element/@name/string()}">
+  <sh:NodeShape rdf:about="{aixm_5-1-1:getIRI($element/@name/string())}">
     <rdf:type rdf:resource="{$aixm_5-1-1:rdfs}Class" />
     {
-      for $superElement in utilities:getSuperElements($element, $modelSubset, ())
-      return 
-        if(fn:starts-with($superElement/@name/string(), "GM_")) then
-          let $name:=fn:replace($superElement/@name/string(), "GM_", "")
-          return 
-            <rdfs:subClassOf rdf:resource="{$aixm_5-1-1:gml}{$name}" />
-        else
-          <rdfs:subClassOf rdf:resource="{$aixm_5-1-1:namespace}{$superElement/@name/string()}" />
+      (: map super classes into rdfs:subClassOf :)
+      for $superElement in utilities:getSuperElements($element, $modelSubset, (), false())
+      return <rdfs:subClassOf rdf:resource="{aixm_5-1-1:getIRI($superElement/@name/string())}" />
     }
     {
-      let $superElements:=utilities:getSuperElements($element, $modelSubset, ())
-      return if(fn:exists($superElements)) then
-        <sh:and rdf:parseType="Collection">
-          {
-            for $superElement in $superElements
-            return
-              if(fn:starts-with($superElement/@name/string(), "GM_")) then
-                let $name:=fn:replace($superElement/@name/string(), "GM_", "")
-                return 
-                  <sh:NodeShape rdf:about="{$aixm_5-1-1:gml}{$name}" />
-              else
-                <sh:NodeShape rdf:about="{$aixm_5-1-1:namespace}{$superElement/@name/string()}" />
-          }
-        </sh:and>
+      (: map super classes into sh:and :)
+      let $superElements:=utilities:getSuperElements($element, $modelSubset, (), false())
+      return 
+        if(fn:exists($superElements)) 
+        then
+          <sh:and rdf:parseType="Collection">
+            {
+              for $superElement in $superElements
+              return <sh:NodeShape rdf:about="{aixm_5-1-1:getIRI($superElement/@name/string())}" />
+            }
+          </sh:and>
     }
     { aixm_5-1-1:mapAttributes($element, ()) }
     { aixm_5-1-1:mapConnectors($element, $modelSubset) }
@@ -138,7 +121,35 @@ declare %private function aixm_5-1-1:mapObject(
 declare %private function aixm_5-1-1:mapChoice(
   $element as element(),
   $modelSubset as element()
-) {};
+) {
+  <sh:NodeShape rdf:about="{$aixm_5-1-1:namespace}{$element/@name/string()}">
+    <sh:xone rdf:parseType="Collection">
+      {
+        (: map connections into possible choices :)
+        for $connector in $modelSubset/connectors/connector
+        where $connector/properties[@ea_type!="Generalization"]
+        where (
+          ( $connector/source[@xmi:idref=$element/@xmi:idref]
+            and $connector/properties[@direction!="Destination -&gt; Source"]
+          ) or 
+          ( $connector/target[@xmi:idref=$element/@xmi:idref] 
+            and $connector/properties[@direction="Destination -&gt; Source"]
+          ))
+        let $targetElement:=
+          if(fn:exists($connector/extendedProperties/@associationclass))
+          then $modelSubset/elements/element[@xmi:idref=$connector/extendedProperties/@associationclass]
+          else
+            if($connector/properties[@direction!="Destination -&gt; Source"]) 
+            then $modelSubset/elements/element[@xmi:idref=$connector/target/@xmi:idref]
+            else $modelSubset/elements/element[@xmi:idref=$connector/source/@xmi:idref]
+        return 
+          <rdf:Description>
+            <sh:class rdf:resource="{aixm_5-1-1:getIRI($targetElement/@name/string())}" />
+          </rdf:Description>
+      }
+    </sh:xone>
+  </sh:NodeShape>
+};
 
 declare %private function aixm_5-1-1:mapCodeList(
   $element as element(),
@@ -149,13 +160,14 @@ declare %private function aixm_5-1-1:mapCodeList(
       { utilities:getCollection($element/attributes/attribute) }
     </sh:in>
     {
-      let $datatype:=utilities:getSuperElements($element, $modelSubset, "XSDsimpleType")
+      (: map <<XSDsimpleType>> super class into sh:datatype :)
+      let $datatype:=utilities:getSuperElements($element, $modelSubset, "XSDsimpleType", false())
       return
-        if(fn:exists($datatype)) then
-          if(fn:count($datatype)>1) then
-            fn:error(xs:QName("error"), "more than one datatype: "||$element/@name/string())
-          else 
-            <sh:datatype rdf:resource="{$aixm_5-1-1:xsd}{$datatype/@name/string()}" />
+        if(fn:exists($datatype))
+        then 
+          if(fn:count($datatype)>1) 
+          then fn:error(xs:QName("error"), "more than one datatype: "||$element/@name/string())
+          else <sh:datatype rdf:resource="{$aixm_5-1-1:xsd}{$datatype/@name/string()}" />
     }
   </sh:NodeShape>
 };
@@ -166,62 +178,71 @@ declare %private function aixm_5-1-1:mapDataType(
 ) as element() {
   <sh:NodeShape rdf:about="{$aixm_5-1-1:namespace}{$element/@name/string()}">
     {
-      let $superElements:=utilities:getSuperElements($element, $modelSubset, "DataType")
-      return if(fn:exists($superElements)) then
-        <sh:and rdf:parseType="Collection">
-          {
-            for $superElement in $superElements
-            return 
-              <sh:NodeShape rdf:about="{$aixm_5-1-1:namespace}{$superElement/@name/string()}" />
-          }
-        </sh:and>
+      (: map <<DataType>> super classes into sh:and :)
+      let $superElements:=utilities:getSuperElements($element, $modelSubset, "DataType", false())
+      return 
+        if(fn:exists($superElements)) 
+        then
+          <sh:and rdf:parseType="Collection">
+            {
+              for $superElement in $superElements
+              return <sh:NodeShape rdf:about="{$aixm_5-1-1:namespace}{$superElement/@name/string()}" />
+            }
+          </sh:and>
     }
     <sh:property rdf:parseType="Resource">
       <sh:path rdf:resource="{$aixm_5-1-1:rdf}value" />
       <sh:maxCount rdf:datatype="{$aixm_5-1-1:xsd}integer">1</sh:maxCount>
       {
-        let $datatype:=utilities:getSuperElements($element, $modelSubset, "XSDsimpleType")
+        (: map <<XSDsimpleType>> super class into sh:datatype of rdf:value property shape :)
+        let $datatype:=utilities:getSuperElements($element, $modelSubset, "XSDsimpleType", false())
+        let $datatype:=
+          if($datatype/@name/string()="token")
+          then "string"
+          else $datatype/@name/string()
         return 
-          if(fn:exists($datatype)) then
-            if(fn:count($datatype)>1) then
-              fn:error(xs:QName("error"), "more than one datatype: "||$element/@name/string())
-            else if($datatype/@name/string()="token") then 
-              <sh:datatype rdf:resource="{$aixm_5-1-1:xsd}string" />
-            else
-              <sh:datatype rdf:resource="{$aixm_5-1-1:xsd}{$datatype/@name/string()}" />
+          if(fn:exists($datatype)) 
+          then
+            if(fn:count($datatype)>1) 
+            then fn:error(xs:QName("error"), "more than one super <<XSDsimpleType>>: "||$element/@name/string())
+            else <sh:datatype rdf:resource="{$aixm_5-1-1:xsd}{$datatype}" />
       }
       {
-        let $superCodelist:=utilities:getSuperElements($element, $modelSubset, "CodeList")
+        (: map <<CodeList>> super class into sh:node of rdf:value property shape :)
+        let $superCodelist:=utilities:getSuperElements($element, $modelSubset, "CodeList", false())
         return 
-          if(fn:exists($superCodelist)) then
-            if(fn:count($superCodelist)>1) then
-              fn:error(xs:QName("error"), "more than one super <<CodeList>>: "||$element/@name/string())
-            else
-              <sh:node rdf:resource="{$aixm_5-1-1:namespace}{$superCodelist/@name/string()}" />
+          if(fn:exists($superCodelist)) 
+          then
+            if(fn:count($superCodelist)>1) 
+            then fn:error(xs:QName("error"), "more than one super <<CodeList>>: "||$element/@name/string())
+            else <sh:node rdf:resource="{$aixm_5-1-1:namespace}{$superCodelist/@name/string()}" />
       }
       {
+        (: map <<XSDfacet>> attributes into constraints of rdf:value property shape :)
         for $attribute in $element/attributes/attribute
         where $attribute/stereotype[@stereotype="XSDfacet"]
         return
-          if($attribute/@name/string()="minLength") then
-            <sh:minLength rdf:datatype="{$aixm_5-1-1:xsd}integer">{$attribute/initial/@body/string()}</sh:minLength>
-          else if($attribute/@name/string()="maxLength") then
-            <sh:maxLength rdf:datatype="{$aixm_5-1-1:xsd}integer">{$attribute/initial/@body/string()}</sh:maxLength>
-          else if($attribute/@name/string()="minInclusive") then 
-            <sh:minInclusive rdf:datatype="{$aixm_5-1-1:xsd}integer">{$attribute/initial/@body/string()}</sh:minInclusive>
-          else if($attribute/@name/string()="maxInclusive") then
-            <sh:maxInclusive rdf:datatype="{$aixm_5-1-1:xsd}integer">{$attribute/initial/@body/string()}</sh:maxInclusive>
-          else if($attribute/@name/string()="minExclusive") then
-            <sh:minExclusive rdf:datatype="{$aixm_5-1-1:xsd}integer">{$attribute/initial/@body/string()}</sh:minExclusive>
-          else if($attribute/@name/string()="maxExclusive") then
-            <sh:maxExclusive rdf:datatype="{$aixm_5-1-1:xsd}integer">{$attribute/initial/@body/string()}</sh:maxExclusive>
-          else if($attribute/@name/string()="pattern") then
-            <sh:pattern rdf:datatype="{$aixm_5-1-1:xsd}string">^{fn:normalize-space($attribute/initial/@body/string())}$</sh:pattern>
+          if($attribute/@name/string()="minLength") 
+          then <sh:minLength rdf:datatype="{$aixm_5-1-1:xsd}integer">{$attribute/initial/@body/string()}</sh:minLength>
+          else if($attribute/@name/string()="maxLength")
+          then <sh:maxLength rdf:datatype="{$aixm_5-1-1:xsd}integer">{$attribute/initial/@body/string()}</sh:maxLength>
+          else if($attribute/@name/string()="minInclusive") 
+          then <sh:minInclusive rdf:datatype="{$aixm_5-1-1:xsd}integer">{$attribute/initial/@body/string()}</sh:minInclusive>
+          else if($attribute/@name/string()="maxInclusive") 
+          then <sh:maxInclusive rdf:datatype="{$aixm_5-1-1:xsd}integer">{$attribute/initial/@body/string()}</sh:maxInclusive>
+          else if($attribute/@name/string()="minExclusive") 
+          then <sh:minExclusive rdf:datatype="{$aixm_5-1-1:xsd}integer">{$attribute/initial/@body/string()}</sh:minExclusive>
+          else if($attribute/@name/string()="maxExclusive") 
+          then <sh:maxExclusive rdf:datatype="{$aixm_5-1-1:xsd}integer">{$attribute/initial/@body/string()}</sh:maxExclusive>
+          else if($attribute/@name/string()="pattern")
+          then <sh:pattern rdf:datatype="{$aixm_5-1-1:xsd}string">^{fn:normalize-space($attribute/initial/@body/string())}$</sh:pattern>
       }
     </sh:property>
     { aixm_5-1-1:mapAttributes($element, "XSDfacet") }
     {
-      if($element/attributes/attribute/properties[@type="NilReasonEnumeration"]) then 
+      (: if an attribute with type NilReasonEnumeration exists, add sh:xone :)
+      if($element/attributes/attribute/properties[@type="NilReasonEnumeration"]) 
+      then 
         <sh:xone rdf:parseType="Collection">
           <rdf:Description>
             {
@@ -238,15 +259,10 @@ declare %private function aixm_5-1-1:mapDataType(
             </sh:property>
           </rdf:Description>
           <rdf:Description>
-            {
-              for $attribute in $element/attributes/attribute
-              where $attribute/properties[@type="NilReasonEnumeration"]
-              return 
-                <sh:property rdf:parseType="Resource">
-                  <sh:path rdf:resource="{$aixm_5-1-1:namespace}{$attribute/@name/string()}" />
-                  <sh:minCount rdf:datatype="{$aixm_5-1-1:xsd}integer">1</sh:minCount> 
-                </sh:property>
-            }
+            <sh:property rdf:parseType="Resource">
+              <sh:path rdf:resource="{$aixm_5-1-1:namespace}nilReason" />
+              <sh:minCount rdf:datatype="{$aixm_5-1-1:xsd}integer">1</sh:minCount> 
+            </sh:property>
           </rdf:Description>
         </sh:xone>
     }
@@ -266,47 +282,54 @@ declare %private function aixm_5-1-1:mapXSDcomplexType(
 declare %private function aixm_5-1-1:mapPlain(
   $element as element(),
   $modelSubset as element()
-) {
-  if(fn:starts-with($element/@name/string(), "GM_")) then
-    let $name:=fn:replace($element/@name/string(), "GM_", "")
-    return 
-      <sh:NodeShape rdf:about="{$aixm_5-1-1:gml}{$name}">
-        <rdf:type rdf:resource="{$aixm_5-1-1:rdfs}Class" />
-      </sh:NodeShape>
-  else
-    <sh:NodeShape rdf:about="{$aixm_5-1-1:namespace}{$element/@name/string()}">
-      <rdf:type rdf:resource="{$aixm_5-1-1:rdfs}Class" />
-    </sh:NodeShape>
+) as element() {
+  aixm_5-1-1:mapObject($element, $modelSubset)
+};
+
+declare %private function aixm_5-1-1:getIRI(
+  $className as xs:string
+) as xs:string {
+  let $name:=
+    if(fn:starts-with($className, "GM_"))
+    then fn:replace($className, "GM_", "")
+    else $className
+  return
+    if(fn:starts-with($className, "GM_"))
+    then $aixm_5-1-1:gml||$name
+    else $aixm_5-1-1:namespace||$name
 };
 
 declare %private function aixm_5-1-1:getRoleName(
   $className as xs:string
 ) as xs:string {
-    "the"||$className
+  "the"||$className
 };
 
 declare %private function aixm_5-1-1:mapAttributes(
   $element as element(),
   $notStereotype as xs:string?
 ) as element()* {
+  (: map attributes into property shapes :)
   for $attribute in $element/attributes/attribute
   where (
     ( fn:exists($notStereotype)
       and (
+        ( fn:exists($attribute/stereotype/@stereotype)=false() )
+        or 
         ( fn:exists($attribute/stereotype/@stereotype) 
           and $attribute/stereotype[@stereotype!=$notStereotype] ) 
-        or ( fn:exists($attribute/stereotype/@stereotype)=false() )
       )
     ) or fn:exists($notStereotype)=false()
   )
   return 
     <sh:property rdf:parseType="Resource">
       <sh:path rdf:resource="{$aixm_5-1-1:namespace}{$attribute/@name/string()}" />
-      <sh:node rdf:resource="{$aixm_5-1-1:namespace}{$attribute/properties/@type/string()}" />
+      <sh:node rdf:resource="{aixm_5-1-1:getIRI($attribute/properties/@type/string())}" />
       {
         let $maxCount:=$attribute/bounds/@upper/string()
-        return if($maxCount!="*") then
-          <sh:maxCount rdf:datatype="{$aixm_5-1-1:xsd}integer">{$maxCount}</sh:maxCount>
+        return 
+          if($maxCount!="*")
+          then <sh:maxCount rdf:datatype="{$aixm_5-1-1:xsd}integer">{$maxCount}</sh:maxCount>
       }
     </sh:property>
 };
@@ -315,123 +338,91 @@ declare %private function aixm_5-1-1:mapConnectors(
   $element as element(),
   $modelSubset as element()
 ) as element()* {
+  (: map connections into property shapes :)
   for $connector in $modelSubset/connectors/connector
   where $connector/properties[@ea_type!="Generalization"]
   where (
     ( $connector/source[@xmi:idref=$element/@xmi:idref]
-      and $connector/properties[@direction="Source -&gt; Destination"]
+      and $connector/properties[@direction!="Destination -&gt; Source"]
     ) or 
     ( $connector/target[@xmi:idref=$element/@xmi:idref] 
       and $connector/properties[@direction="Destination -&gt; Source"]
     ))
+  (: get the element's target element of the connection :)
   let $targetElement:=
-    if(fn:exists($connector/extendedProperties/@associationclass)) then
-      $modelSubset/elements/element[@xmi:idref=$connector/extendedProperties/@associationclass]
+    if(fn:exists($connector/extendedProperties/@associationclass))
+    then $modelSubset/elements/element[@xmi:idref=$connector/extendedProperties/@associationclass]
     else
-      if($connector/properties[@direction="Source -&gt; Destination"]) then
-        $modelSubset/elements/element[@xmi:idref=$connector/target/@xmi:idref]
-      else
-        $modelSubset/elements/element[@xmi:idref=$connector/source/@xmi:idref]
+      if($connector/properties[@direction!="Destination -&gt; Source"]) 
+      then $modelSubset/elements/element[@xmi:idref=$connector/target/@xmi:idref]
+      else $modelSubset/elements/element[@xmi:idref=$connector/source/@xmi:idref]
+  (: get path name :)
   let $pathName:=
-    if($connector/properties[@direction="Source -&gt; Destination"]) then
-      if(fn:exists($connector/target/role/@name)) then
-        $connector/target/role/@name
-      else
-        aixm_5-1-1:getRoleName($targetElement/@name/string())
+    if($connector/properties[@direction!="Destination -&gt; Source"]) 
+    then
+      if(fn:exists($connector/target/role/@name)) 
+      then $connector/target/role/@name
+      else aixm_5-1-1:getRoleName($targetElement/@name/string())
     else
-      if(fn:exists($connector/source/role/@name)) then
-        $connector/source/role/@name
-      else
-        aixm_5-1-1:getRoleName($targetElement/@name/string())
-    let $cardinality:=
-      if($connector/properties[@direction="Source -&gt; Destination"]) then
-        $connector/target/type/@multiplicity
-      else
-        $connector/source/type/@multiplicity
-    return 
-      if($targetElement/properties[@stereotype="choice"]) then (
-        <sh:property rdf:parseType="Resource">
-          <sh:path rdf:resource="{$aixm_5-1-1:namespace}{$pathName}" />
-          {
-            let $maxCount:=fn:substring-after($connector/target/type/@multiplicity, "..")
-            return if(fn:exists($maxCount) and $maxCount!="*") then
-              <sh:maxCount rdf:datatype="{$aixm_5-1-1:xsd}integer">{$maxCount}</sh:maxCount> 
-          }
-        </sh:property>,
-        <sh:xone rdf:parseType="Collection">
-          {
-            for $targetElementConnector in $modelSubset/connectors/connector
-            where $targetElementConnector/properties[@ea_type!="Generalization"]
-            where (
-              ( $targetElementConnector/source[@xmi:idref=$targetElement/@xmi:idref]
-                and $targetElementConnector/properties[@direction="Source -&gt; Destination"]
-              ) or 
-              ( $targetElementConnector/target[@xmi:idref=$targetElement/@xmi:idref] 
-                and $targetElementConnector/properties[@direction="Destination -&gt; Source"]
-              ))
-            let $targetElementTargetName:=
-              if($targetElementConnector/properties[@direction="Source -&gt; Destination"]) then
-                $targetElementConnector/target/model/@name/string()
-              else
-                $targetElementConnector/source/model/@name/string()
-            return 
-              <rdf:Description>
-                <sh:property rdf:parseType="Resource">
-                  <sh:path rdf:resource="{$aixm_5-1-1:namespace}{$pathName}" />
-                  {
-                    let $minCount:=fn:substring-before($connector/target/type/@multiplicity, "..")
-                    return 
-                      if(fn:exists($minCount) and $minCount!="*" and $minCount!="0") then
-                        <sh:minCount rdf:datatype="{$aixm_5-1-1:xsd}integer">{$minCount}</sh:minCount>
-                      else
-                        <sh:minCount rdf:datatype="{$aixm_5-1-1:xsd}integer">1</sh:minCount>
-                  }
-                  <sh:class rdf:resource="{$aixm_5-1-1:namespace}{$targetElementTargetName}" />
-                </sh:property>
-              </rdf:Description>
-         }
-       </sh:xone>
-      )
-      else
-        <sh:property rdf:parseType="Resource">
-          <sh:path rdf:resource="{$aixm_5-1-1:namespace}{$pathName}" />
-          <sh:class rdf:resource="{$aixm_5-1-1:namespace}{$targetElement/@name/string()}" />
-          {
-            let $minCount:=fn:substring-before($cardinality, "..")
-            return if(fn:exists($minCount) and $minCount!="*" and $minCount!="0") then
-              <sh:minCount rdf:datatype="{$aixm_5-1-1:xsd}integer">{$minCount}</sh:minCount>
-          }
-          {
-            let $maxCount:=fn:substring-after($cardinality, "..")
-            return if(fn:exists($maxCount) and $maxCount!="*") then
-              <sh:maxCount rdf:datatype="{$aixm_5-1-1:xsd}integer">{$maxCount}</sh:maxCount> 
-          }
-        </sh:property>
+      if(fn:exists($connector/source/role/@name)) 
+      then $connector/source/role/@name
+      else aixm_5-1-1:getRoleName($targetElement/@name/string())
+  (: get cardinality :)
+  let $cardinality:=
+    if($connector/properties[@direction!="Destination -&gt; Source"]) 
+    then $connector/target/type/@multiplicity
+    else $connector/source/type/@multiplicity
+  return 
+      <sh:property rdf:parseType="Resource">
+        <sh:path rdf:resource="{$aixm_5-1-1:namespace}{$pathName}" />
+        {
+          if($targetElement/properties[@stereotype="choice"])
+          then <sh:node rdf:resource="{aixm_5-1-1:getIRI($targetElement/@name/string())}" />
+          else <sh:class rdf:resource="{aixm_5-1-1:getIRI($targetElement/@name/string())}" /> 
+        }
+        {
+          let $minCount:=fn:substring-before($cardinality, "..")
+          return if(fn:exists($minCount) and $minCount!="*" and $minCount!="0") then
+            <sh:minCount rdf:datatype="{$aixm_5-1-1:xsd}integer">{$minCount}</sh:minCount>
+        }
+        {
+          let $maxCount:=fn:substring-after($cardinality, "..")
+          return if(fn:exists($maxCount) and $maxCount!="*") then
+            <sh:maxCount rdf:datatype="{$aixm_5-1-1:xsd}integer">{$maxCount}</sh:maxCount> 
+        }
+      </sh:property>
 };
 
 declare %private function aixm_5-1-1:mapConnectorsOfAssociationClass(
   $element as element(),
   $modelSubset as element()
 ) as element()* {
+  (: add property shapes to association classes :)
   for $connector in $modelSubset/connectors/connector
-    where $element[@xmi:idref=$connector/extendedProperties/@associationclass]
-    where $connector/properties[@ea_type!="Generalization"]
-    let $targetName:=
-      if($connector/properties[@direction="Source -&gt; Destination"]) then
-        $connector/target/model/@name/string()
-      else
-        $connector/source/model/@name/string()
-    let $pathName:=aixm_5-1-1:getRoleName($targetName)
-    return 
-      <sh:property rdf:parseType="Resource">
-        <sh:path rdf:resource="{$aixm_5-1-1:namespace}{$pathName}" />
-        <sh:class rdf:resource="{$aixm_5-1-1:namespace}{$targetName}" />
-        <sh:minCount rdf:datatype="{$aixm_5-1-1:xsd}integer">1</sh:minCount>
-        <sh:maxCount rdf:datatype="{$aixm_5-1-1:xsd}integer">1</sh:maxCount> 
-      </sh:property>
+  where $element[@xmi:idref=$connector/extendedProperties/@associationclass]
+  (: get the element's target element of the connection :)
+  let $targetElement:=
+    if($connector/properties[@direction!="Destination -&gt; Source"]) then
+      $modelSubset/elements/element[@xmi:idref=$connector/target/@xmi:idref]
+    else
+      $modelSubset/elements/element[@xmi:idref=$connector/source/@xmi:idref]
+  (: path name is always constructed for association classes :)
+  let $pathName:=aixm_5-1-1:getRoleName($targetElement/@name/string())
+  return 
+    <sh:property rdf:parseType="Resource">
+      <sh:path rdf:resource="{$aixm_5-1-1:namespace}{$pathName}" />
+      <sh:minCount rdf:datatype="{$aixm_5-1-1:xsd}integer">1</sh:minCount>
+      <sh:maxCount rdf:datatype="{$aixm_5-1-1:xsd}integer">1</sh:maxCount> 
+      {
+        if($targetElement/properties[@stereotype="choice"])
+        then <sh:node rdf:resource="{aixm_5-1-1:getIRI($targetElement/@name/string())}" /> 
+        else <sh:class rdf:resource="{aixm_5-1-1:getIRI($targetElement/@name/string())}" /> 
+      }
+    </sh:property>
 };
 
-declare %private function aixm_5-1-1:getBasisElements(){
+declare %private function aixm_5-1-1:getBasicElements(
+) as element()+ {
   <sh:NodeShape rdf:about="{$aixm_5-1-1:namespace}AIXMFeature">
     <sh:property rdf:parseType="Resource">
       <sh:path rdf:resource="{$aixm_5-1-1:namespace}timeSlice" />

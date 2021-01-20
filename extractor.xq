@@ -5,24 +5,22 @@ declare namespace xmi="http://schema.omg.org/spec/XMI/2.1";
 declare function extractor:getModelSubset(
   $model as element()
 ) as element()* {
-  
   let $xmiFile:=fn:doc($model/@input)
   let $classNames:=fn:distinct-values($model/classes/class/string()) 
-  
+  (: get selected classes :)
   let $selectedElements:=
     for $className in $classNames
     let $element:=$xmiFile/xmi:XMI/xmi:Extension/elements/element
       [@name=$className]
       [@xmi:type="uml:Class" or @xmi:type="uml:Enumeration"]
     return
-      if(fn:count($element)=1) then 
-        $element
-      else if (fn:count($element)<1) then 
-        fn:error(xs:QName("error"), "element not found: "||$className)
-      else
-        fn:error(xs:QName("error"), "unique name assumption violated: "||$className)
-     
-   return extractor:getModelSubsetRecursive($xmiFile, $selectedElements, (), $model/classes/@connectorLevel)
+      if(fn:count($element)=1)
+      then $element
+      else if (fn:count($element)<1) 
+      then fn:error(xs:QName("error"), "element not found: "||$className)
+      else fn:error(xs:QName("error"), "unique name assumption violated: "||$className)
+  (: run extraction process based on selected classes :)
+  return extractor:getModelSubsetRecursive($xmiFile, $selectedElements, (), $model/classes/@connectorLevel/string())
 };
 
 declare %private function extractor:getModelSubsetRecursive(
@@ -31,10 +29,9 @@ declare %private function extractor:getModelSubsetRecursive(
   $connectors as element()*,
   $connectorLevel as xs:string
 ) as element()* {
-  
+  (: size of selected subset :)
   let $oldCount:=fn:count($elements)+fn:count($connectors)
-
-  (: connectors :)
+  (: get outgoing connections from the selected subset :)
   let $connectors:=$connectors union (
     for $connector in $xmiFile/xmi:XMI/xmi:Extension/connectors/connector
     where fn:exists($connectors[@xmi:idref=$connector/@xmi:idref])=false()
@@ -54,8 +51,7 @@ declare %private function extractor:getModelSubsetRecursive(
     )
     return $connector
   )
-  
-  (: connected elements :)
+  (: get classes which are target of outgoing connections :)
   let $elements:=$elements union (
     for $connector in $connectors
     let $connectedElement:=
@@ -68,8 +64,7 @@ declare %private function extractor:getModelSubsetRecursive(
     where fn:exists($elements[@xmi:idref=$connectedElement/@xmi:idref])=false()
     return $connectedElement
   )
-    
-  (: association elements :)
+  (: get classes which are association classes of outgoing connections :)
   let $elements:=$elements union (
     for $connector in $connectors
     where $connector/extendedProperties[@associationclass]
@@ -78,8 +73,7 @@ declare %private function extractor:getModelSubsetRecursive(
     where fn:exists($elements[@xmi:idref=$associationElement/@xmi:idref])=false()
     return $associationElement
   )
-  
-  (: attribute elements :)
+  (: get classes which are attribute classes of the selected subset :)
   let $elements:=$elements union (
     for $element in $elements
       for $attribute in $element/attributes/attribute
@@ -89,20 +83,20 @@ declare %private function extractor:getModelSubsetRecursive(
       where fn:exists($elements[@xmi:idref=$attributeElement/@xmi:idref])=false()
       return $attributeElement
   )
-  
-  let $newCount:=fn:count($elements)+fn:count($connectors) 
-    
+  (: new size of the selected subset :)
+  let $newCount:=fn:count($elements)+fn:count($connectors)
   return 
-    if($connectorLevel="n") then
-      if($newCount > $oldCount) then
-        extractor:getModelSubsetRecursive($xmiFile, $elements, $connectors, $connectorLevel)
-      else
-        extractor:returnFormat($elements, $connectors)
+    if($connectorLevel="n")
+    then 
+      (: run extraction again if size of the selected subset increased :)
+      if($newCount>$oldCount) 
+      then extractor:getModelSubsetRecursive($xmiFile, $elements, $connectors, $connectorLevel)
+      else extractor:returnFormat($elements, $connectors)
     else
-      if($newCount > $oldCount and xs:integer($connectorLevel)>1) then
-        extractor:getModelSubsetRecursive($xmiFile, $elements, $connectors, xs:string(xs:integer($connectorLevel)-1))
-      else
-        extractor:returnFormat($elements, $connectors)
+      (: run extraction again if size of the selected subset increased and connectorLevel is still > 1 :)
+      if($newCount>$oldCount and xs:integer($connectorLevel)>1) 
+      then extractor:getModelSubsetRecursive($xmiFile, $elements, $connectors, xs:string(xs:integer($connectorLevel)-1))
+      else extractor:returnFormat($elements, $connectors)
 };
 
 declare %private function extractor:returnFormat(
@@ -111,14 +105,10 @@ declare %private function extractor:returnFormat(
 ) as element() {
   <model>
     <elements>
-    { 
-      $elements
-    }
+      { $elements }
     </elements>
     <connectors>
-    {
-      $connectors
-    }
+      { $connectors }
     </connectors>
   </model>
 };
