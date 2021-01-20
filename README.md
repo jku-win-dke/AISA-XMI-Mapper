@@ -243,7 +243,8 @@ If the extracted model subset contains an element with stereotype "feature", the
 			sh:property [ 
 				sh:datatype xsd:string ;
 				sh:maxCount 1 ;
-				sh:path gml:indeterminatePosition
+				sh:path gml:indeterminatePosition ;
+				sh:in ( "after" "before" "now" "unknown" )
 			] ;
 			sh:property [ 
 				sh:datatype xsd:dateTime ;
