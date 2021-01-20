@@ -31,16 +31,16 @@ For feedback or issues contact: sebastian.gruber@jku.at
 
 ## 1. Introduction
 
-The AISA-XMI-Mapper maps selected classes of UML diagrams to a combination of RDF Schema (RDFS) and Shape Constraint Language (SHACL). The RDFS defines the vocabulary of the domain (classes and class hierarchies) which is described by the UML class diagrams. The SHACL defines structural constraints of the domain. The mapper is created with the aim of mapping aeronautical UML models (AIXM, FIXM, ...) which adhere to a specific modelling style. Therefore, models provided to the mapper must fulfill certain semantic and syntactic requirements.
+The AISA-XMI-Mapper maps selected classes of UML class diagrams to RDF Schema (RDFS) and Shape Constraint Language (SHACL) documents. RDFS defines the vocabulary of the domain which is described by the UML class diagrams, i.e. classes and class hierarchies. SHACL defines structural constraints of the domain. The mapper is created with the aim of mapping aeronautical UML models (AIXM 5.1.1., FIXM 3.0.1. SESAR) which adhere to a specific modelling style. Therefore, models provided to the mapper must fulfill certain semantic and syntactic requirements.
 
 ### 1.1. Semantic Requirements
 
-1. Class names must be unique within a model (AIXM, FIXM, ...). There can be a UML class called "Route" in an AIXM based model and an FIXM based model but there must not be two different UML classes called "Route" in one model (even if they are in different packages).
+1. Class names must be unique within a model (AIXM, FIXM, ...). There can be a UML class called "Route" in an AIXM based model and an FIXM based model but there must not be two different UML classes called "Route" in one model even if they are in different packages.
 2. Models must contain only directed associations because RDF is based on directed graphs.          
 3. Role names (at the target) of associations with the same source class must be unique within the source class.      
 4. Role names must exist, if there is more than one association between a source and a target class. If there is only one association and no role name provided, the role name is constructed using the name of the target class.
 
-Requirement 1 is validated by the mapper and if violated, throws an error. Requirements 2-4 are assumed to be UML model requirements and not validated by the mapper.
+Requirement 1 is validated by the mapper and, if violated, throws an error. Requirements 2-4 are assumed to be UML model requirements and are not validated by the mapper.
 
 ### 1.2. Syntactic Requirements
 
@@ -48,7 +48,7 @@ Requirement 1 is validated by the mapper and if violated, throws an error. Requi
 
 ### 1.3. Architecture
 
-The architecture of the mapper is shown in the figure below (or see [architecture.jpg](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/_architecture/architecture.JPG)). A configuration file refering to XMI files and with lists of selected UML classes is provided as input to the mapper. The selected subset of UML classes is extracted by the extractor module. The extracted subset is then mapped by the corresponding plugin to a RDFS/SHACL document and provided in a RDF/XML file.
+The architecture of the mapper is shown in the figure below. A configuration file refers to XMI files and keeps lists of selected UML classes. A single configuration file is provided as input to the mapper. Based on the configuration file, selected subsets of models are extracted by the extractor module. Extracted subsets of models are mapped by plugins which are responsible for certain models to RDFS/SHACL documents provided as RDF/XML files. There is no one fits all mapping approach, therefore we use different plugins for different models.
 
 ![Architecture](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/_architecture/architecture.JPG)
 
@@ -56,25 +56,35 @@ The architecture of the mapper is shown in the figure below (or see [architectur
 
 There are a few ways to run the mapper, here are two examples:
 
-1. Install a W3C compliant XQuery processor (e.g. BaseX) and run the file mapper.xq
-	1. Using the BaseX command line tool: `basex -b$config="<configurationFile.xml>" mapper.xq`
-	2. Or using the BaseX GUI and manually binding the location of the configuration file to the config variable
-2. Run a Java Code which in turn runs the mapper.xq
+1. Install a W3C compliant XQuery processor (e.g. BaseX) and run the file mapper.xq:
+	1. Using the BaseX command line tool: `basex -b$config="<locationOfTheConfigurationFile.xml>" mapper.xq`.
+	2. Or using the BaseX GUI and manually binding the location of the configuration file to the config variable.
+2. Run Java Code which runs the mapper.xq
 	1. See the example [RunMapper.java](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/_sampleJavaProgram/SampleProgram/src/main/java/at/jku/dke/samples/RunMapper.java) of the SampleProgram.
 	
 ### 1.5. How to validate data graphs
 
-The SampleProgram provides two classes which can utilize generated RDFS/SHACL documents:
+There are a few ways to validate data with generated RDFS/SHACL documents. As an example, the SampleProgram provides two classes which can utilize generated RDFS/SHACL documents:
 
 1. Transforming an RDFS/SHACL document from RDF/XML to RDF/TTL, see [TransformXML2TTL.java](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/_sampleJavaProgram/SampleProgram/src/main/java/at/jku/dke/samples/TransformXML2TTL.java) using Apache Jena.
 2. Validating data graphs by an RDFS/SHACL document, see [ValidationWithSHACL.java](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/_sampleJavaProgram/SampleProgram/src/main/java/at/jku/dke/samples/ValidationWithSHACL.java) using Apache Jena.
 
-Attention! Be cautious that data graphs use the same namespaces as the generated RDFS/SHACL dcouments!
-Example: Instead of using "http://www.aixm.aero/schema/5.1.1#" for AIXM, we use "http://www.aisa-project.eu/vocabulary/aixm_5-1-1#".
+Be aware of data graphs using the same namespaces as the generated RDFS/SHACL dcouments! Instead of using "http://www.aixm.aero/schema/5.1.1#", we use "http://www.aisa-project.eu/vocabulary/aixm_5-1-1#" for AIXM. Furthermore, we use "http://www.aisa-project.eu/vocabulary/fixm_3-0-1_sesar#" for fixm and "http://www.aisa-project.eu/xquery/plain#" for plain models.
 
 ### 1.6. Performance
 
-TBD.
+There is no performance requirement for the AISA XMI Mapper because the schemas are typically only mapped once in the beginning. Hence, the XQuery code is not written to maximize performance. However, here are some exemplary performance data running the mapper with the provided configuration files in the BaseX GUI (using a Lenovo Thinkpad T470p).
+
+Execution | AIXM_DONLON.xml | AIXM_COCESNA.xml | FIXM_EDDF-VHHH.xml
+--------- | --------------- | ---------------- | ------------------
+1 | 32 821 ms | 102 323 ms | 12 555 ms
+2 | 34 069 ms | 102 758 ms | 12 336 ms
+3 | 33 137 ms | 103 382 ms | 12 524 ms
+4 | 33 875 ms | 103 906 ms | 12 333 ms
+5 | 34 443 ms | 104 194 ms | 12 335 ms
+Average | 33 669ms | 103 313 ms | 12 417 ms
+
+The performance highly depends on the connectorLevel in the configuration file (connectorLevel="n" needs a lot of processing) and on the connections of selected classes of a model. It DOES NOT depend on the number of classes! As an example, the mapper using AIXM_DONLON.xml (selects 11 classes) is way more faster than the mapper using AIXM_COCESNA.xml (selects 3 classes). If performance becomes an issue, the connectorLevel could be adapted or especially the extractor.xq could be optimized because it includes some overhead (not necessary) processing.
 
 ## 2. Configuration File
 
@@ -84,7 +94,7 @@ In the configuration file subsets of UML classes of models to-be mapped can be s
 1. input: The path to the model's XMI file.
 2. type: The type of the model determines the plugin used for mapping, i.e. type can be "aixm_5-1-1", "fixm_3-0-1_sesar", "plain".
 3. output: The path of the to-be generated RDFS/SHACL document.
-4. connectorLevel: For each connector level, the subset is increased by another level of outgoing connectors from selected classes to other classes and resolving attributes of classes. The connectorLevel can be "1", "2", ..., "n". It is recommended to use "n" to include not visible classes (especially from stereotype "choice" in AIXM and FIXM) of a data graph. If "n" is not used, then the connector level should be choosen in a way that i resolves necessary datatypes, e.g. in AIXM a minimum of connector level 4 would be necessary.
+4. connectorLevel: For each connector level, the subset is increased by another level of outgoing connectors from selected classes to other classes and resolving attributes of classes. The connectorLevel can be "1", "2", ..., "n". It is recommended to use "n" to include not visible classes (especially from stereotype "choice" in AIXM and FIXM) of a data graph. If "n" is not used, then the connector level should be choosen in a way that i resolves necessary datatypes, e.g. in AIXM a minimum of connector level 4 would be useful.
 The example below shows that the the classes "AirportHeliport" and "City" of the model at "input/AIXM_5.1.1.xmi" should be mapped by the plugin with the name "aixm_5-1-1".
 
 		<configuration>
@@ -95,6 +105,9 @@ The example below shows that the the classes "AirportHeliport" and "City" of the
 							<class>AirportHeliport</class>
 							<class>City</class>
 						</classes>
+					</model>
+					<model ... >
+						...
 					</model>
 				</models>
 			</selection>
@@ -145,41 +158,45 @@ Additional configuration files can be added without changing existing ones. Howe
 
 ### 3.1. mapper.xq
 
-The [mapper.xq](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/mapper.xq) is the main module of the mapper. The variable $config refering to the location of the configuration file needs to be set correctly. For each model specified in the configuration file, it delegates the extraction process to the extractor.xq, then it delegates the mapping process with the extracted model subset to the corresponding plugin, and finally writes the result to a file. 
+The [mapper.xq](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/mapper.xq) is the main module of the mapper. The variable $config refering to the location of the configuration file needs to be set externally. For each model specified in the configuration file, it delegates the extraction process to the extractor.xq. After the extraction the mapper delegates the mapping process to the corresponding plugin, and finally writes the result to a file. 
 
 ### 3.2. extractor.xq
 
-The [extractor.xq](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/extractor.xq) extracts a subset of UML classes and connectors from an XMI file based on the configuration file. The following steps are performed:
+The [extractor.xq](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/extractor.xq) extracts a subset of UML classes and connections from an XMI file based on the configuration file. The following steps are performed:
 
 1. Extracting the selected UML classes
-2. Recursive call of extraction:
-	1. Extract outgoing connectors from the set of extracted UML classes
-	2. Extract UML classes with an ingoing connector from 2.1.
-	3. Extract UML classes which are association classes of connectors from 2.1.
-	4. Extract UML classes which are attributes of extracted UML classes
+2. Extracting of corresponding UML classes and connections (recursive):
+	1. Extract outgoing connections from the set of selected and extracted UML classes
+	2. Extract UML classes with an ingoing connection from 2.1.
+	3. Extract UML classes which are association classes of connections from 2.1.
+	4. Extract UML classes which are attributes of selected and extracted UML classes
 	5. If connectorLevel="n":
 		1. If the extracted model subset increased in size, then add another cycle of extraction.
 		2. Otherwise, return the extracted model subset.
-	6. Else:
+	6. Otherwise:
 		1. If the extracted model subset increased in size and connectorLevel > 1, then add another cycle of extraction and reduce the connectorLevel by 1.
 		2. Otherwise, return the extracted model subset.
+		
+In the end, the extracted model subset is returned to the mapper.xq.
 
 ### 3.3. Plugins
 
-[Plugins](https://github.com/bastlyo/AISA-XMI-Mapper/tree/main/plugins) are implementations of mapping semantics of different models. Each plugin is a XQuery module with the task to map a given model subset to an RDFS/SHACL document. There is no one fits all mapping approach! For example, stereotypes or attributes may have different meanings or may be used differently in different models. By default, the following plugins are available:
+[Plugins](https://github.com/bastlyo/AISA-XMI-Mapper/tree/main/plugins) are implementations of different models' mapping semantics. Each plugin is a XQuery module with the task to map a given model subset to an RDFS/SHACL document. We use different plugins for different models because there is no one fits all mapping approach. For example, stereotypes or attributes may have different meanings or may be used differently in different models. By default, the following plugins are available:
 
 1. aixm_5-1-1.xq for AIXM 5.1.1
 2. fixm_3-0-1_sesar.xq for FIXM 3.0.1 SESAR
 3. plain.xq for plain UML models (no consideration of stereotypes)
 
-The mapper can simply be extended by adding new plugins as XQuery modules to the plugin folder and by adding them to the plugin-choice in the mapper.xq (variable $mappedModel). A new plugin may be useful, if a model to-be mapped uses stereotypes differently than in previous models. In addition, a new plugin may also be useful, if an existing plugin needs to be adapated, e.g. different namespace or new meaning of a stereotype.
+The mapper can simply be extended by adding new plugins as XQuery modules to the plugin folder and by adding them to the delegation of the mapping process in the mapper.xq (variable $mappedModel). A new plugin may be useful, if a model needs to be mapped that uses stereotypes differently than in previous models. In addition, a new plugin may also be useful, if an existing plugin needs to be adapated, e.g. different namespaces or updating the meaning of a stereotype.
 
 ### 3.3.1. utilities.xq
 
-The [utilities.xq](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/plugins/utilities.xq) provides basic functionality for all other plugins. It provides two functions:
+The [utilities.xq](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/plugins/utilities.xq) provides basic functionality used in the plugins. It provides two functions:
 
 1. Transform a sequence of elements to an RDF/XML list
-2. Find super elements of an element in a given model subset (optional: which are not from an certain stereotype) 
+2. Find super classes of an class in a given model subset with two options:
+	1. Super elements are not from a certain stereotype
+	2. Call this function recursively to find all super classes of a class
 
 ### 3.3.2. aixm_5-1-1.xq
 
