@@ -20,12 +20,11 @@ For feedback or issues contact: sebastian.gruber@jku.at
 	3. [Plugins](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/README.md#33-plugins)
 		1. [utilities.xq](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/README.md#331-utilitiesxq)
 		2. [aixm_5-1-1.xq](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/README.md#332-aixm_5-1-1xq)
-			1. [Basic classes for AIXM features](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/README.md#3321-basic-classes-for-aixm-features)
+			1. [Basic elements for AIXM features](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/README.md#3321-basic-elements-for-aixm-features)
 			2. [Basic Mapping Methods](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/README.md#3322-basic-mapping-methods)
 			3. [Mapping of UML classes](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/README.md#3323-mapping-of-uml-classes)
 		3. [fixm_3-0-1_sesar.xq](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/README.md#333-fixm_3-0-1_sesarxq)
-			1. [Basic Mapping Methods](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/README.md#3331-basic-mapping-methods)
-			1. [Mapping of UML classes](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/README.md#3332-mapping-of-uml-classes)
+			1. [Mapping of UML classes](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/README.md#3331-mapping-of-uml-classes)
 		4. [plain.xq](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/README.md#334-plainxq)
 4. [RDFS/SHACL Document](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/README.md#4-rdfsshacl-document)
 
@@ -67,7 +66,7 @@ There are a few ways to run the mapper, here are two examples:
 There are a few ways to validate data with generated RDFS/SHACL documents. As an example, the SampleProgram provides two classes which can utilize generated RDFS/SHACL documents:
 
 1. Transforming an RDFS/SHACL document from RDF/XML to RDF/TTL, see [TransformXML2TTL.java](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/_sampleJavaProgram/SampleProgram/src/main/java/at/jku/dke/samples/TransformXML2TTL.java) using Apache Jena.
-2. Validating data graphs by an RDFS/SHACL document, see [ValidationWithSHACL.java](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/_sampleJavaProgram/SampleProgram/src/main/java/at/jku/dke/samples/ValidationWithSHACL.java) using Apache Jena.
+2. Perform RDFS reasoning and validating data graphs by an RDFS/SHACL document, see [ValidationWithSHACL.java](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/_sampleJavaProgram/SampleProgram/src/main/java/at/jku/dke/samples/ValidationWithSHACL.java) using Apache Jena.
 
 Be aware of data graphs using the same namespaces as the generated RDFS/SHACL dcouments! Instead of using "http://www.aixm.aero/schema/5.1.1#", we use "http://www.aisa-project.eu/vocabulary/aixm_5-1-1#" for AIXM. Furthermore, we use "http://www.aisa-project.eu/vocabulary/fixm_3-0-1_sesar#" for fixm and "http://www.aisa-project.eu/xquery/plain#" for plain models.
 
@@ -90,12 +89,13 @@ The performance highly depends on the connectorLevel in the configuration file (
 
 ### 2.1. Structure of the configuration file
 
-In the configuration file subsets of UML classes of models to-be mapped can be specified. The following parameters must be provided:
+In configuration files UML classes of different models to-be mapped can be specified. The following attributes (or parameters) must be provided:
 1. input: The path to the model's XMI file.
-2. type: The type of the model determines the plugin used for mapping, i.e. type can be "aixm_5-1-1", "fixm_3-0-1_sesar", "plain".
-3. output: The path of the to-be generated RDFS/SHACL document.
-4. connectorLevel: For each connector level, the subset is increased by another level of outgoing connectors from selected classes to other classes and resolving attributes of classes. The connectorLevel can be "1", "2", ..., "n". It is recommended to use "n" to include not visible classes (especially from stereotype "choice" in AIXM and FIXM) of a data graph. If "n" is not used, then the connector level should be choosen in a way that i resolves necessary datatypes, e.g. in AIXM a minimum of connector level 4 would be useful.
-The example below shows that the the classes "AirportHeliport" and "City" of the model at "input/AIXM_5.1.1.xmi" should be mapped by the plugin with the name "aixm_5-1-1".
+2. type: The type of the model determines the plugin used for mapping, i.e. type can be "aixm_5-1-1", "fixm_3-0-1_sesar" or "plain".
+3. output: The path to the to-be generated RDFS/SHACL document.
+4. connectorLevel: For each connector level, the subset is increased by another level of outgoing connectors from selected classes to other classes and resolving attributes of classes. The connectorLevel can be "1", "2", ..., "n". It is recommended to use "n" to include not visible classes (especially from stereotype "choice" in AIXM and FIXM) of a data graph. However, using connectorLevel "n" decreases performance and increases the size of the schema eventually including classes which are not required. If "n" is not used, then the connector level should be choosen in a way that it resolves necessary datatypes, e.g. in AIXM a minimum of connector level 4 is recommended.
+
+The example below shows that the the classes "AirportHeliport" and "City" of the model at "input/AIXM_5.1.1.xmi" should be mapped by the plugin with the name "aixm_5-1-1" and using a connector level of "n".
 
 		<configuration>
 			<selection>
@@ -115,7 +115,7 @@ The example below shows that the the classes "AirportHeliport" and "City" of the
 
 ### 2.2. How to write a configuration file 
 
-In order to determine the UML classes to be selected, only consider UML classes from the namespace of the model. As an example, see the decisions for the [configuration](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/configurations/AIXM_DONLON.xml) of the [Donlon airport example](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/_exampleData/AIXM_DONLON.ttl) below.
+In order to determine the UML classes to be selected, only consider UML classes from the namespace of the model. In addition, TimeSlice classes in AIXM cannot be selected because they are not part of the AIXM UML class diagrams, instead they are generated by the mapper if the parent feature is selected. As an example, see the decisions for the [configuration](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/configurations/AIXM_DONLON.xml) of the [Donlon airport example](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/_exampleData/AIXM_DONLON.ttl) below.
 
 	Donlon airport									decisions for configuration file
 	<uuid:dd062d88-3e64-4a5d-bebd-89476db9ebea> a aixm:AirportHeliport; 	-->	<class>AirportHeliport</class>
@@ -200,13 +200,13 @@ The [utilities.xq](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/plugins/
 
 ### 3.3.2. aixm_5-1-1.xq
 
-The [aixm_5-1-1.xq](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/plugins/aixm_5-1-1.xq) targets models which are based on [AIXM 5.1.1](http://www.aixm.aero/page/aixm-511-specification). First, basic elements are added, afterwards element by element of the extracted model subset is mapped.
+The [aixm_5-1-1.xq](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/plugins/aixm_5-1-1.xq) targets models which are based on [AIXM 5.1.1](http://www.aixm.aero/page/aixm-511-specification). First, basic elements are added and then, element by element of the extracted model subset is mapped.
 
-#### 3.3.2.1. Basic Classes for AIXM features
+#### 3.3.2.1. Basic Elements for AIXM features
 
-If the extracted model subset contains an element with stereotype "feature", the following basic elements are added to the result:
+If the extracted model subset contains an element with stereotype "feature", the following basic classes are added to the result:
 
-1. An empty SHACL shape named "aixm:AIXMFeature" which can be extended by general AIXM feature properties.
+1. An empty SHACL shape named "aixm:AIXMFeature" which could be extended by general AIXM feature properties. This shape represents the abstract AIXMFeature class. Its identifier attribute is not mapped into a property shape because the identifier of features is used as resource identifier (IRI). 
 		
 		aixm:AIXMFeature a sh:NodeShape .
 2. A SHACL shape named "aixm:AIXMTimeSlice" which keeps general and mandatory attributes of feature time slices, i.e. gml:validTime, aixm:interpretation, aixm:sequenceNumber, aixm:correctionNumber.
@@ -303,7 +303,7 @@ If the extracted model subset contains an element with stereotype "feature", the
 				sh:path rdf:value
 			] .
 
-These basic elements are not part of the AIXM 5.1.1 XMI file and therefore added manually. Other GML constructs like gml:pos inherited through gml:Point are also not part of the AIXM 5.1.1 XMI file either and not considered. A generated AIXM RDFS/SHACL document could be combined with a GML RDFS/SHACL document for a complete validation of the data.
+These basic elements are mandatory for AIXM features and not modelled accordingly in the AIXM 5.1.1 UML class diagrams, therefore, they are added manually. Other GML constructs like gml:pos inherited through gml:Point are also not part of the AIXM 5.1.1 UML class diagrams. A generated AIXM RDFS/SHACL document could be combined with a GML RDFS/SHACL document for a complete validation of the data.
 
 #### 3.3.2.2. Basic Mapping Methods
 
@@ -458,53 +458,7 @@ Now after introducing the basic mapping methods, the mapping of elements based o
 
 The [fixm_3-0-1_sesar.xq](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/plugins/fixm_3-0-1_sesar.xq) target models which are based on [FIXM 3.0.1 SESAR](https://www.fixm.aero/release.pl?rel=SESAR_Ext-1.0). 
 
-#### 3.3.3.1. Basic Mapping Methods
-
-Before diving into the details of the FIXM plugin, let's introduce a few basic mapping methods, i.e. mapping of attributes and connectors (there are no association classes in FIXM):
-
-1. **Attributes** of a UML class are mapped into optional (i.e. sh:minCount 0) property shapes. If an attribute targets a "choice" class with outgoing connectors, a simple property shape with the attribute name as path is generated. In addition, a sh:or providing all connectors of that "choice" class is added. If an attribute directly targets an XSD datatype, a blank SHACL shape is added as target node of the property shape with the target datatype in order to preserve the rdf:value-structure of attribute values. In all other cases, a simple property shape with an sh:node or sh:class (depending if the RDFS class exists) is generated. Example fixm:operatingOrganization in fixm:AircraftOperator (attribute targets "choice" class with outgoing connectors),  fixm:replacementFlightPlanIndicator in fixm:OtherInformation (attribute targets XSD datatype) and fixm:runwayVisualRange in fixm:OtherInformation (other case):
-
-		fixm:AircraftOperator
-			a rdfs:Class , sh:NodeShape ;
-			sh:or ( 
-				[ 
-					sh:property [ 
-						sh:class fixm:Organization ;
-						sh:path fixm:operatingOrganization
-					]
-				]
-				[ 
-					sh:property [ 
-						sh:class fixm:Person ;
-						sh:path fixm:operatingOrganization
-					]
-				]
-			) ;
-			sh:property [ 
-				sh:maxCount 1 ;
-				sh:path fixm:operatingOrganization
-			] .
-			fixm:OtherInformation
-				a rdfs:Class , sh:NodeShape ;
-				sh:property [ 
-					sh:maxCount 1 ;
-					sh:node [ 
-						a sh:NodeShape ;
-						sh:property [ 
-							sh:datatype xsd:integer ;
-							sh:path rdf:value
-						]
-					] ;
-					sh:path fixm:replacementFlightPlanIndicator
-				] ;
-				sh:property [ 
-					sh:maxCount 1 ;
-					sh:node fixm:Distance ;
-					sh:path fixm:runwayVisualRange
-				] .
-2. **Connections** to other UML classes are mapped into property shapes with the sh:minCount and sh:maxCount representing the cardinality of the relationship. The target class is specified by the sh:class constraint. If a role name (connector name) is provided, this name is used for sh:path. Otherwise, the sh:path is the target class name with the first letter in lower case. ...
-
-#### 3.3.3.2. Mapping of UML classes
+#### 3.3.3.1. Mapping of UML classes
 
 UML classes of FIXM 3.0.1 SESAR are mapped based on their stereotype:
 
