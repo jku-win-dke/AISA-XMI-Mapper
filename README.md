@@ -462,7 +462,7 @@ The [fixm_3-0-1_sesar.xq](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/p
 
 UML classes of FIXM 3.0.1 SESAR are mapped based on their stereotype:
 
-1. Stereotype **"enumeration"**: For each UML class with stereotype "enumeration" a SHACL shape is generated. It has a single mandatory (sh:minCount 1) property with the sh:path depending on the name of the UML class. In case of the name containing "Measure" the sh:path is fixm:uom, otherwise it is rdf:value. The class's attribute names are allowed values and therefore mapped as a SHACL list into sh:in. Example fixm:AbrogationReasonCode and fixm:TemperatureMeasure: 
+1. Stereotype **"enumeration"**: For each UML class with stereotype "enumeration" a SHACL shape is generated. It has a single mandatory (sh:minCount 1) property with the sh:path being fixm:uom or rdf:value. In case the name of the UML class contains "Measure" the sh:path is fixm:uom, otherwise it is rdf:value. The attribute names of the UML class are allowed values and therefore mapped as a SHACL list into sh:in. Example fixm:AbrogationReasonCode and fixm:TemperatureMeasure: 
 		
 		fixm:AbrogationReasonCode
 			a sh:NodeShape ;
@@ -478,8 +478,14 @@ UML classes of FIXM 3.0.1 SESAR are mapped based on their stereotype:
 				sh:minCount 1 ;
 				sh:path fixm:uom
 			] .
-2. Stereotype **"choice"**: There is no direct mapping into SHACL shapes or RDFS classes. In case a UML class with stereotype "choice" has outgoing connections, it is mapped in the targeting UML class, i.e. similar to the mapping in AIXM, the "choice" class is resolved in the class targeting the "choice" class. In case a UML class with stereotype "choice" has no outgoing connections, it is mapped as if it would have no stereotype (see below) but its attributes are mapped into a sh:xone. Example fixm:AircraftType (no outgoing connections) and fixm:PersonOrOrganization (outgoing connections) resolved in fixm:AircraftOperator:
+2. Stereotype **"choice"**: For each UML class with stereotype "choice" a SHACL shape is generated. There are two different cases: (1) a choice class is used as attribute or (2) a choice class is used via connections. In case (1) the generated SHACL shape is only a link between a UML class and a choice of allowed attributes or connections. Therefore, the SHACL shape of the choice class only contains the attributes and connections in a sh:xone (only one attribute or connection is allowed). In case (2) the generated SHACL shape is also an RDFS class. It also provides the choice between attributes and connections in a sh:xone but including their paths and maxCount constraint. Example fixm:PersonOrOrganization (case 1) and fixm:AircraftType (case 2):
 
+		fixm:PersonOrOrganization
+			a sh:NodeShape ;
+			sh:xone (
+				[ sh:class  fixm:Organization ]
+				[ sh:class  fixm:Person ]
+			) .
 		fixm:AircraftType 
 			a rdfs:Class , sh:NodeShape ;
         		sh:xone ( 
@@ -500,32 +506,30 @@ UML classes of FIXM 3.0.1 SESAR are mapped based on their stereotype:
 					]
 				]
 			) .
-		fixm:AircraftOperator
+3. **No** stereotype: For each UML class with no stereotype a SHACL shape is generated. If a UML class or one of its super classes are not based on an XSD datatype, it is also an RDFS class with its super classes as rdfs:subClassOf Triple added. In every case, super classes are added as sh:and statements. In case, there is an attribute called "uom", an sh:and statements needs to include the SHACL shape of that attribute. If the UML class (or one of its super classes) is connected to an XSD datatype, a SHACL property shape with sh:path rdf:value is added (together with its constraints and datatype). Attributes of classes are mapped into optional property shapes. In case the type of an attribute is one of a few possible XSD datatypes, the attribute's property shape targets a blank node shape with a single property shape that has the rdf:value as sh:path. The blank node shape is necessary to keep the structure of instance data consistant. In all other cases, attributes are simply mapped into optional property shapes. Connectoions of a UML class are also mapped into property shapes. Example attribute fixm:topOfClimb with an XSD datatype in fixm:TrajectoryPointRole, and attribute fixm:aircraftColours as well as connection fixm:aircraftType in fixm:Aircraft:
+
+		fixm:TrajectoryPointRole
 			a rdfs:Class , sh:NodeShape ;
-			sh:or ( 
-				[ 
-					sh:property [ 
-						sh:class fixm:Organization ;
-						sh:path fixm:operatingOrganization
-					]
-				]
-				[ 
-					sh:property [ 
-						sh:class fixm:Person ;
-						sh:path fixm:operatingOrganization
-					]
-				]
-			) ;
 			sh:property [ 
 				sh:maxCount 1 ;
-				sh:path fixm:operatingOrganization
-			] .
-3. **No** stereotype: For each UML class with no stereotype (and with stereotype "choice with no outgoing connections) a SHACL shape is generated. If the class or its super class is not connected to an XSD datatype, it is also an RDFS class. In addition, super classes are added as rdfs:subClassOf and sh:and statements. In case, there is an attribute called "uom", an sh:and statements needs to include the SHACL shape of that attribute. If the element (or one of its super elements) is connected to an XSD datatype, a SHACL property with sh:path rdf:value is added (together with its constraints and datatype). If it is an UML class with no stereotype attributes and connectors are mapped using the basic mapping methods, otherwise only its attributes are mapped into sh:xone (see mapping of "choice" above). Example fixm:Aircraft:
-
+				sh:node [ 
+					a sh:NodeShape ;
+					sh:property [ 
+						sh:datatype xsd:boolean ;
+						sh:path rdf:value
+					]
+				] ;
+				sh:path fixm:topOfClimb
+			] ... .
 		fixm:Aircraft 
 			a rdfs:Class , sh:NodeShape ;
 			rdfs:subClassOf fixm:Feature ;
 			sh:and ( fixm:Feature ) ;
+			sh:property [ 
+				sh:node fixm:FreeText ;
+				sh:maxCount 1 ;
+				sh:path fixm:aircraftColours
+			] ;
 			sh:property [ 
 				sh:class fixm:AircraftType ;
 				sh:maxCount 1 ;
@@ -534,7 +538,11 @@ UML classes of FIXM 3.0.1 SESAR are mapped based on their stereotype:
 
 ### 3.3.4. plain.xq
 
-The [plain.xq](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/plugins/plain.xq) ...
+The [plain.xq](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/plugins/plain.xq) targets models which are not based AIXM and FIXM and do not use stereotypes. Due to this general requirement, this mapping approach is also very limited and may need manual investigation and improvments.
+
+#### 3.3.4.1. Mapping of UML classes
+
+For each UML class from the extracted subset, a SHACL shape / RDFS class is generated. Super classes of a UML class are mapped into rdfs:subClassOf and sh:and. Attributes are mapped into optional property shapes, while connections are mapped into property shapes with the cardinality of the relationship being represented in the sh:minCount and sh:maxCount. If a UML class is an association class, connections are resolved such that the source class has a property shape which targets the association class, while the association class has a property shape which targets the target class.
 
 ## 4. RDFS/SHACL Document
 
