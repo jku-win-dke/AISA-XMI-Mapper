@@ -26,6 +26,7 @@ For feedback or issues contact: sebastian.gruber@jku.at
 		3. [fixm_3-0-1_sesar.xq](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/README.md#333-fixm_3-0-1_sesarxq)
 			1. [Mapping of UML classes](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/README.md#3331-mapping-of-uml-classes)
 		4. [plain.xq](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/README.md#334-plainxq)
+			1. [Mapping of UML classes](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/README.md#3341-mapping-of-uml-classes)
 4. [RDFS/SHACL Document](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/README.md#4-rdfsshacl-document)
 
 ## 1. Introduction
@@ -183,9 +184,10 @@ In the end, the extracted model subset is returned to the mapper.xq.
 
 [Plugins](https://github.com/bastlyo/AISA-XMI-Mapper/tree/main/plugins) are implementations of different models' mapping semantics. Each plugin is a XQuery module with the task to map a given model subset to an RDFS/SHACL document. We use different plugins for different models because there is no one fits all mapping approach. For example, stereotypes or attributes may have different meanings or may be used differently in different models. By default, the following plugins are available:
 
-1. aixm_5-1-1.xq for AIXM 5.1.1
-2. fixm_3-0-1_sesar.xq for FIXM 3.0.1 SESAR
-3. plain.xq for plain UML models (no consideration of stereotypes)
+1. utilities.xq provides basic functionality for plugins
+2. aixm_5-1-1.xq for AIXM 5.1.1
+3. fixm_3-0-1_sesar.xq for FIXM 3.0.1 SESAR
+4. plain.xq for plain UML models (no consideration of stereotypes)
 
 The mapper can simply be extended by adding new plugins as XQuery modules to the plugin folder and by adding them to the delegation of the mapping process in the mapper.xq (variable $mappedModel). A new plugin may be useful, if a model needs to be mapped that uses stereotypes differently than in previous models. In addition, a new plugin may also be useful, if an existing plugin needs to be adapated, e.g. different namespaces or updating the meaning of a stereotype.
 
@@ -307,9 +309,9 @@ These basic elements are mandatory for AIXM features and not modelled accordingl
 
 #### 3.3.2.2. Basic Mapping Methods
 
-Before diving into the details of the AIXM plugin, let's introduce a few basic mapping methods, i.e. mapping of attributes, connectors and association classes:
+Some mapping methods in AIXM are used in multiple cases, including mapping of attributes, connectors and association classes:
 
-1. **Attributes** of a UML class are mapped into optional (i.e. sh:minCount 0) property shapes with the attribute type being the target node. Example attribute aixm:name of aixm:AirportHeliport:
+1. **Attributes** of a UML class are mapped into optional (i.e. sh:minCount 0) property shapes with the attribute type being the target node. The name of the attribute is used as sh:path. Example attribute aixm:name of aixm:AirportHeliport:
 
 		aixm:AirportHeliportTimeSlice
 			sh:property [
@@ -317,7 +319,7 @@ Before diving into the details of the AIXM plugin, let's introduce a few basic m
 				sh:node aixm:TextNameType ;
 				sh:maxCount 1 ;
 			] .
-2. **Connections** to other UML classes are mapped into property shapes with the sh:minCount and sh:maxCount representing the cardinality of the relationship. The target class is specified by the sh:class constraint. If a role name is provided, this name is used for sh:path. Otherwise, the sh:path is the combination of "the" plus the target class name. There is an exception of mapping connections: association classes. If an association class for a connection exists, the property of the UML class targets the association class and not the initial target class. Furthermore, the association class has a property added for the connection to the target class. Example of a normal connection to the class aixm:City and a connection with an association class to aixm:OrganisationAuthority of aixm:AirportHeliport:
+2. **Connections** to other UML classes are mapped into property shapes with the sh:minCount and sh:maxCount representing the cardinality of the relationship. The target class is specified by the sh:class constraint. If a role name is provided, this name is used for sh:path. Otherwise, the sh:path is the combination of "the" plus the target class name. There is an exception of mapping connections: association classes. If an association class for a connection exists, the property of the source UML class targets the association class. Furthermore, the association class has a property shape which targets the connection's target class. Example of aixm:AirportHeliport with a connection to the class aixm:City and a connection to the class aixm:OrganisationAuthority with an association class with the association class aixm:AirportHeliportResponsibilityOrganisation:
 
 		aixm:AirportHeliportTimeSlice
 			sh:property [ 
@@ -329,7 +331,7 @@ Before diving into the details of the AIXM plugin, let's introduce a few basic m
 				sh:maxCount 1 ;
 				sh:path aixm:responsibleOrganisation
 			] .
-3. A UML class can be an **association class** for a connection between two other classes. As already explained above, a property shape is added to a association class targeting the target class of the association. The sh:path is always the combination of "the" plus the target class name. Example of connection between aixm:AirportHeliport and aixm:OrganisationAuthority with aixm:AirportHeliportResponsibilityOrganisation as assocation class:
+3. A UML class can be an **association class** for a connection between two other classes. As already explained above, a property shape is added to an association class targeting the connection's target class. The sh:path is always the combination of "the" plus the target class name since the role name is already used by the source class. Example of the connection between aixm:AirportHeliport and aixm:OrganisationAuthority with aixm:AirportHeliportResponsibilityOrganisation as assocation class:
 		
 		aixm:AirportHeliportResponsibilityOrganisation
 			sh:property [
@@ -339,9 +341,10 @@ Before diving into the details of the AIXM plugin, let's introduce a few basic m
 				sh:path aixm:theOrganisationAuthority
                          ] .
 #### 3.3.2.3. Mapping of UML classes
-Now after introducing the basic mapping methods, the mapping of elements based on their stereotype is presented:
 
-1. Stereotype **"feature"**: For each UML class with stereotype "feature" two SHACL shapes / RDFS classes are generated. The first SHACL shape / RDFS class extends the aixm:AIXMFeature shape and has only one property named aixm:timeSlice. The second SHACL shape / RDFS class extends the aixm:AIXMTimeSlice shape and is named like the UML class with the phrase "TimeSlice" added at the end. For each super class of the feature, a rdfs:subClassOf and sh:and statement are added to the TimeSlice. Furthermore, the TimeSlice holds all attributes and connections of the corresponding feature. The three basic methods explained above are used for mapping attributes and connections of a feature into its TimeSlice. Example feature aixm:AirportHeliport with aixm:AirportHeliportTimeSlice:
+UML classes of AIXM 5.1.1 are mapped based on their stereotype:
+
+1. Stereotype **"feature"**: For each UML class with stereotype "feature" two SHACL shapes / RDFS classes are generated. The first SHACL shape / RDFS class extends the aixm:AIXMFeature shape and has only one property named aixm:timeSlice. The second SHACL shape / RDFS class extends the aixm:AIXMTimeSlice shape and is named like the UML class with the phrase "TimeSlice" added at the end. For each super class of the feature, a rdfs:subClassOf and sh:and statement are added to the corresponding TimeSlice. Furthermore, the TimeSlice holds all attributes and connections of the corresponding feature as property shapes. Therefore, the three basic methods explained above are used. Example feature aixm:AirportHeliport with aixm:AirportHeliportTimeSlice:
 	
 		aixm:AirportHeliport
 			a rdfs:Class , sh:NodeShape ;
@@ -358,7 +361,7 @@ Now after introducing the basic mapping methods, the mapping of elements based o
 				sh:node aixm:TextNameType ;
 				sh:maxCount 1 ;
 			] ... .
-2. Stereotype **"object"**: For each UML class with stereotype "object" a SHACL shape / RDFS class is generated. Super classes and the three basic mapping methods are used exactly in the same way as in UML classes with stereotype "feature". The only difference between features and objects is that there are no TimeSlice classes in objects. Example aixm:AirportHeliportUsage:
+2. Stereotype **"object"**: For each UML class with stereotype "object" a SHACL shape / RDFS class is generated. Super classes and the three basic mapping methods are used exactly in the same way as in UML classes with stereotype "feature". The only difference between features and objects is that there are no added TimeSlice classes for objects. Example aixm:AirportHeliportUsage:
 	
 		aixm:AirportHeliportUsage
 			a rdfs:Class , sh:NodeShape ;
@@ -379,7 +382,7 @@ Now after introducing the basic mapping methods, the mapping of elements based o
 			a sh:NodeShape ;
 			sh:datatype  xsd:string ;
 			sh:in ( "FT" "M" "FL" "SM" "OTHER" ) .
-4. Stereotype **"DataType"**: For each UML class with stereotype "DataType" a SHACL shape is generated. For each super class with stereotype "DataType", a sh:and statement is added. The property shape with sh:path rdf:value is always added to classes with stereotype "DataType". If a super class with stereotype "XSDsimpleType" exists, a sh:datatype constraint is added for the property shape of rdf:value. If a super class with stereotype "CodeList" exists, a sh:node constraint is added for the property shape of rdf:value. If an attribute with stereotype "XSDfacet" exists, it is added as corresponding constraint (e.g. minLength) for the property shape of rdf:value. If a super class with stereotype "XSDsimpleType" exists, a SHACL datatype constraint is added for the property shape of rdf:value. All other attributes with stereotype not being "XSDfacet" are mapped according to the basic mapping of attributes. If an attribute from type "NilReasonEnumeration" exists, a SHACL exactly one (sh:xone) constraint is added, specifiyng that either a aixm:nilReason can occur or all other properties and rdf:value. Example aixm:ValDistanceVerticalType and its super class aixm:ValDistanceVerticalBaseType:
+4. Stereotype **"DataType"**: For each UML class with stereotype "DataType" a SHACL shape is generated. For each super class with stereotype "DataType", a sh:and statement is added. The property shape with sh:path rdf:value is always added to classes with stereotype "DataType". If a super class with stereotype "XSDsimpleType" exists, a sh:datatype constraint is added for the rdf:value property shape. If a super class with stereotype "CodeList" exists, a sh:node constraint is added for the property shape of rdf:value. If an attribute with stereotype "XSDfacet" exists, it is added as corresponding SHACL constraint (e.g. minLength) for the rdf:value property shape. If a super class with stereotype "XSDsimpleType" exists, a SHACL datatype constraint is added for the rdf:value property shape. All other attributes with stereotype not being "XSDfacet" are mapped according to the basic mapping of attributes. If an attribute from type "NilReasonEnumeration" exists, a SHACL exactly one (sh:xone) constraint is added, specifiyng that either a aixm:nilReason can occur or all other properties and rdf:value. Classes with stereotype "DataType" are typically used in attributes and not in connections, thus, the basic mapping methods 2 and 3 are not used. Example aixm:ValDistanceVerticalType and its super class aixm:ValDistanceVerticalBaseType:
 
 		aixm:ValDistanceVerticalType
 			a sh:NodeShape ;
@@ -423,34 +426,21 @@ Now after introducing the basic mapping methods, the mapping of elements based o
 				sh:path rdf:value ;
 				sh:pattern "^((\\+|\\-){0,1}[0-9]{1,8}(\\.[0-9]{1,4}){0,1})|UNL|GND|FLOOR|CEILING$"
 			] .
-5. Stereotype **"choice"**: There is no direct mapping into SHACL shape or RDFS class. UML classes with stereotype "choice" are mapped by classes which target the "choice" class with a connection. In this case, a SHACL property shape is added to the class which targets the "choice" class. The property shape has the connection name to the choice class as sh:path but no sh:class constraint. Instead, the sh:class is determined by an additional sh:xone constraint which provides the classes connected to the "choice" class by outgoing connections. Example aixm:SegmentPoint with property aixm:pointChoice targeting the choice aixm:SignificantPoint:
-
-		aixm:SegmentPoint
-			a rdfs:Class , sh:NodeShape ;
-			sh:property [
-				sh:path aixm:pointChoice ;
-				sh:maxCount 1 ;
-		] ;
+5. Stereotype **"choice"**: For each UML class with stereotype "choice" a SHACL shape is generated. The generated SHACL shape is only a link between a UML class and a choice between allowed classes. Therefore, the SHACL shape of the choice class only contains the connections in a sh:xone (only one connection is allowed). Example aixm:SignficantPoint:
+	
+		aixm:SignificantPoint
+		a sh:NodeShape ;
 		sh:xone (
-			[ 
-				sh:property [ 
-					sh:minCount 1 ;
-					sh:path aixm:pointChoice ;
-					sh:class aixm:AirportHeliport ; 
-				] ;
-			]
-			[ 
-				sh:property [ 
-					sh:minCount 1 ;
-					sh:path aixm:pointChoice ;
-					sh:class aixm:DesignatedPoint ; 
-				] ;
-			]
-			...
+			[ sh:class aixm:AirportHeliport ]
+			[ sh:class aixm:TouchDownLiftOff ]
+			[ sh:class aixm:RunwayCentrelinePoint ]
+			[ sh:class aixm:Point ]
+			[ sh:class aixm:Navaid ]
+			[ sh:class aixm:DesignatedPoint ]
 		) .
-6. Stereotype **"XSDsimpleType"**: No mapping.
+6. Stereotype **"XSDsimpleType"**: No mapping. Super classes with this stereotype are used to derive sh:datatype constraints in sub classes (with stereotype "DataType" or "CodeList").
 7. Stereotype **"XSDcomplexType"**: No mapping.
-8. **No** stereotype: For each UML class with no stereotype a SHACL shape / RDFS class with no content are generated. Typically, only GML based classes have no stereotype. UML classes from GML are classes with names starting with "GM_". These GML based classes are mapped into the GML namespace.
+8. **No** stereotype: UML classes with no stereotypes are mapped the same as UML classes with stereotype "object". Example gml:Point: 
 
 		gml:Point a rdfs:Class , sh:NodeShape .
 
@@ -478,7 +468,7 @@ UML classes of FIXM 3.0.1 SESAR are mapped based on their stereotype:
 				sh:minCount 1 ;
 				sh:path fixm:uom
 			] .
-2. Stereotype **"choice"**: For each UML class with stereotype "choice" a SHACL shape is generated. There are two different cases: (1) a choice class is used as attribute or (2) a choice class is used via connections. In case (1) the generated SHACL shape is only a link between a UML class and a choice of allowed attributes or connections. Therefore, the SHACL shape of the choice class only contains the attributes and connections in a sh:xone (only one attribute or connection is allowed). In case (2) the generated SHACL shape is also an RDFS class. It also provides the choice between attributes and connections in a sh:xone but including their paths and maxCount constraint. Example fixm:PersonOrOrganization (case 1) and fixm:AircraftType (case 2):
+2. Stereotype **"choice"**: For each UML class with stereotype "choice" a SHACL shape is generated. There are two different cases: (1) a choice class is used as attribute or (2) a choice class is used via connections. In case (1) the generated SHACL shape is only a link between a UML class and a choice between allowed attributes or connected classes. Therefore, the SHACL shape of the choice class only contains the attributes and connections in a sh:xone (only one attribute or connection is allowed). In case (2) the generated SHACL shape is also an RDFS class. It also provides the choice between attributes and connections in a sh:xone but including their paths and maxCount constraint. Example fixm:PersonOrOrganization (case 1) and fixm:AircraftType (case 2):
 
 		fixm:PersonOrOrganization
 			a sh:NodeShape ;
