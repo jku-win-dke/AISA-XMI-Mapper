@@ -14,6 +14,7 @@ For feedback or issues contact: sebastian.gruber@jku.at
 2. [Configuration File](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/README.md#2-configuration-file)
 	1. [Structure of the configuration file](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/README.md#21-structure-of-the-configuration-file)
 	2. [How to write a configuration file](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/README.md#22-how-to-write-a-configuration-file)
+	3. [Extensions](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/README.md#23-extensions)
 3. [Mapper](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/README.md#3-mapper)
 	1. [mapper.xq](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/README.md#31-mapperxq)
 	2. [extractor.xq](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/README.md#32-extractorxq)
@@ -154,6 +155,26 @@ In order to determine the UML classes to be selected, only consider UML classes 
 	s2:ID_ACT_211 a event:AirportHeliportExtension;				-->	no aixm namespace
 
 Additional configuration files can be added without changing existing ones. However, the mapper can only consider one configuration file. Make sure that the reference to the to-be used configuration file is correctly set in the mapper.xq (variable $config). 
+
+### 2.3. Extensions
+
+In case the mapper should be further configurable by attributes or connections of classes which should only be mapped or which should not be mapped, this information should be provided as an inclusion or exclusion list in the configuration file. As an example:
+
+	...
+		<classes>
+			<class name="AirportHeliport">
+				<attributes>
+					<attribute>name</attribute>
+				</attributes>
+				<connectors>
+					<connector>serves</connector>
+				</connectors>
+			</class>
+			...
+		</classes>
+	...
+
+Make sure you must adapt the extractor module accordingly. Furthermore, you must consider this configuration in the mapping plugins. Simply check while mapping attributes or connectors of an UML class if this attribute or connector is part of the list in the configuration file. 
 
 ## 3. Mapper
 
