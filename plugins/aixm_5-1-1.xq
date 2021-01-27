@@ -62,6 +62,11 @@ declare %private function aixm_5-1-1:mapFeature(
     <sh:and rdf:parseType="Collection">
       <sh:NodeShape rdf:about="{$aixm_5-1-1:namespace}AIXMFeature" />
     </sh:and>
+    {
+      (: map super classes into rdfs:subClassOf :)
+      for $superElement in utilities:getSuperElements($element, $modelSubset, (), false())
+      return <rdfs:subClassOf rdf:resource="{aixm_5-1-1:getIRI($superElement/@name/string())}" />
+    }
     <sh:property rdf:parseType="Resource">
       <sh:path rdf:resource="{$aixm_5-1-1:namespace}timeSlice" />
       <sh:class rdf:resource="{$aixm_5-1-1:namespace}{$element/@name/string()}TimeSlice" />
@@ -72,7 +77,7 @@ declare %private function aixm_5-1-1:mapFeature(
     {
       (: map super classes into rdfs:subClassOf :)
       for $superElement in utilities:getSuperElements($element, $modelSubset, (), false())
-      return <rdfs:subClassOf rdf:resource="{aixm_5-1-1:getIRI($superElement/@name/string())}" />
+      return <rdfs:subClassOf rdf:resource="{aixm_5-1-1:getIRI($superElement/@name/string())}TimeSlice" />
     }
     <sh:and rdf:parseType="Collection">
       <sh:NodeShape rdf:about="{$aixm_5-1-1:namespace}AIXMTimeSlice" />
