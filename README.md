@@ -1,34 +1,34 @@
 # AISA-XMI-Mapper
 
-For feedback or issues contact: sebastian.gruber@jku.at 
+For feedback or issues contact: bernd.neumayr@jku.at 
 
 ## Table of content
 
-1. [Introduction](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/README.md#1-introduction)
-	1. [Semantic Requirements](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/README.md#11-semantic-requirements)
-	2. [Syntactic Requirements](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/README.md#12-syntactic-requirements)
-	3. [Architecture](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/README.md#13-architecture)
-	4. [How to run the Mapper](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/README.md#14-how-to-run-the-mapper)
-	5. [How to validate data graphs](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/README.md#15-how-to-validate-data-graphs)
-	6. [Performance](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/README.md#16-performance)
-2. [Configuration File](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/README.md#2-configuration-file)
-	1. [Structure of the configuration file](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/README.md#21-structure-of-the-configuration-file)
-	2. [How to write a configuration file](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/README.md#22-how-to-write-a-configuration-file)
-	3. [Extensions](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/README.md#23-extensions)
-3. [Mapper](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/README.md#3-mapper)
-	1. [mapper.xq](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/README.md#31-mapperxq)
-	2. [extractor.xq](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/README.md#32-extractorxq)
-	3. [Plugins](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/README.md#33-plugins)
-		1. [utilities.xq](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/README.md#331-utilitiesxq)
-		2. [aixm_5-1-1.xq](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/README.md#332-aixm_5-1-1xq)
-			1. [Basic elements for AIXM features](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/README.md#3321-basic-elements-for-aixm-features)
-			2. [Basic Mapping Methods](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/README.md#3322-basic-mapping-methods)
-			3. [Mapping of UML classes](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/README.md#3323-mapping-of-uml-classes)
-		3. [fixm_3-0-1_sesar.xq](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/README.md#333-fixm_3-0-1_sesarxq)
-			1. [Mapping of UML classes](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/README.md#3331-mapping-of-uml-classes)
-		4. [plain.xq](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/README.md#334-plainxq)
-			1. [Mapping of UML classes](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/README.md#3341-mapping-of-uml-classes)
-4. [RDFS/SHACL Document](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/README.md#4-rdfsshacl-document)
+1. [Introduction](https://github.com/jku-win-dke/AISA-XMI-Mapper/blob/main/README.md#1-introduction)
+	1. [Semantic Requirements](https://github.com/jku-win-dke/AISA-XMI-Mapper/blob/main/README.md#11-semantic-requirements)
+	2. [Syntactic Requirements](https://github.com/jku-win-dke/AISA-XMI-Mapper/blob/main/README.md#12-syntactic-requirements)
+	3. [Architecture](https://github.com/jku-win-dke/AISA-XMI-Mapper/blob/main/README.md#13-architecture)
+	4. [How to run the Mapper](https://github.com/jku-win-dke/AISA-XMI-Mapper/blob/main/README.md#14-how-to-run-the-mapper)
+	5. [How to validate data graphs](https://github.com/jku-win-dke/AISA-XMI-Mapper/blob/main/README.md#15-how-to-validate-data-graphs)
+	6. [Performance](https://github.com/jku-win-dke/AISA-XMI-Mapper/blob/main/README.md#16-performance)
+2. [Configuration File](https://github.com/jku-win-dke/AISA-XMI-Mapper/blob/main/README.md#2-configuration-file)
+	1. [Structure of the configuration file](https://github.com/jku-win-dke/AISA-XMI-Mapper/blob/main/README.md#21-structure-of-the-configuration-file)
+	2. [How to write a configuration file](https://github.com/jku-win-dke/AISA-XMI-Mapper/blob/main/README.md#22-how-to-write-a-configuration-file)
+	3. [Extensions](https://github.com/jku-win-dke/AISA-XMI-Mapper/blob/main/README.md#23-extensions)
+3. [Mapper](https://github.com/jku-win-dke/AISA-XMI-Mapper/blob/main/README.md#3-mapper)
+	1. [mapper.xq](https://github.com/jku-win-dke/AISA-XMI-Mapper/blob/main/README.md#31-mapperxq)
+	2. [extractor.xq](https://github.com/jku-win-dke/AISA-XMI-Mapper/blob/main/README.md#32-extractorxq)
+	3. [Plugins](https://github.com/jku-win-dke/AISA-XMI-Mapper/blob/main/README.md#33-plugins)
+		1. [utilities.xq](https://github.com/jku-win-dke/AISA-XMI-Mapper/blob/main/README.md#331-utilitiesxq)
+		2. [aixm_5-1-1.xq](https://github.com/jku-win-dke/AISA-XMI-Mapper/blob/main/README.md#332-aixm_5-1-1xq)
+			1. [Basic elements for AIXM features](https://github.com/jku-win-dke/AISA-XMI-Mapper/blob/main/README.md#3321-basic-elements-for-aixm-features)
+			2. [Basic Mapping Methods](https://github.com/jku-win-dke/AISA-XMI-Mapper/blob/main/README.md#3322-basic-mapping-methods)
+			3. [Mapping of UML classes](https://github.com/jku-win-dke/AISA-XMI-Mapper/blob/main/README.md#3323-mapping-of-uml-classes)
+		3. [fixm_3-0-1_sesar.xq](https://github.com/jku-win-dke/AISA-XMI-Mapper/blob/main/README.md#333-fixm_3-0-1_sesarxq)
+			1. [Mapping of UML classes](https://github.com/jku-win-dke/AISA-XMI-Mapper/blob/main/README.md#3331-mapping-of-uml-classes)
+		4. [plain.xq](https://github.com/jku-win-dke/AISA-XMI-Mapper/blob/main/README.md#334-plainxq)
+			1. [Mapping of UML classes](https://github.com/jku-win-dke/AISA-XMI-Mapper/blob/main/README.md#3341-mapping-of-uml-classes)
+4. [RDFS/SHACL Document](https://github.com/jku-win-dke/AISA-XMI-Mapper/blob/main/README.md#4-rdfsshacl-document)
 
 ## 1. Introduction
 
@@ -51,7 +51,7 @@ Requirement 1 is validated by the mapper and, if violated, throws an error. Requ
 
 The architecture of the mapper is shown in the figure below. A configuration file refers to XMI files and keeps lists of selected UML classes. A single configuration file is provided as input to the mapper. Based on the configuration file, selected subsets of models are extracted by the extractor module. Extracted subsets of models are mapped by plugins which are responsible for certain models to RDFS/SHACL documents provided as RDF/XML files. There is no one fits all mapping approach, therefore we use different plugins for different models.
 
-![Architecture](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/_architecture/architecture.JPG)
+![Architecture](https://github.com/jku-win-dke/AISA-XMI-Mapper/blob/main/_architecture/architecture.JPG)
 
 ### 1.4. How to run the Mapper
 
@@ -61,14 +61,14 @@ There are a few ways to run the mapper, here are two examples:
 	1. Using the BaseX command line tool: `basex -b$config="<locationOfTheConfigurationFile.xml>" mapper.xq`.
 	2. Or using the BaseX GUI and manually binding the location of the configuration file to the config variable.
 2. Run Java Code which runs the mapper.xq
-	1. See the example [RunMapper.java](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/_sampleJavaProgram/SampleProgram/src/main/java/at/jku/dke/samples/RunMapper.java) of the SampleProgram.
+	1. See the example [RunMapper.java](https://github.com/jku-win-dke/AISA-XMI-Mapper/blob/main/_sampleJavaProgram/SampleProgram/src/main/java/at/jku/dke/samples/RunMapper.java) of the SampleProgram.
 	
 ### 1.5. How to validate data graphs
 
 There are a few ways to validate data with generated RDFS/SHACL documents. As an example, the SampleProgram provides two classes which can utilize generated RDFS/SHACL documents:
 
-1. Transforming an RDFS/SHACL document from RDF/XML to RDF/TTL, see [TransformXML2TTL.java](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/_sampleJavaProgram/SampleProgram/src/main/java/at/jku/dke/samples/TransformXML2TTL.java) using Apache Jena.
-2. Perform RDFS reasoning and validating data graphs by an RDFS/SHACL document, see [ValidationWithSHACL.java](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/_sampleJavaProgram/SampleProgram/src/main/java/at/jku/dke/samples/ValidationWithSHACL.java) using Apache Jena.
+1. Transforming an RDFS/SHACL document from RDF/XML to RDF/TTL, see [TransformXML2TTL.java](https://github.com/jku-win-dke/AISA-XMI-Mapper/blob/main/_sampleJavaProgram/SampleProgram/src/main/java/at/jku/dke/samples/TransformXML2TTL.java) using Apache Jena.
+2. Perform RDFS reasoning and validating data graphs by an RDFS/SHACL document, see [ValidationWithSHACL.java](https://github.com/jku-win-dke/AISA-XMI-Mapper/blob/main/_sampleJavaProgram/SampleProgram/src/main/java/at/jku/dke/samples/ValidationWithSHACL.java) using Apache Jena.
 
 Be aware of data graphs using the same namespaces as the generated RDFS/SHACL dcouments! Instead of using "http://www.aixm.aero/schema/5.1.1#", we use "http://www.aisa-project.eu/vocabulary/aixm_5-1-1#" for AIXM. Furthermore, we use "http://www.aisa-project.eu/vocabulary/fixm_3-0-1_sesar#" for fixm and "http://www.aisa-project.eu/xquery/plain#" for plain models.
 
@@ -117,7 +117,7 @@ The example below shows that the the classes "AirportHeliport" and "City" of the
 
 ### 2.2. How to write a configuration file 
 
-In order to determine the UML classes to be selected, only consider UML classes from the namespace of the model. In addition, TimeSlice classes in AIXM cannot be selected because they are not part of the AIXM UML class diagrams, instead they are generated by the mapper if the parent feature is selected. As an example, see the decisions for the [configuration](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/configurations/AIXM_DONLON.xml) of the [Donlon airport example](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/_exampleData/AIXM_DONLON.ttl) below.
+In order to determine the UML classes to be selected, only consider UML classes from the namespace of the model. In addition, TimeSlice classes in AIXM cannot be selected because they are not part of the AIXM UML class diagrams, instead they are generated by the mapper if the parent feature is selected. As an example, see the decisions for the [configuration](https://github.com/jku-win-dke/AISA-XMI-Mapper/blob/main/configurations/AIXM_DONLON.xml) of the [Donlon airport example](https://github.com/jku-win-dke/AISA-XMI-Mapper/blob/main/_exampleData/AIXM_DONLON.ttl) below.
 
 	Donlon airport									decisions for configuration file
 	<uuid:dd062d88-3e64-4a5d-bebd-89476db9ebea> a aixm:AirportHeliport; 	-->	<class>AirportHeliport</class>
@@ -180,11 +180,11 @@ Make sure you must adapt the extractor module accordingly. Furthermore, you must
 
 ### 3.1. mapper.xq
 
-The [mapper.xq](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/mapper.xq) is the main module of the mapper. The variable $config refering to the location of the configuration file needs to be set externally. For each model specified in the configuration file, it delegates the extraction process to the extractor.xq. After the extraction the mapper delegates the mapping process to the corresponding plugin, and finally writes the result to a file. 
+The [mapper.xq](https://github.com/jku-win-dke/AISA-XMI-Mapper/blob/main/mapper.xq) is the main module of the mapper. The variable $config refering to the location of the configuration file needs to be set externally. For each model specified in the configuration file, it delegates the extraction process to the extractor.xq. After the extraction the mapper delegates the mapping process to the corresponding plugin, and finally writes the result to a file. 
 
 ### 3.2. extractor.xq
 
-The [extractor.xq](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/extractor.xq) extracts a subset of UML classes and connections from an XMI file based on the configuration file. The following steps are performed:
+The [extractor.xq](https://github.com/jku-win-dke/AISA-XMI-Mapper/blob/main/extractor.xq) extracts a subset of UML classes and connections from an XMI file based on the configuration file. The following steps are performed:
 
 1. Extracting the selected UML classes
 2. Extracting of corresponding UML classes and connections (recursive):
@@ -203,7 +203,7 @@ In the end, the extracted model subset is returned to the mapper.xq.
 
 ### 3.3. Plugins
 
-[Plugins](https://github.com/bastlyo/AISA-XMI-Mapper/tree/main/plugins) are implementations of different models' mapping semantics. Each plugin is a XQuery module with the task to map a given model subset to an RDFS/SHACL document. We use different plugins for different models because there is no one fits all mapping approach. For example, stereotypes or attributes may have different meanings or may be used differently in different models. By default, the following plugins are available:
+[Plugins](https://github.com/jku-win-dke/AISA-XMI-Mapper/tree/main/plugins) are implementations of different models' mapping semantics. Each plugin is a XQuery module with the task to map a given model subset to an RDFS/SHACL document. We use different plugins for different models because there is no one fits all mapping approach. For example, stereotypes or attributes may have different meanings or may be used differently in different models. By default, the following plugins are available:
 
 1. utilities.xq provides basic functionality for plugins
 2. aixm_5-1-1.xq for AIXM 5.1.1
@@ -214,7 +214,7 @@ The mapper can simply be extended by adding new plugins as XQuery modules to the
 
 ### 3.3.1. utilities.xq
 
-The [utilities.xq](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/plugins/utilities.xq) provides basic functionality used in the plugins. It provides two functions:
+The [utilities.xq](https://github.com/jku-win-dke/AISA-XMI-Mapper/blob/main/plugins/utilities.xq) provides basic functionality used in the plugins. It provides two functions:
 
 1. Transform a sequence of elements to an RDF/XML list
 2. Find super classes of an class in a given model subset with two options:
@@ -223,7 +223,7 @@ The [utilities.xq](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/plugins/
 
 ### 3.3.2. aixm_5-1-1.xq
 
-The [aixm_5-1-1.xq](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/plugins/aixm_5-1-1.xq) targets models which are based on [AIXM 5.1.1](http://www.aixm.aero/page/aixm-511-specification). First, basic elements are added and then, element by element of the extracted model subset is mapped.
+The [aixm_5-1-1.xq](https://github.com/jku-win-dke/AISA-XMI-Mapper/blob/main/plugins/aixm_5-1-1.xq) targets models which are based on [AIXM 5.1.1](http://www.aixm.aero/page/aixm-511-specification). First, basic elements are added and then, element by element of the extracted model subset is mapped.
 
 #### 3.3.2.1. Basic Elements for AIXM features
 
@@ -467,7 +467,7 @@ UML classes of AIXM 5.1.1 are mapped based on their stereotype:
 
 ### 3.3.3. fixm_3-0-1_sesar.xq
 
-The [fixm_3-0-1_sesar.xq](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/plugins/fixm_3-0-1_sesar.xq) target models which are based on [FIXM 3.0.1 SESAR](https://www.fixm.aero/release.pl?rel=SESAR_Ext-1.0). 
+The [fixm_3-0-1_sesar.xq](https://github.com/jku-win-dke/AISA-XMI-Mapper/blob/main/plugins/fixm_3-0-1_sesar.xq) target models which are based on [FIXM 3.0.1 SESAR](https://www.fixm.aero/release.pl?rel=SESAR_Ext-1.0). 
 
 #### 3.3.3.1. Mapping of UML classes
 
@@ -549,7 +549,7 @@ UML classes of FIXM 3.0.1 SESAR are mapped based on their stereotype:
 
 ### 3.3.4. plain.xq
 
-The [plain.xq](https://github.com/bastlyo/AISA-XMI-Mapper/blob/main/plugins/plain.xq) targets models which are not based AIXM and FIXM and do not use stereotypes. Due to this general requirement, this mapping approach is also very limited and may need manual investigation and improvments.
+The [plain.xq](https://github.com/jku-win-dke/AISA-XMI-Mapper/blob/main/plugins/plain.xq) targets models which are not based AIXM and FIXM and do not use stereotypes. Due to this general requirement, this mapping approach is also very limited and may need manual investigation and improvments.
 
 #### 3.3.4.1. Mapping of UML classes
 
